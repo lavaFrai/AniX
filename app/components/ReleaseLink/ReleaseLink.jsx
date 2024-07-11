@@ -3,11 +3,11 @@ import Link from "next/link";
 export const ReleaseLink = (props) => {
   const grade = props.grade.toFixed(1);
   return (
-    <Link href={`/release/${props.id}`} className=" hover:scale-105 transition hover:z-10">
+    <Link href={`/release/${props.id}`}>
         <div className="aspect-video xl:w-[600px] md:w-[400px] w-[200px]">
-          <div className="bg-gradient-to-t from-black to-transparent relative w-full h-full">
+          <div className="relative w-full h-full bg-gradient-to-t from-black to-transparent">
             <img
-              className="w-full h-full object-cover absolute mix-blend-overlay"
+              className="absolute object-cover w-full h-full mix-blend-overlay"
               src={props.image}
               alt=""
             />
@@ -26,10 +26,10 @@ export const ReleaseLink = (props) => {
             >
               <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs sm:text-base text-white">{grade}</p>
             </div>
-            <div className="absolute top-2 right-2 bg-gray-500 rounded-sm">
+            <div className="absolute bg-gray-500 rounded-sm top-2 right-2">
               <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs sm:text-base text-white">{props.status.name}</p>
             </div>
-            <p className="absolute left-2 bottom-2 text-white">{props.title_ru}</p>
+            <p className="absolute text-xs text-white md:text-base lg:text-lg left-2 bottom-2">{props.title_ru}</p>
           </div>
         </div>
     </Link>

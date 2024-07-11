@@ -1,24 +1,67 @@
 "use client";
+import { useEffect, useRef } from "react";
 import { ReleaseLink } from "../ReleaseLink/ReleaseLink";
+import Link from "next/link";
+
+import Styles from "./ReleaseCourusel.module.css";
+import Swiper from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
+
 export const ReleaseCourusel = (props) => {
+  useEffect(() => {
+    const options = {
+      direction: "horizontal",
+      spaceBetween: 8,
+      allowTouchMove: true,
+      slidesPerView: "auto",
+      navigation: {
+        enabled: false,
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      breakpoints: {
+        450: {
+          navigation: {
+            enabled: true,
+          },
+        },
+      },
+      modules: [Navigation],
+    };
+    new Swiper(".swiper", options);
+  }, []);
+
   return (
-    <section className="group relative">
-      <div className="flex justify-between border-b-2 border-black px-4">
+    <section className={`${Styles.section}`}>
+      <div className="flex justify-between px-4 border-b-2 border-black">
         <h1 className="font-bold text-md sm:text-xl">{props.sectionTitle}</h1>
-        <a href={props.showAllLink}>
+        <Link href={props.showAllLink}>
           <div className="flex items-center">
-            <p className="font-bold hidden sm:block text-xl">Показать все</p>
-            <span className="iconify mdi--arrow-right w-6 h-6"></span>
+            <p className="hidden text-xl font-bold sm:block">Показать все</p>
+            <span className="w-6 h-6 iconify mdi--arrow-right"></span>
           </div>
-        </a>
+        </Link>
       </div>
-      <div
-        className="flex gap-2 overflow-x-scroll p-4 scrollbar-none"
-        id={props.id}
-      >
-        {props.content.map((release) => {
-          return <ReleaseLink key={release.id} {...release} />;
-        })}
+      <div className="m-4">
+        <div className="swiper">
+          <div className="swiper-wrapper">
+            {props.content.map((release) => {
+              return (
+                <div
+                  className="swiper-slide"
+                  key={release.id}
+                  style={{ width: "fit-content" }}
+                >
+                  <ReleaseLink {...release} />
+                </div>
+              );
+            })}
+          </div>
+          <div className={`swiper-button-prev ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-left aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`} style={{"--swiper-navigation-size": "64px"}}></div>
+          <div className={`swiper-button-next ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-right aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`} style={{"--swiper-navigation-size": "64px"}}></div>
+        </div>
       </div>
     </section>
   );
