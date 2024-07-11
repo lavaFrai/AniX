@@ -28,7 +28,7 @@ export default function Home() {
   ] = fetchReleases("announce");
 
   return (
-    <main className="flex flex-col sm:pt-4 sm:pb-0 pb-16">
+    <main className="flex flex-col pt-2 pb-16 sm:pt-4 sm:pb-0">
       {lastReleasesData && (
         <ReleaseCourusel id="home-courusel-last" sectionTitle="Последние релизы" showAllLink="/last" content={lastReleasesData.content} />
       )}

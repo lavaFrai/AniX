@@ -36,7 +36,7 @@ export const ReleaseCourusel = (props) => {
   return (
     <section className={`${Styles.section}`}>
       <div className="flex justify-between px-4 border-b-2 border-black">
-        <h1 className="font-bold text-md sm:text-xl">{props.sectionTitle}</h1>
+        <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">{props.sectionTitle}</h1>
         <Link href={props.showAllLink}>
           <div className="flex items-center">
             <p className="hidden text-xl font-bold sm:block">Показать все</p>
