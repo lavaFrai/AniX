@@ -29,10 +29,20 @@ export const ReleaseLink = (props) => {
             </p>
           </div>
           <div className="absolute flex flex-col items-end gap-1 top-2 right-2">
-            {props.status && (
+            {props.status ? (
               <div className="bg-gray-500 rounded-sm">
                 <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
                   {props.status.name}
+                </p>
+              </div>
+            ) : (
+              <div className="bg-gray-500 rounded-sm">
+                <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
+                  {props.status_id == 1
+                    ? "Завершено"
+                    : props.status_id == 2
+                    ? "Онгоинг"
+                    : "Анонс"}
                 </p>
               </div>
             )}
