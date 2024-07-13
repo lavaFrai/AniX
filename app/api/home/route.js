@@ -5,6 +5,7 @@ import { ENDPOINTS } from "../config";
 export async function GET(request) {
   const page = parseInt(request.nextUrl.searchParams.get(["page"])) || 0;
   const status = request.nextUrl.searchParams.get(["status"]) || null;
+  const token = request.nextUrl.searchParams.get(["token"]) || null;
 
   let statusId;
   if (status == "last" || !status) {
@@ -15,8 +16,13 @@ export async function GET(request) {
     statusId = 2;
   } else if (status == "announce") {
     statusId = 3;
-  } else { 
-    return NextResponse.json({message: "Bad status"}, {status: 400});
+  } else {
+    return NextResponse.json({ message: "Bad status" }, { status: 400 });
+  }
+
+  let url = new URL(`${ENDPOINTS.filter}/${page}`);
+  if (token) {
+    url.searchParams.set("token", token);
   }
 
   const data = {
@@ -39,6 +45,6 @@ export async function GET(request) {
     is_genres_exclude_mode_enabled: false,
   };
 
-  const response = await fetchDataViaPost(`${ENDPOINTS.filter}/${page}`, data);
+  const response = await fetchDataViaPost(url.toString(), data);
   return NextResponse.json(response);
 }
