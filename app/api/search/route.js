@@ -6,11 +6,11 @@ export async function GET(request) {
   const page = parseInt(request.nextUrl.searchParams.get(["page"])) || 0;
   const query = request.nextUrl.searchParams.get(["q"]) || null;
   const token = request.nextUrl.searchParams.get(["token"]) || null;
+  let url = new URL(`${ENDPOINTS.search}/${page}`);
   if (token) {
     url.searchParams.set("token", token);
   }
   const data = { query, searchBy: 0 };
-  let url = new URL(`${ENDPOINTS.search}/${page}`);
 
   const response = await fetchDataViaPost(url.toString(), data);
   if (!response) {
