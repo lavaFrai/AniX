@@ -71,7 +71,7 @@ export default function HomeStatus({ params }) {
           content={content}
         />
       )}
-      <button className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-4 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition" onClick={() => setSize(size + 1)}> <span className="w-10 h-10 iconify mdi--plus"> </span> <span className="text-lg">Load More</span></button>
+      <button className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-2 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition" onClick={() => setSize(size + 1)}> <span className="w-10 h-10 iconify mdi--plus"> </span> <span className="text-lg">Загрузить ещё</span></button>
     </main>
   );
 }

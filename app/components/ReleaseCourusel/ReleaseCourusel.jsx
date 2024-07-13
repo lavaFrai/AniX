@@ -56,7 +56,7 @@ export const ReleaseCourusel = (props) => {
                   key={release.id}
                   style={{ width: "fit-content" }}
                 >
-                  <div className="xl:w-[600px] sm:w-[400px] w-[90vw] aspect-video">
+                  <div className="xl:w-[600px] sm:w-[400px] w-[80vw] aspect-video">
                     <ReleaseLink {...release} />
                   </div>
                 </div>
