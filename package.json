@@ -19,6 +19,7 @@
   "devDependencies": {
     "@iconify-json/material-symbols": "^1.1.83",
     "@iconify-json/mdi": "^1.1.67",
+    "@iconify-json/twemoji": "^1.1.15",
     "@iconify/tailwind": "^1.1.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",

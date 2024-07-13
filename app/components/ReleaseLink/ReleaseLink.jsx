@@ -29,12 +29,14 @@ export const ReleaseLink = (props) => {
             </p>
           </div>
           <div className="absolute flex flex-col items-end gap-1 top-2 right-2">
+            {props.status && (
+              <div className="bg-gray-500 rounded-sm">
+                <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
+                  {props.status.name}
+                </p>
+              </div>
+            )}
             <div className="bg-gray-500 rounded-sm">
-              <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
-                {props.status.name}
-              </p>
-            </div>
-            {props.status.name === "Выходит"  && <div className="bg-gray-500 rounded-sm">
               <div className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white flex">
                 {props.episodes_released && (
                   <p>{`${props.episodes_released}/`}</p>
@@ -45,7 +47,7 @@ export const ReleaseLink = (props) => {
                   <p>? эп.</p>
                 )}
               </div>
-            </div>}
+            </div>
           </div>
           <p className="absolute text-xs text-white xl:text-base lg:text-lg left-2 bottom-2 right-2">
             {props.title_ru}

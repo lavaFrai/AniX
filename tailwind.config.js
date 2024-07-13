@@ -8,7 +8,7 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   plugins: [
-    addIconSelectors(["mdi", "material-symbols"]),
+    addIconSelectors(["mdi", "material-symbols", "twemoji"]),
     require('tailwind-scrollbar')
   ],
 };
