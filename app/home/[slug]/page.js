@@ -64,7 +64,7 @@ export default function HomeStatus({ params }) {
     );
 
   return (
-    <main className="flex flex-col pt-2 pb-16 sm:pt-4 sm:pb-0">
+    <main className="pt-2 pb-16 sm:pt-4 sm:pb-0">
       {content && (
         <ReleaseSection
           sectionTitle={SectionTitleMapping[params.slug]}
