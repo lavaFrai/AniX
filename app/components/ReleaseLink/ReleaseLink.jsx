@@ -4,7 +4,7 @@ export const ReleaseLink = (props) => {
   const grade = props.grade.toFixed(1);
   return (
     <Link href={`/release/${props.id}`}>
-      <div className="aspect-video xl:w-[600px] md:w-[400px] w-[200px] group">
+      <div className="w-full aspect-video group">
         <div className="relative w-full h-full overflow-hidden bg-gradient-to-t from-black to-transparent">
           <img
             className="absolute z-0 object-cover w-full h-full transition mix-blend-overlay group-hover:scale-110"
@@ -24,18 +24,18 @@ export const ReleaseLink = (props) => {
                 : "bg-green-500"
             }`}
           >
-            <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs sm:text-base text-white">
+            <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
               {grade}
             </p>
           </div>
           <div className="absolute flex flex-col items-end gap-1 top-2 right-2">
             <div className="bg-gray-500 rounded-sm">
-              <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs sm:text-base text-white">
+              <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
                 {props.status.name}
               </p>
             </div>
             {props.status.name === "Выходит"  && <div className="bg-gray-500 rounded-sm">
-              <div className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs sm:text-base text-white flex">
+              <div className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white flex">
                 {props.episodes_released && (
                   <p>{`${props.episodes_released}/`}</p>
                 )}
@@ -47,7 +47,7 @@ export const ReleaseLink = (props) => {
               </div>
             </div>}
           </div>
-          <p className="absolute text-xs text-white md:text-base lg:text-lg left-2 bottom-2">
+          <p className="absolute text-xs text-white xl:text-base lg:text-lg left-2 bottom-2 right-2">
             {props.title_ru}
           </p>
         </div>

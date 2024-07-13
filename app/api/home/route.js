@@ -15,6 +15,8 @@ export async function GET(request) {
     statusId = 2;
   } else if (status == "announce") {
     statusId = 3;
+  } else { 
+    return NextResponse.json({message: "Bad status"}, {status: 400});
   }
 
   const data = {

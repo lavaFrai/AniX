@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { ReleaseLink } from "../ReleaseLink/ReleaseLink";
 import Link from "next/link";
 
@@ -36,7 +36,9 @@ export const ReleaseCourusel = (props) => {
   return (
     <section className={`${Styles.section}`}>
       <div className="flex justify-between px-4 border-b-2 border-black">
-        <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">{props.sectionTitle}</h1>
+        <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
+          {props.sectionTitle}
+        </h1>
         <Link href={props.showAllLink}>
           <div className="flex items-center">
             <p className="hidden text-xl font-bold sm:block">Показать все</p>
@@ -54,13 +56,21 @@ export const ReleaseCourusel = (props) => {
                   key={release.id}
                   style={{ width: "fit-content" }}
                 >
-                  <ReleaseLink {...release} />
+                  <div className="xl:w-[600px] sm:w-[400px] w-[90vw] aspect-video">
+                    <ReleaseLink {...release} />
+                  </div>
                 </div>
               );
             })}
           </div>
-          <div className={`swiper-button-prev ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-left aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`} style={{"--swiper-navigation-size": "64px"}}></div>
-          <div className={`swiper-button-next ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-right aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`} style={{"--swiper-navigation-size": "64px"}}></div>
+          <div
+            className={`swiper-button-prev ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-left aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`}
+            style={{ "--swiper-navigation-size": "64px" }}
+          ></div>
+          <div
+            className={`swiper-button-next ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-right aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`}
+            style={{ "--swiper-navigation-size": "64px" }}
+          ></div>
         </div>
       </div>
     </section>

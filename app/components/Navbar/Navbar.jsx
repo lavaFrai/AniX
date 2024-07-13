@@ -43,11 +43,11 @@ export const Navbar = () => {
   ];
 
   return (
-    <header className="bg-black text-white sm:sticky sm:top-0 left-0 z-50 fixed bottom-0 w-full">
+    <header className="fixed bottom-0 left-0 z-50 w-full text-white bg-black sm:sticky sm:top-0">
       <div className="px-4 py-4">
         <nav className="flex gap-4">
           {navLinks.map((link) => {
-            return <Link key={link.id} href={link.href} className="flex items-center flex-col sm:flex-row"><span className={`iconify ${pathname == link.href ? link.iconActive : link.icon} w-6 h-6`}></span><span className={`${pathname == link.href ? "font-bold" : ""} text-xs sm:text-base`}>{link.title}</span></Link>;
+            return <Link key={link.id} href={link.href} className="flex flex-col items-center sm:flex-row"><span className={`iconify ${pathname == link.href ? link.iconActive : link.icon} w-6 h-6`}></span><span className={`${pathname == link.href ? "font-bold" : ""} text-xs sm:text-base`}>{link.title}</span></Link>;
           })}
         </nav>
       </div>
