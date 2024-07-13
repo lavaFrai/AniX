@@ -4,16 +4,16 @@ import { ReleaseCourusel } from "./components/ReleaseCourusel/ReleaseCourusel";
 import { Spinner } from "./components/Spinner/Spinner";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-function fetchReleases(status) {
-  const { data } = useSWR(`/api/home?status=${status}`, fetcher);
-  return [data];
-}
-
 export default function Home() {
-  const [lastReleasesData] = fetchReleases("last");
-  const [finishedReleasesData] = fetchReleases("finished");
-  const [ongoingReleasesData] = fetchReleases("ongoing");
-  const [announceReleasesData] = fetchReleases("announce");
+  function useFetchReleases(status) {
+    const { data } = useSWR(`/api/home?status=${status}`, fetcher);
+    return [data];
+  }
+
+  const [lastReleasesData] = useFetchReleases("last");
+  const [finishedReleasesData] = useFetchReleases("finished");
+  const [ongoingReleasesData] = useFetchReleases("ongoing");
+  const [announceReleasesData] = useFetchReleases("announce");
 
   return (
     <main className="flex flex-col pt-2 pb-16 sm:pt-4 sm:pb-0">
