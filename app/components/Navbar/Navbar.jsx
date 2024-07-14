@@ -5,7 +5,7 @@ import { useUserStore } from "@/app/store/auth";
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const userStore = useUserStore();
+  const userStore = useUserStore((state) => state);
 
   const isNotAuthorizedStyle = "text-gray-700";
   const navLinks = [
@@ -85,7 +85,7 @@ export const Navbar = () => {
             );
           })}
         </nav>
-        {userStore.user ? (
+        {userStore.isAuth ? (
           <div className="flex items-center justify-center gap-2">
             <img src={userStore.user.avatar} alt="" className="w-8 h-8 rounded-full" />
             <p>{userStore.user.login}</p>

@@ -3,10 +3,20 @@ import useSWR from "swr";
 import { ReleaseCourusel } from "@/app/components/ReleaseCourusel/ReleaseCourusel";
 import { Spinner } from "@/app/components/Spinner/Spinner";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
+import { useUserStore } from "@/app/store/auth";
 
 export function IndexPage() {
+  const userStore = useUserStore((state) => state);
+  const token = userStore.token;
+
   function useFetchReleases(status) {
-    const { data } = useSWR(`/api/home?status=${status}`, fetcher);
+    let url;
+
+    url = `/api/home?status=${status}`;
+    if (token) {
+      url += `&token=${token}`;
+    }
+    const { data } = useSWR(url, fetcher);
     return [data];
   }
 

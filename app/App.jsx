@@ -6,10 +6,10 @@ import { useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const App = (props) => {
-  const userStore = useUserStore();
+  const userStore = useUserStore((state) => state);
   useEffect(() => {
     userStore.checkAuth();
-  }, [])
+  }, []);
 
   return (
     <body className={`${inter.className} overflow-x-hidden`}>
@@ -17,4 +17,4 @@ export const App = (props) => {
       {props.children}
     </body>
   );
-}
+};

@@ -4,6 +4,7 @@ import { ReleaseSection } from "@/app/components/ReleaseSection/ReleaseSection";
 import { Spinner } from "@/app/components/Spinner/Spinner";
 import { useState, useEffect } from "react";
 import { useScrollPosition } from "@/app/hooks/useScrollPosition";
+import { useUserStore } from "../store/auth";
 
 const fetcher = async url => {
   const res = await fetch(url);
@@ -19,8 +20,13 @@ const fetcher = async url => {
 };
 
 export function IndexCategoryPage(props) {
+  const userStore = useUserStore((state) => state);
+  const token = userStore.token;
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.content.length) return null;
+    if (token) {
+      return `/api/home?status=${props.slug}&page=${pageIndex}&token=${token}`;
+    }
     return `/api/home?status=${props.slug}&page=${pageIndex}`;
   };
 
