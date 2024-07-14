@@ -66,10 +66,10 @@ export function SearchPage() {
   if (error) return <div>failed to load</div>;
 
   return (
-    <main className="px-2 pt-2 pb-16 sm:pt-4 sm:pb-0">
+    <main className="container px-2 pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
       <div>
         <form
-          className="max-w-md mx-auto"
+          className="max-w-full mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
             setQuery(e.target[0].value.trim());

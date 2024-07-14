@@ -57,7 +57,7 @@ export function IndexCategoryPage(props) {
     );
 
   return (
-    <main className="pt-2 pb-16 sm:pt-4 sm:pb-0">
+    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
       {content && (
         <ReleaseSection
           sectionTitle={props.SectionTitleMapping[props.slug]}

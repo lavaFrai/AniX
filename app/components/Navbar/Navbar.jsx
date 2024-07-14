@@ -56,7 +56,7 @@ export const Navbar = () => {
 
   return (
     <header className="fixed bottom-0 left-0 z-50 w-full text-white bg-black sm:sticky sm:top-0">
-      <div className="flex items-center justify-between px-4 py-4">
+      <div className="container flex items-center justify-between px-4 py-4 mx-auto">
         <nav className="flex gap-4">
           {navLinks.map((link) => {
             return <Link key={link.id} href={link.href} className={`flex-col items-center sm:flex-row ${link.mobileMenu ? "hidden sm:flex" : "flex"}`}><span className={`iconify ${pathname == link.href ? link.iconActive : link.icon} w-6 h-6`}></span><span className={`${pathname == link.href ? "font-bold" : ""} text-xs sm:text-base`}>{link.title}</span></Link>;

@@ -10,8 +10,8 @@ export const RelatedSection = (props) => {
   );
   return (
     <section>
-      <div className="flex flex-col justify-between p-4 sm:flex-row">
-        <div className="flex p-4">
+      <div className="flex flex-col justify-between gap-4 p-4 xl:flex-row">
+        <div className="flex items-center justify-center p-4">
           {props.images.map((item) => {
             return (
               <img

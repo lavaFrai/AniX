@@ -16,7 +16,7 @@ export function IndexPage() {
   const [announceReleasesData] = useFetchReleases("announce");
 
   return (
-    <main className="flex flex-col pt-2 pb-16 sm:pt-4 sm:pb-0">
+    <main className="container flex flex-col pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
       {lastReleasesData ? (
         <ReleaseCourusel
           sectionTitle="Последние релизы"
