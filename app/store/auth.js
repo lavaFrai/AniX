@@ -8,7 +8,7 @@ export const useUserStore = create((set, get) => ({
   token: null,
 
   login: (user, token) => {
-    set({ isAuth: true, user, token });
+    set({ isAuth: true, user: user, token: token });
   },
   logout: () => {
     set({ isAuth: false, user: null, token: null });
@@ -21,7 +21,7 @@ export const useUserStore = create((set, get) => ({
         `/api/profile/${jwt.user_id}?token=${jwt.jwt}`
       );
       if (data && data.is_my_profile) {
-        get().login(data, jwt.user_id, jwt.jwt);
+        get().login(data.profile, jwt.jwt);
       } else {
         get().logout();
       }

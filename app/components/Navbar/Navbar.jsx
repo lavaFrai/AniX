@@ -1,11 +1,13 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUserStore } from "@/app/store/auth";
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const userStore = useUserStore();
 
-  const isNotAuthorizedStyle = "text-gray-700"
+  const isNotAuthorizedStyle = "text-gray-700";
   const navLinks = [
     {
       id: 1,
@@ -14,7 +16,7 @@ export const Navbar = () => {
       title: "Домашняя",
       href: "/",
       withAuthOnly: false,
-      mobileMenu: false
+      mobileMenu: false,
     },
     {
       id: 2,
@@ -23,7 +25,7 @@ export const Navbar = () => {
       title: "Поиск",
       href: "/search",
       withAuthOnly: false,
-      mobileMenu: false
+      mobileMenu: false,
     },
     {
       id: 3,
@@ -32,7 +34,7 @@ export const Navbar = () => {
       title: "Закладки",
       href: "/bookmarks",
       withAuthOnly: true,
-      mobileMenu: true
+      mobileMenu: true,
     },
     {
       id: 4,
@@ -41,7 +43,7 @@ export const Navbar = () => {
       title: "Избранное",
       href: "/favorites",
       withAuthOnly: true,
-      mobileMenu: true
+      mobileMenu: true,
     },
     {
       id: 5,
@@ -50,7 +52,7 @@ export const Navbar = () => {
       title: "История",
       href: "/history",
       withAuthOnly: true,
-      mobileMenu: true
+      mobileMenu: true,
     },
   ];
 
@@ -59,13 +61,56 @@ export const Navbar = () => {
       <div className="container flex items-center justify-between px-4 py-4 mx-auto">
         <nav className="flex gap-4">
           {navLinks.map((link) => {
-            return <Link key={link.id} href={link.href} className={`flex-col items-center sm:flex-row ${link.mobileMenu ? "hidden sm:flex" : "flex"}`}><span className={`iconify ${pathname == link.href ? link.iconActive : link.icon} w-6 h-6`}></span><span className={`${pathname == link.href ? "font-bold" : ""} text-xs sm:text-base`}>{link.title}</span></Link>;
+            return (
+              <Link
+                key={link.id}
+                href={link.href}
+                className={`flex-col items-center sm:flex-row ${
+                  link.mobileMenu ? "hidden sm:flex" : "flex"
+                }`}
+              >
+                <span
+                  className={`iconify ${
+                    pathname == link.href ? link.iconActive : link.icon
+                  } w-6 h-6`}
+                ></span>
+                <span
+                  className={`${
+                    pathname == link.href ? "font-bold" : ""
+                  } text-xs sm:text-base`}
+                >
+                  {link.title}
+                </span>
+              </Link>
+            );
           })}
         </nav>
-        <Link href="/login" className="flex flex-col items-center gap-1 justify-cen ter sm:flex-row">
-          <span className={`w-6 h-6 iconify ${pathname == "/login" ? "mdi--user-circle" : "mdi--user-circle-outline"}`}></span>
-          <span className={`${pathname == "/login" ? "font-bold" : ""} text-xs sm:text-base`}>Войти</span>
-        </Link>
+        {userStore.user ? (
+          <div className="flex items-center justify-center gap-2">
+            <img src={userStore.user.avatar} alt="" className="w-8 h-8 rounded-full" />
+            <p>{userStore.user.login}</p>
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="flex flex-col items-center gap-1 justify-cen ter sm:flex-row"
+          >
+            <span
+              className={`w-6 h-6 iconify ${
+                pathname == "/login"
+                  ? "mdi--user-circle"
+                  : "mdi--user-circle-outline"
+              }`}
+            ></span>
+            <span
+              className={`${
+                pathname == "/login" ? "font-bold" : ""
+              } text-xs sm:text-base`}
+            >
+              Войти
+            </span>
+          </Link>
+        )}
       </div>
     </header>
   );
