@@ -12,7 +12,7 @@ export async function GET(request) {
   }
   const data = { query, searchBy: 0 };
 
-  const response = await fetchDataViaPost(url.toString(), data);
+  const response = await fetchDataViaPost(url.toString(), data, true);
   if (!response) {
     return NextResponse.json({ message: "Bad request" }, { status: 400 });
   }

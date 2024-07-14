@@ -4,7 +4,10 @@ export const HEADERS = {
   "Content-Type": "application/json; charset=UTF-8",
 };
 
-export const fetchDataViaGet = async (url) => {
+export const fetchDataViaGet = async (url, API_V2) => {
+  if (API_V2) {
+    HEADERS["API-Version"] = "v2";
+  }
   try {
     const response = await fetch(url, {
       headers: HEADERS,
@@ -19,7 +22,10 @@ export const fetchDataViaGet = async (url) => {
   }
 };
 
-export const fetchDataViaPost = async (url, body) => {
+export const fetchDataViaPost = async (url, body, API_V2) => {
+  if (API_V2) {
+    HEADERS["API-Version"] = "v2";
+  }
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -65,4 +71,12 @@ export function getJWT() {
 }
 export function removeJWT() {
   localStorage.removeItem("JWT");
+}
+
+export function numberDeclension(number, one, two, five) {
+  if (number > 10 && [11, 12, 13, 14].includes(number%100)) return five;
+  let last_num = number%10;
+  if (last_num == 1) return one;
+  if ([2,3,4].includes(last_num)) return two;
+  if ([5,6,7,8,9, 0].includes(last_num)) return five;
 }

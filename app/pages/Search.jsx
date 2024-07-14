@@ -1,6 +1,7 @@
 "use client";
 import useSWRInfinite from "swr/infinite";
 import { ReleaseSection } from "@/app/components/ReleaseSection/ReleaseSection";
+import { RelatedSection } from "@/app/components/RelatedSection/RelatedSection";
 import { Spinner } from "@/app/components/Spinner/Spinner";
 import { useState, useEffect } from "react";
 import { useScrollPosition } from "@/app/hooks/useScrollPosition";
@@ -26,7 +27,7 @@ export function SearchPage() {
   const [query, setQuery] = useState(searchParams.get("q") || null);
 
   const getKey = (pageIndex, previousPageData) => {
-    if (previousPageData && !previousPageData.content.length) return null;
+    if (previousPageData && !previousPageData.releases.length) return null;
 
     const url = new URL("/api/search", window.location.origin);
     url.searchParams.set("page", pageIndex);
@@ -49,7 +50,7 @@ export function SearchPage() {
     if (data) {
       let allReleases = [];
       for (let i = 0; i < data.length; i++) {
-        allReleases.push(...data[i].content);
+        allReleases.push(...data[i].releases);
       }
       setContent(allReleases);
     }
@@ -117,6 +118,7 @@ export function SearchPage() {
         </form>
       </div>
       <div className="mt-2">
+        {data && data[0].related && <RelatedSection {...data[0].related} />}
         {content ? (
           content.length > 0 ? (
             <ReleaseSection sectionTitle="Найденные релизы" content={content} />
@@ -140,7 +142,7 @@ export function SearchPage() {
           </div>
         )}
       </div>
-      {data && data[data.length - 1].content.length == 25 && (
+      {data && data[data.length - 1].releases.length == 25 && (
         <button
           className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-2 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition"
           onClick={() => setSize(size + 1)}
