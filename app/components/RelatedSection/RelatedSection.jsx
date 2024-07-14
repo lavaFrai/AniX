@@ -23,7 +23,7 @@ export const RelatedSection = (props) => {
             );
           })}
         </div>
-        <div className="flex flex-col items-center justify-center flex-1 gap-2">
+        <div className="flex flex-col items-center justify-center flex-1 gap-2 max-w-[400px] mx-auto">
           <h1 className="text-2xl font-bold">{props.name_ru}</h1>
           <p>
             {props.release_count} {declension} во франшизе

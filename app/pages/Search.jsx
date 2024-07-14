@@ -72,6 +72,7 @@ export function SearchPage() {
           className="max-w-full mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
+            setContent(null)
             setQuery(e.target[0].value.trim());
             router.push(`/search?q=${e.target[0].value.trim()}`);
           }}
