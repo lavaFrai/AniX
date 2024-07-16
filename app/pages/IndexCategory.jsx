@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { useScrollPosition } from "@/app/hooks/useScrollPosition";
 import { useUserStore } from "../store/auth";
 
-const fetcher = async url => {
+const fetcher = async (url) => {
   const res = await fetch(url);
 
   if (!res.ok) {
@@ -33,7 +33,7 @@ export function IndexCategoryPage(props) {
   const { data, error, isLoading, size, setSize } = useSWRInfinite(
     getKey,
     fetcher,
-    {"initialSize": 2, "revalidateFirstPage": false}
+    { initialSize: 2, revalidateFirstPage: false }
   );
 
   const [content, setContent] = useState(null);
@@ -50,9 +50,9 @@ export function IndexCategoryPage(props) {
   const scrollPosition = useScrollPosition();
   useEffect(() => {
     if (scrollPosition >= 98 && scrollPosition <= 99) {
-        setSize(size + 1)
+      setSize(size + 1);
     }
-    }, [scrollPosition]);
+  }, [scrollPosition]);
 
   if (error) return <div>failed to load</div>;
   if (isLoading)
@@ -64,13 +64,28 @@ export function IndexCategoryPage(props) {
 
   return (
     <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
-      {content && (
+      {content && content.length > 0 ? (
         <ReleaseSection
           sectionTitle={props.SectionTitleMapping[props.slug]}
           content={content}
         />
+      ) : (
+        <div className="flex flex-col items-center justify-center min-w-full gap-4 mt-12 text-xl">
+          <span className="w-24 h-24 iconify-color twemoji--broken-heart"></span>
+          <p>
+            В списке {props.SectionTitleMapping[props.slug]} пока ничего нет...
+          </p>
+        </div>
       )}
-      <button className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-2 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition" onClick={() => setSize(size + 1)}> <span className="w-10 h-10 iconify mdi--plus"> </span> <span className="text-lg">Загрузить ещё</span></button>
+      {data && data[data.length - 1].content.length == 25 && (
+        <button
+          className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-2 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition"
+          onClick={() => setSize(size + 1)}
+        >
+          <span className="w-10 h-10 iconify mdi--plus"> </span>
+          <span className="text-lg">Загрузить ещё</span>
+        </button>
+      )}
     </main>
   );
 }

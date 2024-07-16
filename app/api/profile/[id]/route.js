@@ -4,7 +4,7 @@ import { ENDPOINTS } from "@/app/api/config";
 
 export async function GET(request, params) {
   const token = request.nextUrl.searchParams.get(["token"]) || null;
-  let url = new URL(`${ENDPOINTS.profile}/${params["params"]["id"]}`);
+  let url = new URL(`${ENDPOINTS.user.profile}/${params["params"]["id"]}`);
   if (token) {
     url.searchParams.set("token", token);
   }
