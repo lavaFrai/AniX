@@ -62,7 +62,7 @@ export function BookmarksCategoryPage(props) {
         <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
           {props.SectionTitleMapping[props.slug]}
         </h1>
-        <Dropdown label={sort.values[selectedSort].name} dismissOnClick={true}>
+        <Dropdown label={sort.values[selectedSort].name} dismissOnClick={true} arrowIcon={false}>
           {sort.values.map((item, index) => (
             <Dropdown.Item key={index} onClick={() => setSelectedSort(index)}>
               <span
