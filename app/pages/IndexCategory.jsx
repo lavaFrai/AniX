@@ -21,6 +21,7 @@ const fetcher = async (url) => {
 
 export function IndexCategoryPage(props) {
   const userStore = useUserStore((state) => state);
+  const [isLoadingEnd, setIsLoadingEnd] = useState(false);
   const token = userStore.token;
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.content.length) return null;
@@ -44,6 +45,7 @@ export function IndexCategoryPage(props) {
         allReleases.push(...data[i].content);
       }
       setContent(allReleases);
+      setIsLoadingEnd(true);
     }
   }, [data]);
 
@@ -55,12 +57,6 @@ export function IndexCategoryPage(props) {
   }, [scrollPosition]);
 
   if (error) return <div>failed to load</div>;
-  if (isLoading)
-    return (
-      <main className="flex flex-col items-center justify-center min-w-full min-h-screen">
-        <Spinner />
-      </main>
-    );
 
   return (
     <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
@@ -69,6 +65,10 @@ export function IndexCategoryPage(props) {
           sectionTitle={props.SectionTitleMapping[props.slug]}
           content={content}
         />
+      ) : !isLoadingEnd ? (
+        <div className="flex flex-col items-center justify-center min-w-full min-h-screen">
+          <Spinner />
+        </div>
       ) : (
         <div className="flex flex-col items-center justify-center min-w-full gap-4 mt-12 text-xl">
           <span className="w-24 h-24 iconify-color twemoji--broken-heart"></span>

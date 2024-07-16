@@ -46,6 +46,8 @@ const sort = {
 export function BookmarksCategoryPage(props) {
   const token = useUserStore((state) => state.token);
   const [selectedSort, setSelectedSort] = useState(0);
+  const [isLoadingEnd, setIsLoadingEnd] = useState(false);
+
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.content.length) return null;
     return `/api/bookmarks?list=${props.slug}&page=${pageIndex}&token=${token}&sort=${sort.values[selectedSort].value}`;
@@ -65,6 +67,7 @@ export function BookmarksCategoryPage(props) {
         allReleases.push(...data[i].content);
       }
       setContent(allReleases);
+      setIsLoadingEnd(true);
     }
   }, [data]);
 
@@ -96,12 +99,20 @@ export function BookmarksCategoryPage(props) {
           ))}
         </Dropdown>
       </div>
-      {isLoading && (
+      {content && content.length > 0 ? (
+        <ReleaseSection content={content} />
+      ) : !isLoadingEnd || isLoading ? (
         <div className="flex flex-col items-center justify-center min-w-full min-h-screen">
           <Spinner />
         </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center min-w-full gap-4 mt-12 text-xl">
+          <span className="w-24 h-24 iconify-color twemoji--broken-heart"></span>
+          <p>
+            В списке {props.SectionTitleMapping[props.slug]} пока ничего нет...
+          </p>
+        </div>
       )}
-      {content && <ReleaseSection content={content} />}
       {data &&
         data[data.length - 1].current_page <
           data[data.length - 1].total_page_count && (
