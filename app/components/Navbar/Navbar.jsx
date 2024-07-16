@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/app/store/auth";
+import { Dropdown } from "flowbite-react";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -90,13 +91,60 @@ export const Navbar = () => {
           })}
         </nav>
         {userStore.isAuth ? (
-          <div className="flex flex-col items-center justify-center gap-1 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-1 text-xs sm:flex-row sm:text-base">
             <img
               src={userStore.user.avatar}
               alt=""
               className="w-6 h-6 rounded-full"
             />
-            <p className="text-xs sm:text-base">{userStore.user.login}</p>
+            <Dropdown
+              label={userStore.user.login}
+              inline={true}
+              dismissOnClick={true}
+              theme={{
+                arrowIcon:
+                  "ml-1 w-4 h-4 [transform:rotateX(180deg)] sm:transform-none",
+              }}
+            >
+              <Dropdown.Item
+                onClick={() => {
+                  userStore.logout();
+                }}
+              >
+                <span
+                  className={`iconify material-symbols--logout-rounded w-6 h-6`}
+                ></span>
+                <span>Выйти</span>
+              </Dropdown.Item>
+              {navLinks.map((link) => {
+                return (
+                  <Dropdown.Item
+                    key={link.id + "_mobile"}
+                    className={`${
+                      link.mobileMenu ? "block sm:hidden" : "hidden"
+                    }`}
+                  >
+                    <Link
+                      href={link.href}
+                      className={`flex items-center gap-1`}
+                    >
+                      <span
+                        className={`iconify ${
+                          pathname == link.href ? link.iconActive : link.icon
+                        } w-6 h-6`}
+                      ></span>
+                      <span
+                        className={`${
+                          pathname == link.href ? "font-bold" : ""
+                        }`}
+                      >
+                        {link.title}
+                      </span>
+                    </Link>
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
           </div>
         ) : (
           <Link
