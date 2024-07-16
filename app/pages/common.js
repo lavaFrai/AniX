@@ -3,19 +3,27 @@ export const sort = {
   ascendingIcon: "[transform:rotateX(180deg)] material-symbols--sort",
   values: [
     {
-      name: "Сначала новые",
+      name: "По добавлению новых",
       value: "adding_descending",
     },
     {
-      name: "Сначала старые",
+      name: "По добавлению старых",
       value: "adding_ascending",
     },
     {
-      name: "А-Я",
+      name: "По дате выхода новых",
+      value: "year_descending",
+    },
+    {
+      name: "По дате выхода старых",
+      value: "year_ascending",
+    },
+    {
+      name: "По алфавиту А-Я",
       value: "alphabet_descending",
     },
     {
-      name: "Я-А",
+      name: "По алфавиту Я-А",
       value: "alphabet_ascending",
     },
   ],
