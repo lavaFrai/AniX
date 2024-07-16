@@ -1,5 +1,5 @@
 export const metadata = {
-    title: "AniX | Закладки",
+    title: "Закладки",
   };
   
   import { BookmarksPage } from "@/app/pages/Bookmarks";

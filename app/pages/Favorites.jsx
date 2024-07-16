@@ -21,14 +21,14 @@ const fetcher = async (url) => {
   return res.json();
 };
 
-export function BookmarksCategoryPage(props) {
+export function FavoritesPage() {
   const token = useUserStore((state) => state.token);
   const [selectedSort, setSelectedSort] = useState(0);
   const [isLoadingEnd, setIsLoadingEnd] = useState(false);
 
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.content.length) return null;
-    return `/api/bookmarks?list=${props.slug}&page=${pageIndex}&token=${token}&sort=${sort.values[selectedSort].value}`;
+    return `/api/favorites?page=${pageIndex}&token=${token}&sort=${sort.values[selectedSort].value}`;
   };
 
   const { data, error, isLoading, size, setSize } = useSWRInfinite(
@@ -60,7 +60,7 @@ export function BookmarksCategoryPage(props) {
     <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
       <div className="flex items-center justify-between px-4 py-2 border-b-2 border-black">
         <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
-          {props.SectionTitleMapping[props.slug]}
+          Избранное
         </h1>
         <Dropdown label={sort.values[selectedSort].name} dismissOnClick={true}>
           {sort.values.map((item, index) => (
@@ -86,9 +86,7 @@ export function BookmarksCategoryPage(props) {
       ) : (
         <div className="flex flex-col items-center justify-center min-w-full gap-4 mt-12 text-xl">
           <span className="w-24 h-24 iconify-color twemoji--broken-heart"></span>
-          <p>
-            В списке {props.SectionTitleMapping[props.slug]} пока ничего нет...
-          </p>
+          <p>В избранном пока ничего нет...</p>
         </div>
       )}
       {data &&
