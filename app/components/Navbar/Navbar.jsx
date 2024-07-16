@@ -34,7 +34,7 @@ export const Navbar = () => {
       title: "Закладки",
       href: "/bookmarks",
       withAuthOnly: true,
-      mobileMenu: true,
+      mobileMenu: false,
     },
     {
       id: 4,
@@ -66,7 +66,11 @@ export const Navbar = () => {
                 key={link.id}
                 href={link.href}
                 className={`flex-col items-center sm:flex-row ${
-                  link.mobileMenu ? "hidden sm:flex" : "flex"
+                  link.withAuthOnly && !userStore.isAuth
+                    ? "hidden"
+                    : link.mobileMenu
+                    ? "hidden sm:flex"
+                    : "flex"
                 }`}
               >
                 <span
@@ -86,14 +90,18 @@ export const Navbar = () => {
           })}
         </nav>
         {userStore.isAuth ? (
-          <div className="flex items-center justify-center gap-2">
-            <img src={userStore.user.avatar} alt="" className="w-8 h-8 rounded-full" />
-            <p>{userStore.user.login}</p>
+          <div className="flex flex-col items-center justify-center gap-1 sm:flex-row">
+            <img
+              src={userStore.user.avatar}
+              alt=""
+              className="w-6 h-6 rounded-full"
+            />
+            <p className="text-xs sm:text-base">{userStore.user.login}</p>
           </div>
         ) : (
           <Link
             href="/login"
-            className="flex flex-col items-center gap-1 justify-cen ter sm:flex-row"
+            className="flex flex-col items-center justify-center gap-1 sm:flex-row"
           >
             <span
               className={`w-6 h-6 iconify ${
