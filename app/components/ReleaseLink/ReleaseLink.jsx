@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { sinceUnixDate } from "@/app/api/utils";
 
 export const ReleaseLink = (props) => {
   const grade = props.grade.toFixed(1);
@@ -25,7 +26,7 @@ export const ReleaseLink = (props) => {
             src={props.image}
             alt=""
           />
-          <div className="absolute flex flex-col items-start justify-start gap-1 left-2 top-2">
+          <div className="absolute flex flex-wrap items-start justify-start max-w-[45%] gap-0.5 sm:gap-1 left-2 top-2">
             <div className="flex gap-1 ">
               <div
                 className={`rounded-sm ${
@@ -40,15 +41,10 @@ export const ReleaseLink = (props) => {
                     : "bg-green-500"
                 }`}
               >
-                <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
+                <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs sm:text-base text-white">
                   {grade}
                 </p>
               </div>
-              {props.is_favorite && (
-                <div className="flex items-center justify-center bg-pink-500 rounded-sm">
-                  <span className="w-6 h-full bg-white sm:w-8 sm:h-8 iconify mdi--heart"></span>
-                </div>
-              )}
             </div>
             {user_list && (
               <div className={`rounded-sm ${user_list.bg_color}`}>
@@ -58,16 +54,16 @@ export const ReleaseLink = (props) => {
               </div>
             )}
           </div>
-          <div className="absolute flex flex-col items-end gap-1 top-2 right-2">
+          <div className="absolute flex flex-wrap max-w-[45%] justify-end items-end gap-0.5 sm:gap-1 top-2 right-2">
             {props.status ? (
               <div className="bg-gray-500 rounded-sm">
-                <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
+                <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white text-center">
                   {props.status.name}
                 </p>
               </div>
             ) : (
               <div className="bg-gray-500 rounded-sm">
-                <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white">
+                <p className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white text-center">
                   {props.status_id == 1
                     ? "Завершено"
                     : props.status_id == 2
@@ -88,6 +84,30 @@ export const ReleaseLink = (props) => {
                 )}
               </div>
             </div>
+            {props.is_favorite && (
+              <div className="flex items-center justify-center bg-pink-500 rounded-sm">
+                <span className="w-3 px-4 py-2.5 text-white sm:px-4 sm:py-3 xl:px-6 xl:py-4 iconify mdi--heart"></span>
+              </div>
+            )}
+            {props.last_view_episode && (
+              <div className="bg-gray-500 rounded-sm">
+                <div className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white flex">
+                  {props.last_view_episode.name ? (
+                    <p>{`${props.last_view_episode.name}`} </p>
+                  ) : (
+                    <p>{`${props.last_view_episode.position + 1} серия`}</p>
+                  )}
+                </div>
+              </div>
+            )}
+            {"last_view_timestamp" in props &&
+              props.last_view_timestamp != 0 && (
+                <div className="bg-gray-500 rounded-sm">
+                  <div className="px-2 sm:px-4 py-0.5 sm:py-1 text-xs xl:text-base text-white flex">
+                    <p>{sinceUnixDate(props.last_view_timestamp)}</p>
+                  </div>
+                </div>
+              )}
           </div>
           <p className="absolute text-xs text-white xl:text-base lg:text-lg left-2 bottom-2 right-2">
             {props.title_ru}
