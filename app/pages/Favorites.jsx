@@ -56,13 +56,25 @@ export function FavoritesPage() {
     }
   }, [scrollPosition]);
 
+  const DropdownTheme = {
+    floating: {
+      target:
+        "w-fit bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+    },
+  };
+
   return (
     <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
       <div className="flex items-center justify-between px-4 py-2 border-b-2 border-black">
         <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
           Избранное
         </h1>
-        <Dropdown label={sort.values[selectedSort].name} dismissOnClick={true} arrowIcon={false}>
+        <Dropdown
+          label={sort.values[selectedSort].name}
+          dismissOnClick={true}
+          arrowIcon={false}
+          theme={DropdownTheme}
+        >
           {sort.values.map((item, index) => (
             <Dropdown.Item key={index} onClick={() => setSelectedSort(index)}>
               <span
