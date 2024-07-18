@@ -110,9 +110,10 @@ export const Navbar = () => {
                 onClick={() => {
                   userStore.logout();
                 }}
+                className="text-sm md:text-base"
               >
                 <span
-                  className={`iconify material-symbols--logout-rounded w-6 h-6`}
+                  className={`iconify material-symbols--logout-rounded w-4 h-4 sm:w-6 sm:h-6`}
                 ></span>
                 <span>Выйти</span>
               </Dropdown.Item>
@@ -122,7 +123,7 @@ export const Navbar = () => {
                     key={link.id + "_mobile"}
                     className={`${
                       link.mobileMenu ? "block sm:hidden" : "hidden"
-                    }`}
+                    } text-sm md:text-base`}
                   >
                     <Link
                       href={link.href}
@@ -131,7 +132,7 @@ export const Navbar = () => {
                       <span
                         className={`iconify ${
                           pathname == link.href ? link.iconActive : link.icon
-                        } w-6 h-6`}
+                        } w-4 h-4 sm:w-6 sm:h-6`}
                       ></span>
                       <span
                         className={`${
