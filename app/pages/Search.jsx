@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useScrollPosition } from "@/app/hooks/useScrollPosition";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { useUserStore } from "../store/auth";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -25,12 +26,17 @@ export function SearchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || null);
+  const token = useUserStore((state) => state.token);
 
   const getKey = (pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.releases.length) return null;
 
     const url = new URL("/api/search", window.location.origin);
     url.searchParams.set("page", pageIndex);
+
+    if (token) {
+      url.searchParams.set("token", token);
+    }
 
     if (query) {
       url.searchParams.set("q", query);
