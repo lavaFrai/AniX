@@ -106,16 +106,13 @@ export const Navbar = () => {
                   "ml-1 w-4 h-4 [transform:rotateX(180deg)] sm:transform-none",
               }}
             >
-              <Dropdown.Item
-                onClick={() => {
-                  userStore.logout();
-                }}
-                className="text-sm md:text-base"
-              >
-                <span
-                  className={`iconify material-symbols--logout-rounded w-4 h-4 sm:w-6 sm:h-6`}
-                ></span>
-                <span>Выйти</span>
+              <Dropdown.Item className="text-sm md:text-base">
+                <Link href="/profile" className="flex items-center gap-1">
+                  <span
+                    className={`iconify ${pathname == `/profile/${userStore.user.id}` ? "font-bold mdi--user" : "mdi--user-outline"} w-4 h-4 sm:w-6 sm:h-6`}
+                  ></span>
+                  <span>Профиль</span>
+                </Link>
               </Dropdown.Item>
               {navLinks.map((link) => {
                 return (
@@ -145,6 +142,17 @@ export const Navbar = () => {
                   </Dropdown.Item>
                 );
               })}
+              <Dropdown.Item
+                onClick={() => {
+                  userStore.logout();
+                }}
+                className="text-sm md:text-base"
+              >
+                <span
+                  className={`iconify material-symbols--logout-rounded w-4 h-4 sm:w-6 sm:h-6`}
+                ></span>
+                <span>Выйти</span>
+              </Dropdown.Item>
             </Dropdown>
           </div>
         ) : (

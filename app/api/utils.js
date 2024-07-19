@@ -84,6 +84,11 @@ export function numberDeclension(number, one, two, five) {
   if ([5, 6, 7, 8, 9, 0].includes(last_num)) return five;
 }
 
+export function unixToDate(unix) {
+  const date = new Date(unix * 1000);
+  return date.toLocaleString("ru-RU");
+}
+
 export function sinceUnixDate(unixInSeconds) {
   const unix = Math.floor(unixInSeconds * 1000);
   const date = new Date(unix);
@@ -107,4 +112,15 @@ export function sinceUnixDate(unixInSeconds) {
     return `${days} ${daysName} назад`;
 
   return date.toLocaleString("ru-RU").split(",")[0];
+}
+
+export function minutesToTime(min) {
+  const d = Math.floor(min / 1440); // 60*24
+  const h = Math.floor((min - d * 1440) / 60);
+  const m = Math.round(min % 60);
+
+  var dDisplay = d > 0 ? `${d} ${numberDeclension(d, "день", "дня", "дней")}, ` : "";
+  var hDisplay = h > 0 ? `${h} ${numberDeclension(h, "час", "часа", "часов")}, ` : "";
+  var mDisplay = m > 0 ? `${m} ${numberDeclension(m, "минута", "минуты", "минут")}` : "";
+  return dDisplay + hDisplay + mDisplay;
 }

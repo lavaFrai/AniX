@@ -10,7 +10,7 @@ module.exports = {
     flowbite.content(),
   ],
   plugins: [
-    addIconSelectors(["mdi", "material-symbols", "twemoji"]),
+    addIconSelectors(["mdi", "material-symbols", "twemoji", "fa6-brands"]),
     require('tailwind-scrollbar'),
     flowbite.plugin(),
   ],

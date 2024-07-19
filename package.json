@@ -19,6 +19,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@iconify-json/fa6-brands": "^1.1.21",
     "@iconify-json/material-symbols": "^1.1.83",
     "@iconify-json/mdi": "^1.1.67",
     "@iconify-json/twemoji": "^1.1.15",

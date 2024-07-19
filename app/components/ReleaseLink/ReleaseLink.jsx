@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { sinceUnixDate } from "@/app/api/utils";
-import { Chip } from "./Chip";
+import { Chip } from "@/app/components/Chip/Chip";
 
 export const ReleaseLink = (props) => {
   const grade = props.grade.toFixed(1);
