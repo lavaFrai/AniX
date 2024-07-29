@@ -1,0 +1,39 @@
+import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { fetchDataViaPost } from "../utils";
+import { ENDPOINTS } from "../config";
+
+export async function GET(request: NextRequest) {
+  const page = parseInt(request.nextUrl.searchParams.get("page")) || 0;
+  const query = request.nextUrl.searchParams.get("q") || null;
+  const token = request.nextUrl.searchParams.get("token") || null;
+
+  const where = request.nextUrl.searchParams.get("where") || "releases"
+  const searchBy = parseInt(request.nextUrl.searchParams.get("searchBy")) || 0
+  const list = parseInt(request.nextUrl.searchParams.get("list")) || null
+
+  let url: URL;
+
+  if (where == "releases") {
+    url = new URL(`${ENDPOINTS.search}/releases/${page}`);
+  } else if (where == "list") {
+    if (!list) { return NextResponse.json({ message: "List ID required" }, { status: 400 })}
+    if (!token) { return NextResponse.json({ message: "token required" }, { status: 400 })}
+    url = new URL(`${ENDPOINTS.search}/profile/list/${list}/${page}`);
+  }
+  if (token) {
+    url.searchParams.set("token", token);
+  }
+  const data = { query, searchBy };
+
+  const response = await fetchDataViaPost(
+    url.toString(),
+    JSON.stringify(data),
+    true
+  );
+  if (!response) {
+    return NextResponse.json({ message: "Bad request" }, { status: 400 });
+  }
+
+  return NextResponse.json(response);
+}
