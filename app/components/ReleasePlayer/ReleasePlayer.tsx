@@ -119,7 +119,7 @@ export const ReleasePlayer = (props: { id: number }) => {
             >
               {voiceoverInfo.map((voiceover: any) => (
                 <Dropdown.Item
-                  key={voiceover.id}
+                  key={`voiceover_${voiceover.id}`}
                   onClick={() => setSelectedVoiceover(voiceover)}
                 >
                   {voiceover.name}
@@ -132,7 +132,7 @@ export const ReleasePlayer = (props: { id: number }) => {
             >
               {sourcesInfo.map((source: any) => (
                 <Dropdown.Item
-                  key={source.id}
+                  key={`source_${source.id}`}
                   onClick={() => setSelectedSource(source)}
                 >
                   {source.name}
@@ -156,7 +156,7 @@ export const ReleasePlayer = (props: { id: number }) => {
                       ? ButtonThemeActive
                       : ButtonThemeInactive
                   }`}
-                  key={episode.id}
+                  key={`episode_${episode.position}`}
                   onClick={() => {
                     setSelectedEpisode(episode);
                     episode.is_watched = true;
