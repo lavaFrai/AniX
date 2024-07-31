@@ -86,8 +86,12 @@ export const ReleasePlayer = (props: { id: number }) => {
 
   useEffect(() => {
     async function _fetchInfo() {
-      _fetch(`${ENDPOINTS.statistic.addHistory}/${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${token}`);
-      _fetch(`${ENDPOINTS.statistic.markWatched}/${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${token}`);
+      _fetch(
+        `${ENDPOINTS.statistic.addHistory}/${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${token}`
+      );
+      _fetch(
+        `${ENDPOINTS.statistic.markWatched}/${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${token}`
+      );
     }
     if (selectedEpisode && !isFirstLoad && token) {
       _fetchInfo();
@@ -103,7 +107,7 @@ export const ReleasePlayer = (props: { id: number }) => {
   return (
     <Card>
       {!voiceoverInfo || !sourcesInfo || !episodeInfo ? (
-        <div className="flex items-center justify-center aspect-video">
+        <div className="flex items-center justify-center w-full h-[757px]">
           <Spinner />
         </div>
       ) : (

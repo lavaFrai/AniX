@@ -5,9 +5,14 @@ import { Spinner } from "#/components/Spinner/Spinner";
 const fetcher = (...args: any) =>
   fetch([...args] as any).then((res) => res.json());
 import { useUserStore } from "#/store/auth";
-import { Card, Dropdown, Button } from "flowbite-react";
+import { Card, Dropdown, Button, Carousel, Rating } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { unixToDate, getSeasonFromUnix, minutesToTime } from "#/api/utils";
+import {
+  unixToDate,
+  getSeasonFromUnix,
+  minutesToTime,
+  numberDeclension,
+} from "#/api/utils";
 import { ReleaseLink } from "#/components/ReleaseLink/ReleaseLink";
 import { ReleasePlayer } from "#/components/ReleasePlayer/ReleasePlayer";
 import { ENDPOINTS } from "#/api/config";
@@ -276,38 +281,120 @@ export const ReleasePage = (props: any) => {
               </Table.Body>
             </Table>
           </Card>
-          {token && (
-            <Card className="order-1 lg:order-2">
-              <div className="flex flex-wrap gap-2">
-                <Dropdown
-                  label={lists[userList].name}
-                  dismissOnClick={true}
-                  theme={DropdownTheme}
+          <div className="flex flex-col order-1 gap-2 lg:order-2">
+            {token && (
+              <Card>
+                <div className="flex flex-wrap gap-2">
+                  <Dropdown
+                    label={lists[userList].name}
+                    dismissOnClick={true}
+                    theme={DropdownTheme}
+                  >
+                    {lists.map((list) => (
+                      <Dropdown.Item
+                        key={list.list}
+                        onClick={() => _addToList(list.list)}
+                      >
+                        {list.name}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown>
+                  <Button
+                    className="bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    onClick={() => {
+                      _addToFavorite();
+                    }}
+                  >
+                    <span
+                      className={`iconify w-6 h-6 ${
+                        userFavorite ? "mdi--heart" : "mdi--heart-outline"
+                      }`}
+                    ></span>
+                  </Button>
+                </div>
+              </Card>
+            )}
+            {data.release.status.name.toLowerCase() != "анонс" && (
+              <Card>
+                <div className="flex items-center gap-2">
+                  <Rating>
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star filled={false} />
+                    <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                      {data.release.grade.toFixed(2)} из 5
+                    </p>
+                  </Rating>
+                  {token && (
+                    <>
+                      <span className="mx-1.5 h-1 w-1 rounded-full bg-gray-500 dark:bg-gray-400" />
+                      {data.release.your_vote ? (
+                        <>
+                          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            ваша оценка: {data.release.your_vote}
+                          </p>
+                          {/* <p>Изменить</p> */}
+                        </>
+                      ) : (
+                        ""
+                        // <p>Оценить</p>
+                      )}
+                    </>
+                  )}
+                </div>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  {data.release.vote_count}{" "}
+                  {numberDeclension(
+                    data.release.vote_count,
+                    "голос",
+                    "голоса",
+                    "голосов"
+                  )}
+                </p>
+                <Rating.Advanced
+                  percentFilled={Math.floor(
+                    (data.release.vote_5_count / data.release.vote_count) * 100
+                  )}
+                  className="mb-2"
                 >
-                  {lists.map((list) => (
-                    <Dropdown.Item
-                      key={list.list}
-                      onClick={() => _addToList(list.list)}
-                    >
-                      {list.name}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown>
-                <Button
-                  className="bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  onClick={() => {
-                    _addToFavorite();
-                  }}
+                  5
+                </Rating.Advanced>
+                <Rating.Advanced
+                  percentFilled={Math.floor(
+                    (data.release.vote_4_count / data.release.vote_count) * 100
+                  )}
+                  className="mb-2"
                 >
-                  <span
-                    className={`iconify w-6 h-6 ${
-                      userFavorite ? "mdi--heart" : "mdi--heart-outline"
-                    }`}
-                  ></span>
-                </Button>
-              </div>
-            </Card>
-          )}
+                  4
+                </Rating.Advanced>
+                <Rating.Advanced
+                  percentFilled={Math.floor(
+                    (data.release.vote_3_count / data.release.vote_count) * 100
+                  )}
+                  className="mb-2"
+                >
+                  3
+                </Rating.Advanced>
+                <Rating.Advanced
+                  percentFilled={Math.floor(
+                    (data.release.vote_2_count / data.release.vote_count) * 100
+                  )}
+                  className="mb-2"
+                >
+                  2
+                </Rating.Advanced>
+                <Rating.Advanced
+                  percentFilled={Math.floor(
+                    (data.release.vote_1_count / data.release.vote_count) * 100
+                  )}
+                >
+                  1
+                </Rating.Advanced>
+              </Card>
+            )}
+          </div>
           {data.release.related_releases.length > 0 && (
             <Card className="order-3">
               <div>
@@ -331,7 +418,19 @@ export const ReleasePage = (props: any) => {
               </div>
             </Card>
           )}
+          {data.release.screenshot_images.length > 0 && (
+            <Card className="order-2 lg:order-1">
+              <Carousel className="aspect-[16/10]">
+                {data.release.screenshot_images.map(
+                  (image: string, index: number) => (
+                    <img key={index} className="object-cover" src={image} />
+                  )
+                )}
+              </Carousel>
+            </Card>
+          )}
         </div>
+        <div className="[grid-column:1] lg:[grid-column:2] flex flex-col gap-2"></div>
       </div>
     </main>
   ) : (
