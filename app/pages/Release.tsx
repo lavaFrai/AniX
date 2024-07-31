@@ -160,7 +160,7 @@ export const ReleasePage = (props: any) => {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell className="py-0">
-                    <span className="w-8 h-8 iconify-color mdi--animation-play "></span>
+                    <span className="w-8 h-8 iconify-color mdi--animation-play-outline "></span>
                   </Table.Cell>
                   <Table.Cell className="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {data.release.episodes_released
@@ -176,7 +176,7 @@ export const ReleasePage = (props: any) => {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell className="py-0">
-                    <span className="w-8 h-8 iconify-color mdi--calendar "></span>
+                    <span className="w-8 h-8 iconify-color mdi--calendar-outline "></span>
                   </Table.Cell>
                   <Table.Cell className="font-medium text-gray-900 dark:text-white">
                     {data.release.category.name}
@@ -188,7 +188,7 @@ export const ReleasePage = (props: any) => {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell className="py-0">
-                    <span className="w-8 h-8 iconify-color mdi--people "></span>
+                    <span className="w-8 h-8 iconify-color mdi--people-group-outline "></span>
                   </Table.Cell>
                   <Table.Cell className="font-medium text-gray-900 dark:text-white">
                     {data.release.studio && (
@@ -233,7 +233,7 @@ export const ReleasePage = (props: any) => {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell className="py-0">
-                    <span className="w-8 h-8 iconify-color mdi--tag "></span>
+                    <span className="w-8 h-8 iconify-color mdi--tag-outline "></span>
                   </Table.Cell>
                   <Table.Cell className="font-medium text-gray-900 dark:text-white">
                     {data.release.genres &&
@@ -255,7 +255,7 @@ export const ReleasePage = (props: any) => {
                 {data.release.status.name.toLowerCase() == "анонс" && (
                   <Table.Row>
                     <Table.Cell className="py-0">
-                      <span className="w-8 h-8 iconify-color mdi--clock "></span>
+                      <span className="w-8 h-8 iconify-color mdi--clock-outline "></span>
                     </Table.Cell>
                     <Table.Cell className="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {data.release.aired_on_date != 0 ? (
