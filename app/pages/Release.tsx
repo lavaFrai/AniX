@@ -5,7 +5,15 @@ import { Spinner } from "#/components/Spinner/Spinner";
 const fetcher = (...args: any) =>
   fetch([...args] as any).then((res) => res.json());
 import { useUserStore } from "#/store/auth";
-import { Card, Dropdown, Button, Carousel, Rating } from "flowbite-react";
+import {
+  Card,
+  Dropdown,
+  Button,
+  Carousel,
+  Rating,
+  Flowbite,
+  CustomFlowbiteTheme,
+} from "flowbite-react";
 import { useEffect, useState } from "react";
 import {
   unixToDate,
@@ -46,6 +54,14 @@ const DropdownTheme = {
   floating: {
     target:
       "flex-1 bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+  },
+};
+
+const RatingTheme: CustomFlowbiteTheme = {
+  ratingAdvanced: {
+    progress: {
+      base: "mx-4 h-5 w-3/4 rounded bg-gray-200 dark:bg-gray-700",
+    },
   },
 };
 
@@ -316,7 +332,7 @@ export const ReleasePage = (props: any) => {
             )}
             {data.release.status.name.toLowerCase() != "анонс" && (
               <Card>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col gap-2 lg:items-center lg:flex-row">
                   <Rating>
                     <Rating.Star />
                     <Rating.Star />
@@ -329,17 +345,28 @@ export const ReleasePage = (props: any) => {
                   </Rating>
                   {token && (
                     <>
-                      <span className="mx-1.5 h-1 w-1 rounded-full bg-gray-500 dark:bg-gray-400" />
+                      <span className="mx-1.5 h-1 w-1 rounded-full bg-gray-500 dark:bg-gray-400 hidden lg:block" />
                       {data.release.your_vote ? (
-                        <>
+                        <div className="flex items-center gap-2">
                           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                             ваша оценка: {data.release.your_vote}
                           </p>
-                          {/* <p>Изменить</p> */}
-                        </>
+                          <Button
+                            size={"xs"}
+                            className="text-gray-500 border border-gray-600 rounded-full"
+                            color="inline"
+                          >
+                            изменить
+                          </Button>
+                        </div>
                       ) : (
-                        ""
-                        // <p>Оценить</p>
+                        <Button
+                          size={"xs"}
+                          className="text-gray-500 border border-gray-600 rounded-full"
+                          color="inline"
+                        >
+                          оценить
+                        </Button>
                       )}
                     </>
                   )}
@@ -353,45 +380,52 @@ export const ReleasePage = (props: any) => {
                     "голосов"
                   )}
                 </p>
-                <Rating.Advanced
-                  percentFilled={Math.floor(
-                    (data.release.vote_5_count / data.release.vote_count) * 100
-                  )}
-                  className="mb-2"
-                >
-                  5
-                </Rating.Advanced>
-                <Rating.Advanced
-                  percentFilled={Math.floor(
-                    (data.release.vote_4_count / data.release.vote_count) * 100
-                  )}
-                  className="mb-2"
-                >
-                  4
-                </Rating.Advanced>
-                <Rating.Advanced
-                  percentFilled={Math.floor(
-                    (data.release.vote_3_count / data.release.vote_count) * 100
-                  )}
-                  className="mb-2"
-                >
-                  3
-                </Rating.Advanced>
-                <Rating.Advanced
-                  percentFilled={Math.floor(
-                    (data.release.vote_2_count / data.release.vote_count) * 100
-                  )}
-                  className="mb-2"
-                >
-                  2
-                </Rating.Advanced>
-                <Rating.Advanced
-                  percentFilled={Math.floor(
-                    (data.release.vote_1_count / data.release.vote_count) * 100
-                  )}
-                >
-                  1
-                </Rating.Advanced>
+                <Flowbite theme={{ theme: RatingTheme }}>
+                  <Rating.Advanced
+                    percentFilled={Math.floor(
+                      (data.release.vote_5_count / data.release.vote_count) *
+                        100
+                    )}
+                    className="mb-2"
+                  >
+                    5
+                  </Rating.Advanced>
+                  <Rating.Advanced
+                    percentFilled={Math.floor(
+                      (data.release.vote_4_count / data.release.vote_count) *
+                        100
+                    )}
+                    className="mb-2"
+                  >
+                    4
+                  </Rating.Advanced>
+                  <Rating.Advanced
+                    percentFilled={Math.floor(
+                      (data.release.vote_3_count / data.release.vote_count) *
+                        100
+                    )}
+                    className="mb-2"
+                  >
+                    3
+                  </Rating.Advanced>
+                  <Rating.Advanced
+                    percentFilled={Math.floor(
+                      (data.release.vote_2_count / data.release.vote_count) *
+                        100
+                    )}
+                    className="mb-2"
+                  >
+                    2
+                  </Rating.Advanced>
+                  <Rating.Advanced
+                    percentFilled={Math.floor(
+                      (data.release.vote_1_count / data.release.vote_count) *
+                        100
+                    )}
+                  >
+                    1
+                  </Rating.Advanced>
+                </Flowbite>
               </Card>
             )}
           </div>
