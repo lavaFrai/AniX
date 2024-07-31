@@ -48,15 +48,17 @@ export const ReleaseLink169 = (props: any) => {
             {props.status ? (
               <Chip name={props.status.name} />
             ) : (
-              <Chip
-                name={
-                  props.status_id == 1
-                    ? "Завершено"
-                    : props.status_id == 2
-                    ? "Онгоинг"
-                    : "Анонс"
-                }
-              />
+              props.status_id != 0 && (
+                <Chip
+                  name={
+                    props.status_id == 1
+                      ? "Завершено"
+                      : props.status_id == 2
+                      ? "Онгоинг"
+                      : props.status_id == 3 && "Анонс"
+                  }
+                />
+              )
             )}
             <Chip
               name={props.episodes_released && props.episodes_released}

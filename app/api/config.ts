@@ -7,6 +7,7 @@ export const ENDPOINTS = {
   release: {
     info: `${API_PREFIX}/release`,
     episode: `${API_PREFIX}/episode`,
+    related: `${API_PREFIX}/related`,
   },
   user: {
     profile: `${API_PREFIX}/profile`,
@@ -15,15 +16,6 @@ export const ENDPOINTS = {
     favorite: `${API_PREFIX}/favorite`,
   },
   filter: `${API_PREFIX}/filter`,
-  // user: {
-  //   history: `${API_PREFIX}/history`,
-  //   watching: `${API_PREFIX}/profile/list/all/1`,
-  //   planned: `${API_PREFIX}/profile/list/all/2`,
-  //   watched: `${API_PREFIX}/profile/list/all/3`,
-  //   delayed: `${API_PREFIX}/profile/list/all/4`,
-  //   abandoned: `${API_PREFIX}/profile/list/all/5`,
-  //   favorite: `${API_PREFIX}/favorite`,
-  // },
   search: `${API_URL}/search`,
   statistic: {
     addHistory: `${API_PREFIX}/history/add`,
