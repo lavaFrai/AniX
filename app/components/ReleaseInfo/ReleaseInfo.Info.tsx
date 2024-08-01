@@ -28,7 +28,7 @@ export const ReleaseInfoInfo = (props: {
   genres: string;
 }) => {
   return (
-    <Card>
+    <Card className="h-full">
       <Table>
         <Table.Body>
           <Table.Row>

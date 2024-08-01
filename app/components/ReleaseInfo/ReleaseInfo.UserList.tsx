@@ -50,7 +50,7 @@ export const ReleaseInfoUserList = (props: {
   }
 
   return (
-    <Card>
+    <Card className="h-full">
       {props.token ? (
         <div className="flex flex-wrap gap-2">
           <Dropdown
