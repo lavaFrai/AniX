@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 const DropdownTheme = {
   floating: {
     target:
-      "w-full md:w-[256px] bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+      "w-full md:min-w-[256px] md:w-fit bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
   },
 };
 
@@ -39,7 +39,6 @@ export const ReleasePlayer = (props: { id: number }) => {
   const [selectedSource, setSelectedSource] = useState(null);
   const [episodeInfo, setEpisodeInfo] = useState(null);
   const [selectedEpisode, setSelectedEpisode] = useState(null);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   useEffect(() => {
     async function _fetchInfo() {
@@ -84,25 +83,16 @@ export const ReleasePlayer = (props: { id: number }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSource, token]);
 
-  useEffect(() => {
-    async function _fetchInfo() {
+  async function _addToHistory(episode: any) {
+    if (episode && token) {
       _fetch(
-        `${ENDPOINTS.statistic.addHistory}/${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${token}`
+        `${ENDPOINTS.statistic.addHistory}/${props.id}/${selectedSource.id}/${episode.position}?token=${token}`
       );
       _fetch(
-        `${ENDPOINTS.statistic.markWatched}/${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${token}`
+        `${ENDPOINTS.statistic.markWatched}/${props.id}/${selectedSource.id}/${episode.position}?token=${token}`
       );
     }
-    if (selectedEpisode && !isFirstLoad && token) {
-      _fetchInfo();
-    }
-
-    if (isFirstLoad) {
-      setIsFirstLoad(false);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEpisode]);
+  }
 
   return (
     <Card>
@@ -160,6 +150,7 @@ export const ReleasePlayer = (props: { id: number }) => {
                   onClick={() => {
                     setSelectedEpisode(episode);
                     episode.is_watched = true;
+                    _addToHistory(episode);
                   }}
                   disabled={selectedEpisode.position === episode.position}
                 >
