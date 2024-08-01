@@ -23,17 +23,20 @@ export const useUserStore = create<userState>((set, get) => ({
     set({ isAuth: false, user: null, token: null });
     removeJWT();
   },
-  checkAuth: async () => {
+  checkAuth: () => {
     const jwt = getJWT();
     if (jwt) {
-      const data = await fetchDataViaGet(
-        `/api/profile/${jwt.user_id}?token=${jwt.jwt}`
-      );
-      if (data && data.is_my_profile) {
-        get().login(data.profile, jwt.jwt);
-      } else {
-        get().logout();
+      const _checkAuth = async () => {
+        const data = await fetchDataViaGet(
+          `/api/profile/${jwt.user_id}?token=${jwt.jwt}`
+        );
+        if (data && data.is_my_profile) {
+          get().login(data.profile, jwt.jwt);
+        } else {
+          get().logout();
+        }
       }
+      _checkAuth()
     } else {
       get().logout();
     }
