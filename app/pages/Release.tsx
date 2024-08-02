@@ -116,14 +116,6 @@ export const ReleasePage = (props: any) => {
           </div>
         )}
 
-        <div className="[grid-column:1] [grid-row:span_2]">
-          <CommentsMain
-            release_id={props.id}
-            token={token}
-            comments={data.release.comments}
-          />
-        </div>
-
         {data.release.related_releases.length > 0 && (
           <div className="[grid-column:2] [grid-row:span_4]">
             <ReleaseInfoRelated
@@ -133,6 +125,14 @@ export const ReleasePage = (props: any) => {
             />
           </div>
         )}
+
+        <div className="[grid-column:1] [grid-row:span_2]">
+          <CommentsMain
+            release_id={props.id}
+            token={token}
+            comments={data.release.comments}
+          />
+        </div>
       </div>
     </main>
   ) : (
