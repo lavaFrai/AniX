@@ -30,9 +30,9 @@ export const CommentsComment = (props: {
   }, []);
 
   return (
-    <article className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
+    <article className="p-6 text-sm bg-white rounded-lg sm:text-base dark:bg-gray-900">
       <footer className="flex items-center justify-between mb-2">
-        <div className="flex items-center">
+        <div className="flex flex-col items-start gap-1 sm:items-center sm:flex-row">
           <p className="inline-flex items-center mr-3 text-sm font-semibold text-gray-900 dark:text-white">
             <img
               className="w-6 h-6 mr-2 rounded-full"

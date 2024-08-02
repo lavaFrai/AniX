@@ -7,7 +7,7 @@ export const CommentsMain = (props: {
 }) => {
   return (
     <Card className="antialiased">
-      <div className="max-w-2xl px-4 mx-auto">
+      <div className="w-full">
         <div className="flex items-center justify-between mb-6">
           <div className="flex flex-col gap-1">
             <h2 className="text-lg font-bold text-gray-900 lg:text-2xl dark:text-white">
@@ -18,8 +18,7 @@ export const CommentsMain = (props: {
             </p>
           </div>
           <Button
-            size={"sm"}
-            className="text-gray-500 border border-gray-600 rounded-full hover:bg-black hover:text-white hover:border-black dark:text-gray-400 dark:border-gray-500"
+            className="px-2 py-1 text-xs text-gray-500 border border-gray-600 rounded-full hover:bg-black hover:text-white hover:border-black dark:text-gray-400 dark:border-gray-500"
             color="inline"
           >
             Показать все
