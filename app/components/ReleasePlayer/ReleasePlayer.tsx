@@ -97,7 +97,7 @@ export const ReleasePlayer = (props: { id: number }) => {
       ) : (
         <>
           <div className="flex flex-wrap gap-2">
-            <Dropdown label={`Озвучка: ${selectedVoiceover.name}`} color="blue">
+            <Dropdown label={`Озвучка: ${selectedVoiceover.name}`} color="blue" theme={DropdownTheme}>
               {voiceoverInfo.map((voiceover: any) => (
                 <Dropdown.Item
                   key={`voiceover_${voiceover.id}`}
@@ -107,7 +107,7 @@ export const ReleasePlayer = (props: { id: number }) => {
                 </Dropdown.Item>
               ))}
             </Dropdown>
-            <Dropdown label={`Плеер: ${selectedSource.name}`} color="blue">
+            <Dropdown label={`Плеер: ${selectedSource.name}`} color="blue" theme={DropdownTheme}>
               {sourcesInfo.map((source: any) => (
                 <Dropdown.Item
                   key={`source_${source.id}`}

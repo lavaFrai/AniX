@@ -46,7 +46,7 @@ export const ReleasePage = (props: any) => {
 
   return data ? (
     <main className="container px-4 pt-4 pb-24 mx-auto sm:pb-4">
-      <div className="grid grid-cols-[100%] lg:grid-cols-[70%_30%] gap-2 grid-flow-row-dense ">
+      <div className="flex flex-col lg:grid lg:grid-cols-[70%_30%] gap-2 grid-flow-row-dense">
         <div className="[grid-column:1] [grid-row:span_2]">
           <ReleaseInfoBasics
             image={data.release.image}
@@ -78,7 +78,7 @@ export const ReleasePage = (props: any) => {
             genres={data.release.genres}
           />
         </div>
-        <div className="[grid-column:2] -order-1 lg:order-none">
+        <div className="[grid-column:2]">
           <ReleaseInfoUserList
             userList={userList}
             isFavorite={userFavorite}
