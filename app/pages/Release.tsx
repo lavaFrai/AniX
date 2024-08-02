@@ -14,6 +14,7 @@ import { ReleaseInfoUserList } from "#/components/ReleaseInfo/ReleaseInfo.UserLi
 import { ReleaseInfoRating } from "#/components/ReleaseInfo/ReleaseInfo.Rating";
 import { ReleaseInfoRelated } from "#/components/ReleaseInfo/ReleaseInfo.Related";
 import { ReleaseInfoScreenshots } from "#/components/ReleaseInfo/ReleaseInfo.Screenshots";
+import { CommentsMain } from "#/components/Comments/Comments.Main";
 
 export const ReleasePage = (props: any) => {
   const token = useUserStore((state) => state.token);
@@ -46,7 +47,7 @@ export const ReleasePage = (props: any) => {
   return data ? (
     <main className="container px-4 pt-4 pb-24 mx-auto sm:pb-4">
       <div className="grid grid-cols-[100%] lg:grid-cols-[70%_30%] gap-2 grid-flow-row-dense ">
-        <div className="[grid-column:1] [grid-row:1/span_2]">
+        <div className="[grid-column:1] [grid-row:span_2]">
           <ReleaseInfoBasics
             image={data.release.image}
             title={{
@@ -57,7 +58,7 @@ export const ReleasePage = (props: any) => {
             note={data.release.note}
           />
         </div>
-        <div>
+        <div className="[grid-column:2]">
           <ReleaseInfoInfo
             country={data.release.country}
             aired_on_date={data.release.aired_on_date}
@@ -77,7 +78,7 @@ export const ReleasePage = (props: any) => {
             genres={data.release.genres}
           />
         </div>
-        <div className="-order-1 lg:order-none">
+        <div className="[grid-column:2] -order-1 lg:order-none">
           <ReleaseInfoUserList
             userList={userList}
             isFavorite={userFavorite}
@@ -88,12 +89,12 @@ export const ReleasePage = (props: any) => {
           />
         </div>
         {data.release.status.name.toLowerCase() != "анонс" && (
-          <div className="[grid-column:1] [grid-row:3/span_4]">
+          <div className="[grid-column:1] [grid-row:span_4]">
             <ReleasePlayer id={props.id} />
           </div>
         )}
         {data.release.status.name.toLowerCase() != "анонс" && (
-          <div>
+          <div className="[grid-column:2]">
             <ReleaseInfoRating
               grade={data.release.grade}
               token={token}
@@ -110,12 +111,21 @@ export const ReleasePage = (props: any) => {
           </div>
         )}
         {data.release.screenshot_images.length > 0 && (
-          <div>
+          <div className="[grid-column:2]">
             <ReleaseInfoScreenshots images={data.release.screenshot_images} />
           </div>
         )}
+
+        <div className="[grid-column:1] [grid-row:span_2]">
+          <CommentsMain
+            release_id={props.id}
+            token={token}
+            comments={data.release.comments}
+          />
+        </div>
+
         {data.release.related_releases.length > 0 && (
-          <div>
+          <div className="[grid-column:2] [grid-row:span_4]">
             <ReleaseInfoRelated
               release_id={props.id}
               related={data.release.related}

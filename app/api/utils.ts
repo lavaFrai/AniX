@@ -114,9 +114,10 @@ const months = [
   "дек.",
 ];
 
-export function unixToDate(unix: number) {
+export function unixToDate(unix: number, type: string = "short") {
   const date = new Date(unix * 1000);
-  return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+  if (type === "short") return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+  if (type === "full") return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes();
 }
 
 export const getSeasonFromUnix = (unix: number) => {

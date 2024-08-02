@@ -97,7 +97,7 @@ export const ReleasePlayer = (props: { id: number }) => {
   return (
     <Card>
       {!voiceoverInfo || !sourcesInfo || !episodeInfo ? (
-        <div className="flex items-center justify-center w-full aspect-[16/12]">
+        <div className="flex items-center justify-center w-full aspect-video">
           <Spinner />
         </div>
       ) : (
