@@ -141,20 +141,3 @@ export const ReleasePage = (props: any) => {
     </main>
   );
 };
-
-{
-  /* <Chip
-  bg_color={
-    data.release.grade.toFixed(1) == 0
-      ? "hidden"
-      : data.release.grade.toFixed(1) < 2
-      ? "bg-red-500"
-      : data.release.grade.toFixed(1) < 3
-      ? "bg-orange-500"
-      : data.release.grade.toFixed(1) < 4
-      ? "bg-yellow-500"
-      : "bg-green-500"
-  }
-  name={data.release.grade.toFixed(1)}
-/> */
-}
