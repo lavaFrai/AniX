@@ -1,10 +1,14 @@
-import { Card } from "flowbite-react";
+import { Card, Button } from "flowbite-react";
+import { useState } from "react";
+
 export const ReleaseInfoBasics = (props: {
   image: string;
   title: { ru: string; original: string };
   note: string | null;
   description: string;
 }) => {
+  const [isFullDescription, setIsFullDescription] = useState(false);
+
   return (
     <Card className="h-full">
       <div className="flex flex-col w-full h-full gap-4 lg:flex-row">
@@ -27,7 +31,24 @@ export const ReleaseInfoBasics = (props: {
               <div id="note" className="ml-2"></div>
             </div>
           )}
-          <p>{props.description}</p>
+          <p
+            className={`overflow-y-hidden transition-[max-height] max-h-[var(--max-height)] md:max-h-full`}
+            style={
+              {
+                "--max-height": isFullDescription ? "1000px" : "80px",
+              } as React.CSSProperties
+            }
+          >
+            {props.description}
+          </p>
+          <Button
+            onClick={() => setIsFullDescription(!isFullDescription)}
+            color="light"
+            size={"sm"}
+            className={`md:hidden block}`}
+          >
+            {isFullDescription ? "Скрыть" : "Показать полностью"}
+          </Button>
         </div>
       </div>
     </Card>
