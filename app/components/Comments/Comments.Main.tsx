@@ -19,7 +19,7 @@ export const CommentsMain = (props: {
           </div>
           <Button
             size={"sm"}
-            className="text-gray-500 border border-gray-600 rounded-full"
+            className="text-gray-500 border border-gray-600 rounded-full hover:bg-black hover:text-white hover:border-black dark:text-gray-400 dark:border-gray-500"
             color="inline"
           >
             Показать все
@@ -45,19 +45,21 @@ export const CommentsMain = (props: {
             Оставить комментарий
           </Button>
         </form>
-        {props.comments.map((comment: any) => (
-          <CommentsComment
-            key={comment.id}
-            profile={comment.profile}
-            comment={{
-              id: comment.id,
-              timestamp: comment.timestamp,
-              message: comment.message,
-              likes: comment.likes_count,
-              reply_count: comment.reply_count,
-            }}
-          />
-        ))}
+        <div className="flex flex-col gap-2">
+          {props.comments.map((comment: any) => (
+            <CommentsComment
+              key={comment.id}
+              profile={comment.profile}
+              comment={{
+                id: comment.id,
+                timestamp: comment.timestamp,
+                message: comment.message,
+                likes: comment.likes_count,
+                reply_count: comment.reply_count,
+              }}
+            />
+          ))}
+        </div>
       </div>
     </Card>
   );

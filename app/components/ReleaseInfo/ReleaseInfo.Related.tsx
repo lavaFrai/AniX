@@ -17,7 +17,7 @@ export const ReleaseInfoRelated = (props: {
 }) => {
   return (
     <Card>
-      <div className="flex justify-between py-2 border-b-2 border-black">
+      <div className="flex justify-between py-2 border-b-2 border-black dark:border-white">
         <h1>Связанные релизы</h1>
         {props.related && (
           <Link href={`/related/${props.related.id}`}>

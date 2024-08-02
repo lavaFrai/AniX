@@ -21,12 +21,14 @@ export const ReleaseLink169 = (props: any) => {
   return (
     <Link href={`/release/${props.id}`}>
       <div className="w-full aspect-video group">
-        <div className="relative w-full h-full overflow-hidden bg-gradient-to-t from-black to-transparent">
-          <img
+        <div className="relative w-full h-full overflow-hidden bg-center bg-no-repeat bg-cover rounded-sm group-hover:animate-bg_zoom animate-bg_zoom_rev group-hover:[background-size:110%] " style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%), url(${props.image})`,
+          }}>
+          {/* <img
             className="absolute z-0 object-cover w-full h-full transition mix-blend-overlay group-hover:scale-110"
             src={props.image}
             alt=""
-          />
+          /> */}
           <div className="absolute flex flex-wrap items-start justify-start gap-0.5 sm:gap-1 left-2 top-2">
             <Chip
               bg_color={

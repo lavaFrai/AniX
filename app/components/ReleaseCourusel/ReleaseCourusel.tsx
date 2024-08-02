@@ -39,7 +39,7 @@ export const ReleaseCourusel = (props: {
 
   return (
     <section className={`${Styles.section}`}>
-      <div className="flex justify-between px-4 py-2 border-b-2 border-black">
+      <div className="flex justify-between px-4 py-2 border-b-2 border-black dark:border-white">
         <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
           {props.sectionTitle}
         </h1>

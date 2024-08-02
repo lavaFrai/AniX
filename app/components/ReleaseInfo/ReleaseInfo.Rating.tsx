@@ -46,7 +46,7 @@ export const ReleaseInfoRating = (props: {
                 </p>
                 <Button
                   size={"xs"}
-                  className="text-gray-500 border border-gray-600 rounded-full"
+                  className="text-gray-500 border border-gray-600 rounded-full hover:bg-black hover:text-white hover:border-black dark:text-gray-400 dark:border-gray-500"
                   color="inline"
                 >
                   изменить
@@ -55,7 +55,7 @@ export const ReleaseInfoRating = (props: {
             ) : (
               <Button
                 size={"xs"}
-                className="text-gray-500 border border-gray-600 rounded-full"
+                className="text-gray-500 border border-gray-600 rounded-full hover:bg-black hover:text-white hover:border-black dark:text-gray-400 dark:border-gray-500"
                 color="inline"
               >
                 оценить

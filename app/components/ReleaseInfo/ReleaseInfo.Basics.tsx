@@ -15,10 +15,10 @@ export const ReleaseInfoBasics = (props: {
         ></img>
         <div className="flex flex-col max-w-2xl gap-2 text-sm md:text-base">
           <div className="flex flex-col gap-1">
-            <p className="text-xl font-bold text-black md:text-2xl">
+            <p className="text-xl font-bold text-black md:text-2xl dark:text-white">
               {props.title.ru}
             </p>
-            <p className="text-sm text-gray-500 md:text-base">
+            <p className="text-sm text-gray-500 md:text-base dark:text-gray-400">
               {props.title.original}
             </p>
           </div>

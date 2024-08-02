@@ -13,7 +13,7 @@ const lists = [
 const DropdownTheme = {
   floating: {
     target:
-      "flex-1 bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+      "flex-1",
   },
 };
 
@@ -57,6 +57,7 @@ export const ReleaseInfoUserList = (props: {
             label={lists[props.userList].name}
             dismissOnClick={true}
             theme={DropdownTheme}
+            color="blue"
           >
             {lists.map((list) => (
               <Dropdown.Item
@@ -68,7 +69,7 @@ export const ReleaseInfoUserList = (props: {
             ))}
           </Dropdown>
           <Button
-            className="bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            color="blue"
             onClick={() => {
               _addToFavorite();
             }}

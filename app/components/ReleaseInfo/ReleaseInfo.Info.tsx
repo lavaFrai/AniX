@@ -53,7 +53,7 @@ export const ReleaseInfoInfo = (props: {
           </Table.Row>
           <Table.Row>
             <Table.Cell className="py-0">
-              <span className="w-8 h-8 iconify-color mdi--animation-play-outline "></span>
+              <span className="w-8 h-8 iconify-color mdi--animation-play-outline dark:invert"></span>
             </Table.Cell>
             <Table.Cell className="font-medium text-gray-900 whitespace-nowrap dark:text-white">
               {props.episodes.released ? props.episodes.released : "?"}
@@ -64,7 +64,7 @@ export const ReleaseInfoInfo = (props: {
           </Table.Row>
           <Table.Row>
             <Table.Cell className="py-0">
-              <span className="w-8 h-8 iconify-color mdi--calendar-outline "></span>
+              <span className="w-8 h-8 iconify-color mdi--calendar-outline dark:invert"></span>
             </Table.Cell>
             <Table.Cell className="font-medium text-gray-900 dark:text-white">
               {props.category}
@@ -76,7 +76,7 @@ export const ReleaseInfoInfo = (props: {
           </Table.Row>
           <Table.Row>
             <Table.Cell className="py-0">
-              <span className="w-8 h-8 iconify-color mdi--people-group-outline "></span>
+              <span className="w-8 h-8 iconify-color mdi--people-group-outline dark:invert"></span>
             </Table.Cell>
             <Table.Cell className="font-medium text-gray-900 dark:text-white">
               {props.studio && (
@@ -112,7 +112,7 @@ export const ReleaseInfoInfo = (props: {
           </Table.Row>
           <Table.Row>
             <Table.Cell className="py-0">
-              <span className="w-8 h-8 iconify-color mdi--tag-outline "></span>
+              <span className="w-8 h-8 iconify-color mdi--tag-outline dark:invert"></span>
             </Table.Cell>
             <Table.Cell className="font-medium text-gray-900 dark:text-white">
               {props.genres &&
@@ -129,7 +129,7 @@ export const ReleaseInfoInfo = (props: {
           {props.status.toLowerCase() == "анонс" && (
             <Table.Row>
               <Table.Cell className="py-0">
-                <span className="w-8 h-8 iconify-color mdi--clock-outline "></span>
+                <span className="w-8 h-8 iconify-color mdi--clock-outline dark:invert"></span>
               </Table.Cell>
               <Table.Cell className="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {props.aired_on_date != 0 ? (

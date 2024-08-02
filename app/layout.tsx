@@ -1,5 +1,6 @@
 import "./globals.css";
 import { App } from "./App";
+import { ThemeModeScript } from "flowbite-react";
 
 export const metadata = {
   title: {
@@ -11,7 +12,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeModeScript />
+      </head>
       <App>{children}</App>
     </html>
   );

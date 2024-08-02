@@ -8,15 +8,9 @@ import { useState, useEffect } from "react";
 
 const DropdownTheme = {
   floating: {
-    target:
-      "w-full md:min-w-[256px] md:w-fit bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+    target: "w-full md:min-w-[256px] md:w-fit",
   },
 };
-
-const ButtonThemeInactive =
-  "bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800";
-const ButtonThemeActive =
-  "bg-blue-800 dark:bg-blue-600 disabled:opacity-100 dark:disabled:opacity-100";
 
 async function _fetch(url: string) {
   const data = fetch(url)
@@ -103,10 +97,7 @@ export const ReleasePlayer = (props: { id: number }) => {
       ) : (
         <>
           <div className="flex flex-wrap gap-2">
-            <Dropdown
-              label={`Озвучка: ${selectedVoiceover.name}`}
-              theme={DropdownTheme}
-            >
+            <Dropdown label={`Озвучка: ${selectedVoiceover.name}`} color="blue">
               {voiceoverInfo.map((voiceover: any) => (
                 <Dropdown.Item
                   key={`voiceover_${voiceover.id}`}
@@ -116,10 +107,7 @@ export const ReleasePlayer = (props: { id: number }) => {
                 </Dropdown.Item>
               ))}
             </Dropdown>
-            <Dropdown
-              label={`Плеер: ${selectedSource.name}`}
-              theme={DropdownTheme}
-            >
+            <Dropdown label={`Плеер: ${selectedSource.name}`} color="blue">
               {sourcesInfo.map((source: any) => (
                 <Dropdown.Item
                   key={`source_${source.id}`}
@@ -141,11 +129,12 @@ export const ReleasePlayer = (props: { id: number }) => {
             <div className="flex gap-2 p-2 overflow-x-auto scrollbar-thin">
               {episodeInfo.map((episode: any) => (
                 <Button
-                  className={`text-center min-w-fit ${
+                  color={
                     selectedEpisode.position === episode.position
-                      ? ButtonThemeActive
-                      : ButtonThemeInactive
-                  }`}
+                      ? "blue"
+                      : "light"
+                  }
+                  theme={{base: "min-w-fit disabled:opacity-100"}}
                   key={`episode_${episode.position}`}
                   onClick={() => {
                     setSelectedEpisode(episode);

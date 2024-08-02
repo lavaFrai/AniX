@@ -29,7 +29,7 @@ export const RelatedSection = (props: any) => {
             {props.release_count} {declension} во франшизе
           </p>
           <Link href={`/related/${props.id}`}>
-          <div className="flex items-center px-8 py-2 transition border border-black rounded-full hover:text-white hover:bg-black">
+          <div className="flex items-center px-8 py-2 transition border border-black rounded-full hover:text-white hover:bg-black dark:border-white hover:dark:text-black hover:dark:bg-white">
             <p className="text-xl font-bold">Перейти</p>
             <span className="w-6 h-6 iconify mdi--arrow-right"></span>
           </div>

@@ -12,7 +12,7 @@ export const App = (props) => {
   }, []);
 
   return (
-    <body className={`${inter.className} overflow-x-hidden`}>
+    <body className={`${inter.className} overflow-x-hidden dark:bg-[#0d1117] dark:text-white`}>
       <Navbar />
       {props.children}
     </body>

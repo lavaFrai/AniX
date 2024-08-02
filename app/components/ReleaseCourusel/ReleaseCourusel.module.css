@@ -9,5 +9,7 @@
 @media (hover: hover) {
   .section:hover .swiper-button {
     display: flex !important;
+    width: 64px;
+    height: 64px;
   }
 }
