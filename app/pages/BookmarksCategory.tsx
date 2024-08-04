@@ -74,7 +74,7 @@ export function BookmarksCategoryPage(props: any) {
 
   useEffect(() => {
     if (authState === "finished" && !token) {
-      router.push("/login");
+      router.push(`/login?redirect=/bookmarks/${props.slug}`);
     }
   }, [authState, token]);
 

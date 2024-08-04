@@ -194,7 +194,7 @@ export const Navbar = () => {
             >
               <Dropdown.Item className="text-sm md:text-base">
                 <Link
-                  href="/login"
+                  href={pathname != "/login" ? `/login?redirect=${pathname}` : "#"}
                   className="flex items-center gap-1"
                 >
                   <span

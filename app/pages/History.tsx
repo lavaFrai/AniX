@@ -63,7 +63,7 @@ export function HistoryPage() {
 
   useEffect(() => {
     if (authState === "finished" && !token) {
-      router.push("/login");
+      router.push("/login?redirect=/history");
     }
   }, [authState, token]);
 

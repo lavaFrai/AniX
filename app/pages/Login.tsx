@@ -2,14 +2,16 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "#/store/auth";
 import { setJWT } from "#/api/utils";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function LoginPage() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [remember, setRemember]: any = useState(false);
+  const [remember, setRemember] = useState(true);
   const userStore = useUserStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || null;
 
   function submit(e) {
     e.preventDefault();
@@ -45,7 +47,7 @@ export function LoginPage() {
 
   useEffect(() => {
     if (userStore.user) {
-      router.push("/");
+      router.push(`${redirect || "/"}`);
     }
   }, [userStore.user]);
 
@@ -108,7 +110,7 @@ export function LoginPage() {
                         type="checkbox"
                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                         required={true}
-                        value={remember}
+                        checked={remember}
                         onChange={(e) => setRemember(e.target.checked)}
                       />
                     </div>

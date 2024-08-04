@@ -71,7 +71,7 @@ export function FavoritesPage() {
 
   useEffect(() => {
     if (authState === "finished" && !token) {
-      router.push("/login");
+      router.push("/login?redirect=/favorites");
     }
   }, [authState, token]);
 

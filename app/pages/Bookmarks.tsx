@@ -34,7 +34,7 @@ export function BookmarksPage() {
 
   useEffect(() => {
     if (authState === "finished" && !token) {
-      router.push("/login");
+      router.push("/login?redirect=/bookmarks");
     }
   }, [authState, token]);
 
