@@ -1,6 +1,6 @@
 import { ReleaseLink } from "../ReleaseLink/ReleaseLink";
 
-export const ReleaseSection = (props: any) => {
+export const ReleaseSection = (props: {sectionTitle?: string, content: any}) => {
   return (
     <section>
       {props.sectionTitle && (

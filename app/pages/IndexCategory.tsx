@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useUserStore } from "../store/auth";
 import { _FetchHomePageReleases } from "#/api/utils";
+import { Button } from "flowbite-react";
 
 export function IndexCategoryPage(props) {
   const token = useUserStore((state) => state.token);
@@ -65,13 +66,16 @@ export function IndexCategoryPage(props) {
           </p>
         </div>
       )}
-      <button
-        className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-2 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition"
+      <Button
+        className="w-full"
+        color={"light"}
         onClick={() => setPage(page + 1)}
       >
-        <span className="w-10 h-10 iconify mdi--plus"> </span>
-        <span className="text-lg">Загрузить ещё</span>
-      </button>
+        <div className="flex items-center gap-2">
+          <span className="w-6 h-6 iconify mdi--plus-circle "></span>
+          <span className="text-lg">Загрузить ещё</span>
+        </div>
+      </Button>
     </main>
   );
 }

@@ -5,7 +5,7 @@ import { Spinner } from "#/components/Spinner/Spinner";
 import { useState, useEffect } from "react";
 import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useUserStore } from "../store/auth";
-import { Dropdown } from "flowbite-react";
+import { Dropdown, Button } from "flowbite-react";
 import { sort } from "./common";
 import { ENDPOINTS } from "#/api/config";
 
@@ -13,7 +13,9 @@ const fetcher = async (url: string) => {
   const res = await fetch(url);
 
   if (!res.ok) {
-    const error = new Error(`An error occurred while fetching the data. status: ${res.status}`);
+    const error = new Error(
+      `An error occurred while fetching the data. status: ${res.status}`
+    );
     error.message = await res.json();
     throw error;
   }
@@ -106,13 +108,16 @@ export function FavoritesPage() {
       {data &&
         data[data.length - 1].current_page <
           data[data.length - 1].total_page_count && (
-          <button
-            className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-2 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition"
+          <Button
+            className="w-full"
+            color={"light"}
             onClick={() => setSize(size + 1)}
           >
-            <span className="w-10 h-10 iconify mdi--plus"></span>
-            <span className="text-lg">Загрузить ещё</span>
-          </button>
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 iconify mdi--plus-circle "></span>
+              <span className="text-lg">Загрузить ещё</span>
+            </div>
+          </Button>
         )}
     </main>
   );

@@ -6,12 +6,15 @@ import { useState, useEffect } from "react";
 import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useUserStore } from "../store/auth";
 import { ENDPOINTS } from "#/api/config";
+import { Button } from "flowbite-react";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
 
   if (!res.ok) {
-    const error = new Error(`An error occurred while fetching the data. status: ${res.status}`);
+    const error = new Error(
+      `An error occurred while fetching the data. status: ${res.status}`
+    );
     error.message = await res.json();
     throw error;
   }
@@ -56,16 +59,25 @@ export function HistoryPage() {
   }, [scrollPosition]);
 
   return (
-    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
-      <div className="flex items-center justify-between px-4 py-2 border-b-2 border-black dark:border-white">
-        <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
-          История
-        </h1>
-      </div>
+    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-4">
       {content && content.length > 0 ? (
-        <ReleaseSection content={content} />
+        <>
+          <ReleaseSection sectionTitle="История" content={content} />
+          {data && data[0].total_count != content.length && (
+            <Button
+              className="w-full"
+              color={"light"}
+              onClick={() => setSize(size + 1)}
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 iconify mdi--plus-circle "></span>
+                <span className="text-lg">Загрузить ещё</span>
+              </div>
+            </Button>
+          )}
+        </>
       ) : !isLoadingEnd || isLoading ? (
-        <div className="flex flex-col items-center justify-center min-w-full min-h-screen">
+        <div className="flex flex-col items-center justify-center min-w-full min-h-[100dvh]">
           <Spinner />
         </div>
       ) : (
@@ -74,17 +86,6 @@ export function HistoryPage() {
           <p>В истории пока ничего нет...</p>
         </div>
       )}
-      {data &&
-        data[data.length - 1].current_page <
-          data[data.length - 1].total_page_count && (
-          <button
-            className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-2 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition"
-            onClick={() => setSize(size + 1)}
-          >
-            <span className="w-10 h-10 iconify mdi--plus"></span>
-            <span className="text-lg">Загрузить ещё</span>
-          </button>
-        )}
     </main>
   );
 }

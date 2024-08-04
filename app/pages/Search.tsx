@@ -8,12 +8,15 @@ import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useUserStore } from "../store/auth";
+import { Button } from "flowbite-react";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
 
   if (!res.ok) {
-    const error = new Error(`An error occurred while fetching the data. status: ${res.status}`);
+    const error = new Error(
+      `An error occurred while fetching the data. status: ${res.status}`
+    );
     error.message = await res.json();
     throw error;
   }
@@ -25,9 +28,9 @@ export function SearchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || null);
-  const where = searchParams.get("where") || null
-  const searchBy = searchParams.get("searchBy") || null
-  const list = searchParams.get("list") || null
+  const where = searchParams.get("where") || null;
+  const searchBy = searchParams.get("searchBy") || null;
+  const list = searchParams.get("list") || null;
 
   const token = useUserStore((state) => state.token);
 
@@ -93,7 +96,7 @@ export function SearchPage() {
           className="max-w-full mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
-            setContent(null)
+            setContent(null);
             setQuery(e.target[0].value.trim());
             router.push(`/search?q=${e.target[0].value.trim()}`);
           }}
@@ -165,13 +168,16 @@ export function SearchPage() {
         )}
       </div>
       {data && data[data.length - 1].releases.length == 25 && (
-        <button
-          className="mx-auto w-[calc(100%-10rem)] border border-black rounded-lg p-2 mb-6 flex items-center justify-center gap-2 hover:bg-black hover:text-white transition"
+        <Button
+          className="w-full"
+          color={"light"}
           onClick={() => setSize(size + 1)}
         >
-          <span className="w-10 h-10 iconify mdi--plus"> </span>
-          <span className="text-lg">Загрузить ещё</span>
-        </button>
+          <div className="flex items-center gap-2">
+            <span className="w-6 h-6 iconify mdi--plus-circle "></span>
+            <span className="text-lg">Загрузить ещё</span>
+          </div>
+        </Button>
       )}
     </main>
   );
