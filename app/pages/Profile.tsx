@@ -216,13 +216,15 @@ export const ProfilePage = (props: any) => {
                     Время просмотра
                   </Table.Cell>
                   <Table.Cell className="font-medium text-gray-900 whitespace-pre sm:whitespace-nowrap dark:text-white">
-                    {minutesToTime(user.watched_time)}
+                    {minutesToTime(user.watched_time) ||
+                      "Нет просмотренных серий."}
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row className="table-row sm:hidden">
                   <Table.Cell className="flex items-center px-0 font-medium text-gray-900 whitespace-pre sm:whitespace-nowrap dark:text-white">
                     <span className="w-4 h-4 mr-2 iconify mdi--clock "></span>
-                    {minutesToTime(user.watched_time)}
+                    {minutesToTime(user.watched_time) ||
+                      "Нет просмотренных серий."}
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row>
@@ -275,12 +277,14 @@ export const ProfilePage = (props: any) => {
           </Card>
         </div>
       </div>
-      <div className="px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-md dark:border-gray-700 dark:bg-gray-800">
-        <ReleaseCourusel
-          sectionTitle="Недавно просмотренные"
-          content={user.history}
-        />
-      </div>
+      {user.history.length > 0 && (
+        <div className="px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-md dark:border-gray-700 dark:bg-gray-800">
+          <ReleaseCourusel
+            sectionTitle="Недавно просмотренные"
+            content={user.history}
+          />
+        </div>
+      )}
     </main>
   );
 };
