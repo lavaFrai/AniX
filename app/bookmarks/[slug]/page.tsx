@@ -15,9 +15,6 @@ export async function generateMetadata({ params }) {
 }
 
 export default function Index({ params }) {
-  const metadata = {
-    title: "AniX | " + SectionTitleMapping[params.slug],
-  };
   return (
     <BookmarksCategoryPage
       slug={params.slug}
