@@ -7,6 +7,7 @@ import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useUserStore } from "../store/auth";
 import { ENDPOINTS } from "#/api/config";
 import { Button } from "flowbite-react";
+import { useRouter } from "next/navigation";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -24,7 +25,9 @@ const fetcher = async (url: string) => {
 
 export function HistoryPage() {
   const token = useUserStore((state) => state.token);
+  const authState = useUserStore((state) => state.state);
   const [isLoadingEnd, setIsLoadingEnd] = useState(false);
+  const router = useRouter();
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.content.length) return null;
@@ -57,6 +60,12 @@ export function HistoryPage() {
       setSize(size + 1);
     }
   }, [scrollPosition]);
+
+  useEffect(() => {
+    if (authState === "finished" && !token) {
+      router.push("/login");
+    }
+  }, [authState, token]);
 
   return (
     <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-4">

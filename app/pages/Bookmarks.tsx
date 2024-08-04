@@ -7,9 +7,13 @@ const fetcher = (...args: any) =>
 import { useUserStore } from "#/store/auth";
 import { BookmarksList } from "#/api/utils";
 import { ENDPOINTS } from "#/api/config";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function BookmarksPage() {
   const token = useUserStore((state) => state.token);
+  const authState = useUserStore((state) => state.state);
+  const router = useRouter();
 
   function useFetchReleases(listName: string) {
     let url: string;
@@ -28,19 +32,24 @@ export function BookmarksPage() {
   const [delayedData] = useFetchReleases("delayed");
   const [abandonedData] = useFetchReleases("abandoned");
 
+  useEffect(() => {
+    if (authState === "finished" && !token) {
+      router.push("/login");
+    }
+  }, [authState, token]);
+
   return (
     <main className="container flex flex-col pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
-      {!watchingData ||
-      !plannedData ||
-      !watchedData ||
-      !delayedData ||
-      !abandonedData ? (
-        <div className="flex items-center justify-center min-w-full min-h-screen">
-          <Spinner />
-        </div>
-      ) : (
-        ""
-      )}
+      {authState === "loading" &&
+        (!watchingData ||
+          !plannedData ||
+          !watchedData ||
+          !delayedData ||
+          !abandonedData) && (
+          <div className="flex items-center justify-center min-w-full min-h-screen">
+            <Spinner />
+          </div>
+        )}
       {watchingData &&
         watchingData.content &&
         watchingData.content.length > 0 && (

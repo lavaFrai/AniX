@@ -8,6 +8,13 @@ import { useUserStore } from "../store/auth";
 import { Dropdown, Button } from "flowbite-react";
 import { sort } from "./common";
 import { ENDPOINTS } from "#/api/config";
+import { useRouter } from "next/navigation";
+
+const DropdownTheme = {
+  floating: {
+    target: "w-fit md:min-w-[256px]",
+  },
+};
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -25,8 +32,10 @@ const fetcher = async (url: string) => {
 
 export function FavoritesPage() {
   const token = useUserStore((state) => state.token);
+  const authState = useUserStore((state) => state.state);
   const [selectedSort, setSelectedSort] = useState(0);
   const [isLoadingEnd, setIsLoadingEnd] = useState(false);
+  const router = useRouter();
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.content.length) return null;
@@ -60,12 +69,11 @@ export function FavoritesPage() {
     }
   }, [scrollPosition]);
 
-  const DropdownTheme = {
-    floating: {
-      target:
-        "w-fit bg-blue-600 enabled:hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center dark:bg-blue-600 dark:enabled:hover:bg-blue-700 dark:focus:ring-blue-800",
-    },
-  };
+  useEffect(() => {
+    if (authState === "finished" && !token) {
+      router.push("/login");
+    }
+  }, [authState, token]);
 
   return (
     <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
@@ -77,6 +85,7 @@ export function FavoritesPage() {
           label={sort.values[selectedSort].name}
           dismissOnClick={true}
           arrowIcon={false}
+          color={"blue"}
           theme={DropdownTheme}
         >
           {sort.values.map((item, index) => (
