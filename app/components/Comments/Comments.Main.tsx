@@ -37,10 +37,7 @@ export const CommentsMain = (props: {
               required
             ></textarea>
           </div>
-          <Button
-            type="submit"
-            color="blue"
-          >
+          <Button type="submit" color="blue">
             Оставить комментарий
           </Button>
         </form>
@@ -53,9 +50,11 @@ export const CommentsMain = (props: {
                 id: comment.id,
                 timestamp: comment.timestamp,
                 message: comment.message,
-                likes: comment.likes_count,
                 reply_count: comment.reply_count,
+                likes_count: comment.likes_count,
+                vote: comment.vote,
               }}
+              token={props.token}
             />
           ))}
         </div>
