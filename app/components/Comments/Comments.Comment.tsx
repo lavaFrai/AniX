@@ -2,6 +2,7 @@ import { unixToDate } from "#/api/utils";
 import { useEffect, useState } from "react";
 import { ENDPOINTS } from "#/api/config";
 import { Button } from "flowbite-react";
+import Link from "next/link";
 
 export const CommentsComment = (props: {
   profile: { login: string; avatar: string; id: number };
@@ -79,14 +80,17 @@ export const CommentsComment = (props: {
     <article className="p-6 text-sm bg-white rounded-lg sm:text-base dark:bg-gray-900">
       <footer className="flex items-center justify-between mb-2">
         <div className="flex flex-col items-start gap-1 sm:items-center sm:flex-row">
-          <p className="inline-flex items-center mr-3 text-sm font-semibold text-gray-900 dark:text-white">
+          <Link
+            href={`/profile/${props.profile.id}`}
+            className="inline-flex items-center mr-3 text-sm font-semibold text-gray-900 dark:text-white hover:underline"
+          >
             <img
               className="w-6 h-6 mr-2 rounded-full"
               src={props.profile.avatar}
-              alt={props.profile.login}
+              alt=""
             />
             {props.profile.login}
-          </p>
+          </Link>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             <time
               dateTime={props.comment.timestamp.toString()}
