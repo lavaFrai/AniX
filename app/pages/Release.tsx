@@ -96,6 +96,7 @@ export const ReleasePage = (props: any) => {
         {data.release.status.name.toLowerCase() != "анонс" && (
           <div className="[grid-column:2]">
             <ReleaseInfoRating
+              release_id={props.id}
               grade={data.release.grade}
               token={token}
               votes={{
