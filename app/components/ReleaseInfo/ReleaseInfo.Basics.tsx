@@ -27,7 +27,7 @@ export const ReleaseInfoBasics = (props: {
             </p>
           </div>
           {props.note && (
-            <div className="py-2 bg-blue-100 border-l-4 border-blue-700 rounded-md ">
+            <div className="py-2 bg-blue-100 border-l-4 border-blue-700 rounded-tr-md rounded-br-md dark:bg-blue-900">
               <div id="note" className="ml-2"></div>
             </div>
           )}
