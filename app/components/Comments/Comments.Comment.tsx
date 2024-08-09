@@ -64,14 +64,12 @@ export const CommentsComment = (props: {
       setLikes(likes - 2);
       _sendVote(1);
     } else {
+      _sendVote(vote);
       setVote(0);
-      _sendVote(0);
       if (action === "dislike" && vote == 1) {
         setLikes(likes + 1);
       } else if (action === "like" && vote == 2) {
         setLikes(likes - 1);
-      } else {
-        setLikes(props.comment.likes_count);
       }
     }
   }

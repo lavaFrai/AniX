@@ -1,7 +1,7 @@
 export const API_URL = "https://api.anixart.tv";
 export const API_PREFIX = "/api";
 export const USER_AGENT =
-  "AnixartApp/8.2.1-23121216 (Android 11; SDK 30; arm64-v8a;)";
+  "AnixartApp/8.2.1-23121216 (Android 9; SDK 28; arm64-v8a; samsung SM-G975N; en)";
 
 export const ENDPOINTS = {
   release: {
