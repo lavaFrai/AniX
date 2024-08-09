@@ -13,6 +13,10 @@ export const CommentsComment = (props: {
     reply_count: number;
     likes_count: number;
     vote: number;
+    isSpoiler: boolean;
+    isEdited: boolean;
+    isDeleted: boolean;
+    can_like: boolean;
   };
   isSubComment?: boolean;
   token: string | null;
@@ -20,6 +24,9 @@ export const CommentsComment = (props: {
   const [replies, setReplies] = useState([]);
   const [likes, setLikes] = useState(props.comment.likes_count);
   const [vote, setVote] = useState(props.comment.vote);
+  const [isHidden, setIsHidden] = useState(
+    props.comment.isSpoiler || props.comment.likes_count < -5
+  );
 
   useEffect(() => {
     async function _fetchReplies() {
@@ -99,10 +106,33 @@ export const CommentsComment = (props: {
           </p>
         </div>
       </footer>
-      <p className="text-gray-500 whitespace-pre-wrap dark:text-gray-400">
-        {props.comment.message}
-      </p>
-      <div className="flex items-center justify-between mt-4 space-x-4">
+      <div className="relative flex items-center py-2">
+        <p className="text-gray-500 whitespace-pre-wrap dark:text-gray-400">
+          {!props.comment.isDeleted
+            ? props.comment.message
+            : "Комментарий был удалён."}
+        </p>
+        {isHidden && (
+          <button
+            className="absolute top-0 bottom-0 left-0 right-0"
+            onClick={() => setIsHidden(false)}
+          >
+            <div className="min-w-full min-h-full px-2 py-1.5 rounded-md bg-black text-white bg-opacity-50 backdrop-blur-[8px] flex flex-col justify-center items-center">
+              <p>
+                {props.comment.likes_count < -5
+                  ? "У комментария слишком низкий рейтинг."
+                  : "Данный комментарий может содержать спойлер."}
+              </p>
+              <p className="font-bold">Нажмите, чтобы прочитать</p>
+            </div>
+          </button>
+        )}
+      </div>
+      <div
+        className={`flex items-center justify-between space-x-4 ${
+          isHidden ? "mt-4" : ""
+        }`}
+      >
         <button
           type="button"
           className="flex items-center text-sm font-medium text-gray-500 hover:underline dark:text-gray-400"
@@ -182,8 +212,11 @@ export const CommentsComment = (props: {
               reply_count: comment.reply_count,
               likes_count: comment.likes_count,
               vote: comment.vote,
+              isSpoiler: comment.is_spoiler,
+              isEdited: comment.is_edited,
+              isDeleted: comment.is_deleted,
+              can_like: comment.can_like,
             }}
-            isSubComment={true}
             token={props.token}
           />
         ))}
