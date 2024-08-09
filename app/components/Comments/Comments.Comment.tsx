@@ -1,4 +1,4 @@
-import { unixToDate } from "#/api/utils";
+import { unixToDate, sinceUnixDate } from "#/api/utils";
 import { useEffect, useState } from "react";
 import { ENDPOINTS } from "#/api/config";
 import { Button } from "flowbite-react";
@@ -101,7 +101,7 @@ export const CommentsComment = (props: {
               dateTime={props.comment.timestamp.toString()}
               title={unixToDate(props.comment.timestamp, "full")}
             >
-              {unixToDate(props.comment.timestamp)}
+              {sinceUnixDate(props.comment.timestamp)}
             </time>
           </p>
         </div>
