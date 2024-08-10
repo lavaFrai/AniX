@@ -16,7 +16,6 @@ export const CommentsComment = (props: {
     isSpoiler: boolean;
     isEdited: boolean;
     isDeleted: boolean;
-    can_like: boolean;
   };
   isSubComment?: boolean;
   token: string | null;
@@ -82,7 +81,7 @@ export const CommentsComment = (props: {
   }
 
   return (
-    <article className="p-6 text-sm bg-white rounded-lg sm:text-base dark:bg-gray-900">
+    <article className={`${!props.isSubComment ? "p-6" : "pt-4"} text-sm bg-gray-100 rounded-lg sm:text-base dark:bg-gray-900`}>
       <footer className="flex items-center justify-between mb-2">
         <div className="flex flex-col items-start gap-1 sm:items-center sm:flex-row">
           <Link
@@ -107,7 +106,7 @@ export const CommentsComment = (props: {
         </div>
       </footer>
       <div className="relative flex items-center py-2">
-        <p className="text-gray-500 whitespace-pre-wrap dark:text-gray-400">
+        <p className="text-gray-800 whitespace-pre-wrap dark:text-gray-400">
           {!props.comment.isDeleted
             ? props.comment.message
             : "Комментарий был удалён."}
@@ -215,8 +214,8 @@ export const CommentsComment = (props: {
               isSpoiler: comment.is_spoiler,
               isEdited: comment.is_edited,
               isDeleted: comment.is_deleted,
-              can_like: comment.can_like,
             }}
+            isSubComment={true}
             token={props.token}
           />
         ))}

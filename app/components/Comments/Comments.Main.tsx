@@ -64,7 +64,6 @@ export const CommentsMain = (props: {
                   isSpoiler: comment.is_spoiler,
                   isEdited: comment.is_edited,
                   isDeleted: comment.is_deleted,
-                  can_like: comment.can_like,
                 }}
                 token={props.token}
               />
@@ -188,7 +187,6 @@ const CommentsAllModal = (props: {
                 isSpoiler: comment.is_spoiler,
                 isEdited: comment.is_edited,
                 isDeleted: comment.is_deleted,
-                can_like: comment.can_like,
               }}
               token={props.token}
             />
