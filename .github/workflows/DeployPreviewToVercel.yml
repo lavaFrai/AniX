@@ -7,6 +7,9 @@ on:
     # Pattern matched against refs/tags
     branches:
       - 'V3'
+    paths-ignore:
+      - '**/README.md'
+      - '**/TODO.md'
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest

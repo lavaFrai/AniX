@@ -7,6 +7,9 @@ on:
     # Pattern matched against refs/tags
     tags:
       - '*' # Push events to every tag not containing /
+    paths-ignore:
+      - '**/README.md'
+      - '**/TODO.md'
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
