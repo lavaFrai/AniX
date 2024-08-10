@@ -3,6 +3,7 @@ import { CommentsComment } from "./Comments.Comment";
 import { useState, useEffect, useCallback } from "react";
 import { ENDPOINTS } from "#/api/config";
 import useSWRInfinite from "swr/infinite";
+import { CommentsAddModal } from "./Comments.Add";
 
 export const CommentsMain = (props: {
   release_id: number;
@@ -10,6 +11,8 @@ export const CommentsMain = (props: {
   comments: any;
 }) => {
   const [isAllCommentsOpen, setIsAllCommentsOpen] = useState(false);
+  const [isAddCommentsOpen, setIsAddCommentsOpen] = useState(false);
+
   return (
     <>
       <Card className="antialiased">
@@ -23,36 +26,22 @@ export const CommentsMain = (props: {
                 Популярные и актуальные
               </p>
             </div>
-            <Button
-              onClick={() => setIsAllCommentsOpen(true)}
-              color="light"
-              pill={true}
-              size={"sm"}
-            >
-              Показать все
-            </Button>
-          </div>
-          <form className="mb-6">
-            <div className="px-4 py-2 mb-4 bg-white border border-gray-200 rounded-lg rounded-t-lg dark:bg-gray-800 dark:border-gray-700">
-              <label htmlFor="comment" className="sr-only">
-                Ваш комментарий
-              </label>
-              <textarea
-                id="comment"
-                rows={4}
-                className="w-full px-0 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
-                placeholder="Написать комментарий..."
-                required
-              ></textarea>
+            <div className="flex items-end gap-2">
+              {props.token && (
+                <Button onClick={() => setIsAddCommentsOpen(true)} color="blue">
+                  Оставить комментарий
+                </Button>
+              )}
+              <Button onClick={() => setIsAllCommentsOpen(true)} color="light">
+                Показать все
+              </Button>
             </div>
-            <Button type="submit" color="blue">
-              Оставить комментарий
-            </Button>
-          </form>
+          </div>
           <div className="flex flex-col gap-2">
             {props.comments.map((comment: any) => (
               <CommentsComment
                 key={comment.id}
+                release_id={props.release_id}
                 profile={comment.profile}
                 comment={{
                   id: comment.id,
@@ -77,6 +66,12 @@ export const CommentsMain = (props: {
         release_id={props.release_id}
         token={props.token}
       />
+      <CommentsAddModal
+        isOpen={isAddCommentsOpen}
+        setIsOpen={setIsAddCommentsOpen}
+        release_id={props.release_id}
+        token={props.token}
+        />
     </>
   );
 };
@@ -143,7 +138,6 @@ const CommentsAllModal = (props: {
   }
 
   useEffect(() => {
-    console.log(scrollPosition);
     if (scrollPosition >= 95 && scrollPosition <= 96) {
       setSize(size + 1);
     }
@@ -160,7 +154,7 @@ const CommentsAllModal = (props: {
           <h2 className="text-lg font-bold text-gray-900 lg:text-2xl dark:text-white">
             Все комментарии
           </h2>
-          <p className="text-sm font-bold text-gray-600 dark:text-gray-300">
+          <p className="text-sm font-light text-gray-600 dark:text-gray-300">
             всего: {!isLoadingEnd ? "загрузка..." : data[0].total_count}
           </p>
         </div>
@@ -175,6 +169,7 @@ const CommentsAllModal = (props: {
         ) : content ? (
           content.map((comment: any) => (
             <CommentsComment
+              release_id={props.release_id}
               key={comment.id}
               profile={comment.profile}
               comment={{
@@ -189,7 +184,7 @@ const CommentsAllModal = (props: {
                 isDeleted: comment.is_deleted,
               }}
               token={props.token}
-            />
+              />
           ))
         ) : (
           <p className="text-sm font-bold text-gray-600 dark:text-gray-300">
@@ -197,7 +192,6 @@ const CommentsAllModal = (props: {
           </p>
         )}
       </div>
-      {/* <Modal.Footer>TEXT</Modal.Footer> */}
     </Modal>
   );
 };
