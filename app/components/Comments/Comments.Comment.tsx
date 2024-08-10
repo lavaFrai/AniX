@@ -1,9 +1,11 @@
 import { unixToDate, sinceUnixDate } from "#/api/utils";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { ENDPOINTS } from "#/api/config";
-import { Button } from "flowbite-react";
+import { Button, Dropdown } from "flowbite-react";
 import Link from "next/link";
 import { CommentsAddModal } from "./Comments.Add";
+import { CommentsEditModal } from "./Comments.Edit";
+import { useUserStore } from "#/store/auth";
 
 export const CommentsComment = (props: {
   release_id: number;
@@ -30,10 +32,12 @@ export const CommentsComment = (props: {
   const [likes, setLikes] = useState(props.comment.likes_count);
   const [vote, setVote] = useState(props.comment.vote);
   const [isAddCommentsOpen, setIsAddCommentsOpen] = useState(false);
+  const [isEditCommentsOpen, setIsEditCommentsOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(
     !props.isReplying &&
       (props.comment.isSpoiler || props.comment.likes_count < -5)
   );
+  const user: any = useUserStore((state) => state.user);
 
   const [shouldRender, setShouldRender] = useState(true);
   const [commentSend, setCommentSend] = useState(false);
@@ -41,6 +45,18 @@ export const CommentsComment = (props: {
   let parentCommentId: number | null = null;
   if (props.parentComment) {
     parentCommentId = props.parentComment.id;
+  }
+
+  async function _deleteComment() {
+    if (props.token) {
+      let url = `${ENDPOINTS.release.info}/comment/delete/${props.comment.id}?token=${props.token}`;
+      await fetch(url);
+
+      if (props.setShouldRender && props.setCommentSend) {
+        props.setShouldRender(true);
+        props.setCommentSend(true);
+      }
+    }
   }
 
   useEffect(() => {
@@ -135,6 +151,20 @@ export const CommentsComment = (props: {
               </time>
             </p>
           </div>
+          {user && props.profile.id == user.id && (
+            <Dropdown
+              label=""
+              dismissOnClick={false}
+              renderTrigger={() => (
+                <span className="w-6 h-6 bg-gray-400 iconify mdi--more-horiz hover:bg-gray-800 active:bg-gray-800"></span>
+              )}
+            >
+              <Dropdown.Item onClick={() => setIsEditCommentsOpen(true)}>
+                Редактировать
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => _deleteComment()}>Удалить</Dropdown.Item>
+            </Dropdown>
+          )}
         </footer>
         <div className="relative flex items-center py-2">
           <p className="text-gray-800 whitespace-pre-wrap dark:text-gray-400">
@@ -266,11 +296,21 @@ export const CommentsComment = (props: {
         release_id={props.release_id}
         token={props.token}
         isReply={true}
-        parentComment={props.comment}
+        parentComment={props.parentComment || props.comment}
         parentProfile={props.profile}
         setShouldRender={props.setShouldRender || setShouldRender}
         setCommentSend={props.setCommentSend || setCommentSend}
       />
+      {props.token && (
+        <CommentsEditModal
+          isOpen={isEditCommentsOpen}
+          setIsOpen={setIsEditCommentsOpen}
+          token={props.token}
+          parentComment={props.comment}
+          setShouldRender={props.setShouldRender || setShouldRender}
+          setCommentSend={props.setCommentSend || setCommentSend}
+        />
+      )}
     </>
   );
 };
