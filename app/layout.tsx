@@ -15,16 +15,9 @@ export const metadata = {
   },
   description: "Неофициальное приложение для anixart.tv",
   openGraph: {
-    url: process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : `http://localhost:${process.env.PORT || 3000}`,
     images: [
       {
-        url: `${
-          process.env.VERCEL_URL
-            ? "https://" + process.env.VERCEL_URL
-            : "http://localhost:" + process.env.PORT || 3000
-        }/opengraph.png`, // Must be an absolute URL
+        url: "/opengraph.png", // Must be an absolute URL
         width: 800,
         height: 600,
       },
