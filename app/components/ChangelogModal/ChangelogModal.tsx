@@ -1,4 +1,6 @@
-import { Modal, Button, Accordion } from "flowbite-react";
+"use client";
+
+import { Modal, Accordion } from "flowbite-react";
 import Markdown from "markdown-to-jsx";
 import { useEffect, useState } from "react";
 import Styles from "./ChangelogModal.module.css";
@@ -20,7 +22,7 @@ export const ChangelogModal = (props: {
   >({});
 
   useEffect(() => {
-    if (props.version) {
+    if (props.version != "") {
       _fetchVersionChangelog(props.version).then((data) => {
         setCurrentVersionChangelog(data);
       });
