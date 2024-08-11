@@ -1,16 +1,18 @@
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { deepmerge } from "deepmerge-ts";
 
 interface preferencesState {
   _hasHydrated: boolean;
   flags: {
     // saveSearchHistory: boolean;
-    saveWatchHistory: boolean;
-    // theme: "light" | "dark" | "black" | "system";
+    saveWatchHistory?: boolean;
+    showChangelog?: boolean;
   };
   params: {
-    isFirstLaunch: boolean;
+    isFirstLaunch?: boolean;
+    version?: string;
     // color: {
     //   primary: string;
     //   secondary: string;
@@ -29,10 +31,11 @@ export const usePreferencesStore = create<preferencesState>()(
       flags: {
         // saveSearchHistory: true,
         saveWatchHistory: true,
-        // theme: "light",
+        showChangelog: true,
       },
       params: {
         isFirstLaunch: true,
+        version: "3.0.0",
       },
       setHasHydrated: (state) => {
         set({
@@ -40,10 +43,10 @@ export const usePreferencesStore = create<preferencesState>()(
         });
       },
       setFlags(flags) {
-        set({ flags });
+        set({ flags: { ...get().flags, ...flags } });
       },
       setParams(params) {
-        set({ params });
+        set({ params: { ...get().params, ...params } });
       },
     }),
     {
@@ -51,6 +54,9 @@ export const usePreferencesStore = create<preferencesState>()(
       onRehydrateStorage: (state) => {
         return () => state.setHasHydrated(true);
       },
+      merge: (persistedState , currentState) => {
+        return deepmerge(currentState as preferencesState, persistedState as preferencesState);
+      }
     }
   )
 );

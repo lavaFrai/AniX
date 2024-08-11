@@ -6,15 +6,34 @@ import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "flowbite-react";
 import { Spinner } from "./components/Spinner/Spinner";
+import { ChangelogModal } from "#/components/ChangelogModal/ChangelogModal";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const App = (props) => {
   const preferencesStore = usePreferencesStore();
   const userStore = useUserStore((state) => state);
+  const [showChangelog, setShowChangelog] = useState(false);
+  const [currentVersion, setCurrentVersion] = useState("");
+  const [previousVersions, setPreviousVersions] = useState([]);
 
+  async function _checkVersion() {
+    const res = await fetch("/api/version");
+    const data = await res.json();
+
+    if (data.version !== preferencesStore.params.version) {
+      setShowChangelog(true);
+      setCurrentVersion(data.version);
+      setPreviousVersions(data.previous);
+    }
+    console.log(data.version, preferencesStore.params.version);
+  }
   useEffect(() => {
-    userStore.checkAuth();
-  }, []);
+    if (preferencesStore._hasHydrated) {
+      _checkVersion();
+      userStore.checkAuth();
+    }
+  }, [preferencesStore._hasHydrated]);
 
   if (!preferencesStore._hasHydrated && !userStore._hasHydrated) {
     return (
@@ -42,7 +61,19 @@ export const App = (props) => {
     >
       <Navbar />
       {props.children}
-      <Modal show={preferencesStore.params.isFirstLaunch}>
+      <ChangelogModal
+        isOpen={showChangelog && preferencesStore.flags.showChangelog}
+        setIsOpen={() => {
+          setShowChangelog(false);
+          preferencesStore.setParams({ version: currentVersion });
+        }}
+        version={currentVersion}
+        previousVersions={previousVersions}
+      />
+      <Modal
+        show={preferencesStore.params.isFirstLaunch}
+        onClose={() => preferencesStore.setParams({ isFirstLaunch: false })}
+      >
         <Modal.Header>Внимание</Modal.Header>
         <Modal.Body>
           <p>
@@ -61,9 +92,7 @@ export const App = (props) => {
         <Modal.Footer>
           <Button
             color={"blue"}
-            onClick={() => {
-              preferencesStore.setParams({ isFirstLaunch: false });
-            }}
+            onClick={() => preferencesStore.setParams({ isFirstLaunch: false })}
           >
             Принимаю
           </Button>

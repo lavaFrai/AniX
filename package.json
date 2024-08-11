@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "deepmerge-ts": "^7.1.0",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",
+    "markdown-to-jsx": "^7.4.7",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
@@ -26,6 +28,7 @@
     "@iconify/tailwind": "^1.1.1",
     "@types/node": "20.14.12",
     "@types/react": "18.3.3",
+    "copy-webpack-plugin": "^12.0.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
