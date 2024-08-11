@@ -26,7 +26,6 @@ export const App = (props) => {
       setCurrentVersion(data.version);
       setPreviousVersions(data.previous);
     }
-    console.log(data.version, preferencesStore.params.version);
   }
   useEffect(() => {
     if (preferencesStore._hasHydrated) {

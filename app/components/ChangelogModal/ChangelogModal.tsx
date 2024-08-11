@@ -20,9 +20,11 @@ export const ChangelogModal = (props: {
   >({});
 
   useEffect(() => {
-    _fetchVersionChangelog(props.version).then((data) => {
-      setCurrentVersionChangelog(data);
-    });
+    if (props.version) {
+      _fetchVersionChangelog(props.version).then((data) => {
+        setCurrentVersionChangelog(data);
+      });
+    }
 
     if (props.previousVersions.length > 0) {
       props.previousVersions.forEach((version) => {
@@ -36,7 +38,7 @@ export const ChangelogModal = (props: {
         });
       });
     }
-  }, [props.isOpen]);
+  }, []);
 
   return (
     <Modal
