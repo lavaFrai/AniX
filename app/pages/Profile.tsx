@@ -73,52 +73,69 @@ export const ProfilePage = (props: any) => {
     },
   ];
 
+  const hasChips = user.is_verified || user.is_blocked || isMyProfile;
+
   return (
-    <main className="container flex flex-col gap-4 px-4 pt-4 pb-32 mx-auto overflow-hidden sm:pb-4">
+    <main className="container flex flex-col gap-4 pt-4 px-4 pb-32 mx-auto overflow-hidden sm:pb-4">
+      {user.is_banned && (
+        <div className="flex flex-col justify-between w-full rounded-md p-4 border border-red-200 md:flex-row bg-red-50 dark:bg-red-700 dark:border-red-600">
+          <div className="mb-4 md:mb-0 md:me-4">
+            <h2 className="mb-1 text-base font-semibold text-gray-900 dark:text-white">
+              Пользователь был заблокирован администрацией до{" "}
+              {unixToDate(user.ban_expires)}
+            </h2>
+            <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-200">
+              {user.ban_reason}
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col gap-4">
         <Card className="max-w-full">
-          <div className="flex gap-2">
-            {isMyProfile && <Chip bg_color="bg-blue-500" name="Мой профиль" />}
-            {user.is_banned && (
-              <Chip bg_color="bg-red-500" name="Заблокирован" />
-            )}
-            {user.is_verified && (
-              <Chip bg_color="bg-green-500" name="Подтвержден" />
-            )}
-          </div>
+          {hasChips && (
+            <div className="flex gap-2 overflow-x-auto scrollbar-thin">
+              {isMyProfile && (
+                <Chip bg_color="bg-blue-500" name="Мой профиль" />
+              )}
+              {user.is_blocked && (
+                <Chip bg_color="bg-red-500" name="Заблокирован вами" />
+              )}
+              {user.is_verified && (
+                <Chip bg_color="bg-green-500" name="Подтверждён" />
+              )}
+            </div>
+          )}
           <Avatar
             img={user.avatar}
             rounded={true}
             bordered={true}
             size="lg"
-            className="justify-start"
+            className="justify-start flex-col sm:flex-row space-x-0 sm:space-x-4"
           >
-            <div className="space-y-1 font-medium dark:text-white">
+            <div className="mt-2 sm:mt-0 space-y-1 font-medium dark:text-white">
               <div className="text-xl">{user.login}</div>
-              <div className="text-sm text-gray-500 whitespace-pre dark:text-gray-400 max-w-64">
+              <p className="text-sm text-gray-500 dark:text-gray-400 max-w-full sm:max-w-96 whitespace-pre-wrap">
                 {user.status}
-              </div>
+              </p>
             </div>
           </Avatar>
           {hasSocials && (
-            <Button.Group
-              outline={true}
-              className="overflow-x-auto scrollbar-thin"
-            >
+            <div className="overflow-x-auto scrollbar-thin flex gap-1">
               {socials
                 .filter((social: any) => {
-                  if (!social.nickname) {
+                  if (social.nickname == "") {
                     return false;
                   }
                   return true;
                 })
                 .map((social: any) => {
-                  if (social.name == "discord")
+                  if (social.name == "discord" && social.nickname != "")
                     return (
                       <Button color="light" key={social.name} as="a">
                         <div className="flex items-center justify-center gap-2">
                           <span
-                            className={`iconify-color h-4 w-4 sm:h-6 sm:w-6 ${social.icon}`}
+                            className={`iconify h-4 w-4 sm:h-6 sm:w-6 ${social.icon} dark:fill-white`}
                           ></span>
                           {social.nickname}
                         </div>
@@ -133,14 +150,14 @@ export const ProfilePage = (props: any) => {
                     >
                       <div className="flex items-center justify-center gap-2">
                         <span
-                          className={`iconify-color h-4 w-4 sm:h-6 sm:w-6 ${social.icon}`}
+                          className={`iconify h-4 w-4 sm:h-6 sm:w-6 ${social.icon} dark:fill-white`}
                         ></span>
                         {social.nickname}
                       </div>
                     </Button>
                   );
                 })}
-            </Button.Group>
+            </div>
           )}
         </Card>
         <div className="flex flex-wrap gap-4">
