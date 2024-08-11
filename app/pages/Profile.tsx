@@ -85,10 +85,6 @@ export const ProfilePage = (props: any) => {
             {user.is_verified && (
               <Chip bg_color="bg-green-500" name="Подтвержден" />
             )}
-            {/* {user.is_banned && <Chip bg_color="bg-red-500" name="Заблокирован" />} */}
-
-            {/* <Chip bg="bg-blue-500" name={`Зарегистрирован: ${unixToDate(user.register_date)}`} /> */}
-            {/* <Chip bg="bg-blue-500" name={`Последний вход: ${unixToDate(user.last_activity_time)}`} /> */}
           </div>
           <Avatar
             img={user.avatar}
@@ -99,7 +95,7 @@ export const ProfilePage = (props: any) => {
           >
             <div className="space-y-1 font-medium dark:text-white">
               <div className="text-xl">{user.login}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 max-w-64">
+              <div className="text-sm text-gray-500 whitespace-pre dark:text-gray-400 max-w-64">
                 {user.status}
               </div>
             </div>
@@ -107,13 +103,34 @@ export const ProfilePage = (props: any) => {
           {hasSocials && (
             <Button.Group
               outline={true}
-              className="overflow-x-scroll scrollbar-none"
+              className="overflow-x-auto scrollbar-thin"
             >
-              {socials.map((social) => {
-                if (!social.nickname) return null;
-                if (social.name == "discord")
+              {socials
+                .filter((social: any) => {
+                  if (!social.nickname) {
+                    return false;
+                  }
+                  return true;
+                })
+                .map((social: any) => {
+                  if (social.name == "discord")
+                    return (
+                      <Button color="light" key={social.name} as="a">
+                        <div className="flex items-center justify-center gap-2">
+                          <span
+                            className={`iconify-color h-4 w-4 sm:h-6 sm:w-6 ${social.icon}`}
+                          ></span>
+                          {social.nickname}
+                        </div>
+                      </Button>
+                    );
                   return (
-                    <Button color="light" key={social.name} as="a">
+                    <Button
+                      color="light"
+                      key={social.name}
+                      href={`${social.urlPrefix}/${social.nickname}`}
+                      className="[&:is(a)]:hover:bg-gray-100"
+                    >
                       <div className="flex items-center justify-center gap-2">
                         <span
                           className={`iconify-color h-4 w-4 sm:h-6 sm:w-6 ${social.icon}`}
@@ -122,22 +139,7 @@ export const ProfilePage = (props: any) => {
                       </div>
                     </Button>
                   );
-                return (
-                  <Button
-                    color="light"
-                    key={social.name}
-                    href={`${social.urlPrefix}/${social.nickname}`}
-                    className="[&:is(a)]:hover:bg-gray-100"
-                  >
-                    <div className="flex items-center justify-center gap-2">
-                      <span
-                        className={`iconify-color h-4 w-4 sm:h-6 sm:w-6 ${social.icon}`}
-                      ></span>
-                      {social.nickname}
-                    </div>
-                  </Button>
-                );
-              })}
+                })}
             </Button.Group>
           )}
         </Card>
