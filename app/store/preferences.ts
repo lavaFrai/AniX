@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface preferencesState {
+  _hasHydrated: boolean;
   flags: {
     // saveSearchHistory: boolean;
     saveWatchHistory: boolean;
@@ -16,6 +17,7 @@ interface preferencesState {
     //   accent: string;
     // }
   };
+  setHasHydrated: (state: boolean) => void;
   setFlags: (flags: preferencesState["flags"]) => void;
   setParams: (params: preferencesState["params"]) => void;
 }
@@ -23,6 +25,7 @@ interface preferencesState {
 export const usePreferencesStore = create<preferencesState>()(
   persist(
     (set, get) => ({
+      _hasHydrated: false,
       flags: {
         // saveSearchHistory: true,
         saveWatchHistory: true,
@@ -30,6 +33,11 @@ export const usePreferencesStore = create<preferencesState>()(
       },
       params: {
         isFirstLaunch: true,
+      },
+      setHasHydrated: (state) => {
+        set({
+          _hasHydrated: state,
+        });
       },
       setFlags(flags) {
         set({ flags });
@@ -40,6 +48,9 @@ export const usePreferencesStore = create<preferencesState>()(
     }),
     {
       name: "preferences",
+      onRehydrateStorage: (state) => {
+        return () => state.setHasHydrated(true);
+      },
     }
   )
 );
