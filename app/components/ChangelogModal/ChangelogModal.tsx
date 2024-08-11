@@ -5,11 +5,6 @@ import Markdown from "markdown-to-jsx";
 import { useEffect, useState } from "react";
 import Styles from "./ChangelogModal.module.css";
 
-async function _fetchVersionChangelog(version: string) {
-  const res = await fetch(`/changelog/${version}.md`);
-  return await res.text();
-}
-
 export const ChangelogModal = (props: {
   isOpen: boolean;
   setIsOpen: any;
@@ -21,8 +16,13 @@ export const ChangelogModal = (props: {
     Record<string, string>
   >({});
 
+  async function _fetchVersionChangelog(version: string) {
+    const res = await fetch(`/changelog/${version}.md`);
+    return await res.text();
+  }
+
   useEffect(() => {
-    if (props.version != "") {
+    if (props.version != "" && currentVersionChangelog == "") {
       _fetchVersionChangelog(props.version).then((data) => {
         setCurrentVersionChangelog(data);
       });
@@ -40,13 +40,10 @@ export const ChangelogModal = (props: {
         });
       });
     }
-  }, []);
+  }, [props.version]);
 
   return (
-    <Modal
-      show={props.isOpen}
-      onClose={() => props.setIsOpen(false)}
-    >
+    <Modal show={props.isOpen} onClose={() => props.setIsOpen(false)}>
       <Modal.Header>Список изменений v{props.version}</Modal.Header>
       <Modal.Body>
         <Markdown className={Styles.markdown}>
