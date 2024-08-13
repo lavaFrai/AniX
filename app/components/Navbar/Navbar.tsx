@@ -56,6 +56,15 @@ export const Navbar = () => {
     },
     {
       id: 5,
+      icon: "material-symbols--collections-bookmark-outline",
+      iconActive: "material-symbols--collections-bookmark",
+      title: "Коллекции",
+      href: "/collections",
+      withAuthOnly: true,
+      mobileMenu: true,
+    },
+    {
+      id: 6,
       icon: "material-symbols--history",
       iconActive: "material-symbols--history",
       title: "История",
