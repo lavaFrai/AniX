@@ -5,7 +5,7 @@ import { getJWT, removeJWT, fetchDataViaGet } from "#/api/utils";
 interface userState {
   _hasHydrated: boolean;
   isAuth: boolean;
-  user: Object | null;
+  user: any | null;
   token: string | null;
   state: string;
   login: (user: Object, token: string) => void;

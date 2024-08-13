@@ -57,6 +57,13 @@ export const CollectionCourusel = (props: {
       <div className="m-4">
         <div className="swiper">
           <div className="swiper-wrapper">
+            {props.isMyCollections && (
+              <div className="swiper-slide" style={{ width: "fit-content" }}>
+                <div className="xl:w-[600px] sm:w-[400px] w-[80vw] aspect-video">
+                  <AddCollectionLink />
+                </div>
+              </div>
+            )}
             {props.content.map((collection) => {
               return (
                 <div
@@ -70,13 +77,6 @@ export const CollectionCourusel = (props: {
                 </div>
               );
             })}
-            {props.isMyCollections && (
-              <div className="swiper-slide" style={{ width: "fit-content" }}>
-                <div className="xl:w-[600px] sm:w-[400px] w-[80vw] aspect-video">
-                  <AddCollectionLink />
-                </div>
-              </div>
-            )}
           </div>
           <div
             className={`swiper-button-prev ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-left aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`}
