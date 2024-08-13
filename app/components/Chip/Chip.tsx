@@ -14,9 +14,13 @@ export const Chip = (props: {
     >
       {props.icon_name && (
         <span
-          className={`iconify w-6 h-6 ${props.icon_name} fill-${
-            props.icon_color || "white"
-          }`}
+          className={`iconify w-4 h-4 sm:w-6 sm:h-6 ${props.icon_name}`}
+          style={
+            {
+              "color": "var(--icon-color)",
+              "--icon-color": props.icon_color || "#fff",
+            } as React.CSSProperties
+          }
         ></span>
       )}
       <p className="text-xs text-white xl:text-base">
