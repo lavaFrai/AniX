@@ -68,7 +68,7 @@ export const Navbar = () => {
   return (
     <>
       <header className="fixed bottom-0 left-0 z-50 w-full text-white bg-black sm:sticky sm:top-0">
-        <div className="container flex items-center justify-between px-4 py-4 mx-auto">
+        <div className="container flex items-center justify-center gap-4 px-4 py-4 mx-auto md:justify-between md:gap-0">
           <nav className="flex gap-4">
             {navLinks.map((link) => {
               return (
@@ -91,7 +91,7 @@ export const Navbar = () => {
                   <span
                     className={`${
                       pathname == link.href ? "font-bold" : ""
-                    } text-xs sm:text-base`}
+                    } text-sm sm:text-base`}
                   >
                     {link.title}
                   </span>
@@ -100,7 +100,7 @@ export const Navbar = () => {
             })}
           </nav>
           {userStore.isAuth ? (
-            <div className="flex flex-col items-center justify-center gap-1 text-xs sm:flex-row sm:text-base">
+            <div className="flex flex-col items-center justify-end text-sm sm:gap-1 sm:justify-center sm:flex-row sm:text-base">
               <img
                 src={userStore.user.avatar}
                 alt=""
@@ -113,6 +113,9 @@ export const Navbar = () => {
                 theme={{
                   arrowIcon:
                     "ml-1 w-4 h-4 [transform:rotateX(180deg)] sm:transform-none",
+                  floating: {
+                    target: "text-sm sm:text-base",
+                  },
                 }}
               >
                 <Dropdown.Item className="text-sm md:text-base">
@@ -125,7 +128,7 @@ export const Navbar = () => {
                         pathname == `/profile/${userStore.user.id}`
                           ? "font-bold mdi--user"
                           : "mdi--user-outline"
-                      } w-4 h-4 sm:w-6 sm:h-6`}
+                      } w-6 h-6`}
                     ></span>
                     <span>Профиль</span>
                   </Link>
@@ -145,7 +148,7 @@ export const Navbar = () => {
                         <span
                           className={`iconify ${
                             pathname == link.href ? link.iconActive : link.icon
-                          } w-4 h-4 sm:w-6 sm:h-6`}
+                          } w-6 h-6`}
                         ></span>
                         <span
                           className={`${
@@ -165,7 +168,7 @@ export const Navbar = () => {
                   className="flex items-center gap-1 text-sm md:text-base"
                 >
                   <span
-                    className={`iconify material-symbols--settings-outline-rounded w-4 h-4 sm:w-6 sm:h-6`}
+                    className={`iconify material-symbols--settings-outline-rounded w-6 h-6`}
                   ></span>
                   <span>Настройки</span>
                 </Dropdown.Item>
@@ -176,7 +179,7 @@ export const Navbar = () => {
                   className="flex items-center gap-1 text-sm md:text-base"
                 >
                   <span
-                    className={`iconify material-symbols--logout-rounded w-4 h-4 sm:w-6 sm:h-6`}
+                    className={`iconify material-symbols--logout-rounded w-6 h-6`}
                   ></span>
                   <span>Выйти</span>
                 </Dropdown.Item>
@@ -184,7 +187,13 @@ export const Navbar = () => {
             </div>
           ) : (
             <Dropdown
-              label="Меню"
+              label=""
+              renderTrigger={() => (
+                <div className="flex flex-col items-center text-sm md:text-base">
+                  <span className="w-6 h-6 iconify mdi--menu"></span>
+                  <span>Меню</span>
+                </div>
+              )}
               inline={true}
               dismissOnClick={true}
               theme={{
@@ -200,7 +209,7 @@ export const Navbar = () => {
                   className="flex items-center gap-1"
                 >
                   <span
-                    className={`w-4 h-4 sm:w-6 sm:h-6 iconify ${
+                    className={`w-6 h-6 sm:w-6 sm:h-6 iconify ${
                       pathname == "/login"
                         ? "mdi--user-circle"
                         : "mdi--user-circle-outline"
@@ -209,7 +218,7 @@ export const Navbar = () => {
                   <span
                     className={`${
                       pathname == "/login" ? "font-bold" : ""
-                    } text-xs sm:text-base`}
+                    } text-sm sm:text-base`}
                   >
                     Войти
                   </span>
@@ -222,7 +231,7 @@ export const Navbar = () => {
                 className="flex items-center gap-1 text-sm md:text-base"
               >
                 <span
-                  className={`iconify material-symbols--settings-outline-rounded w-4 h-4 sm:w-6 sm:h-6`}
+                  className={`iconify material-symbols--settings-outline-rounded w-6 h-6 sm:w-6 sm:h-6`}
                 ></span>
                 <span>Настройки</span>
               </Dropdown.Item>
