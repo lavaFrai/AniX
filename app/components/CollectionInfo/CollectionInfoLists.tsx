@@ -9,7 +9,7 @@ export const CollectionInfoLists = (props: {
   total: number;
 }) => {
   return (
-    <Card className="w-full max-w-full lg:max-w-[48%] h-fit ">
+    <Card className="w-full h-fit ">
       <div
         className="flex w-full h-8 overflow-hidden rounded-md"
         style={
@@ -20,7 +20,7 @@ export const CollectionInfoLists = (props: {
             "--watched-percent": `calc(var(--width-of-one) * (${props.completed} / ${props.total} * 100%))`,
             "--delayed-percent": `calc(var(--width-of-one) * (${props.delayed} / ${props.total} * 100%))`,
             "--abandoned-percent": `calc(var(--width-of-one) * (${props.abandoned} / ${props.total} * 100%))`,
-            "--no-list-percent": `calc(var(--width-of-one) * (${props.total - (props.watching - props.planned - props.completed - props.delayed - props.abandoned)} / ${props.total} * 100%))`,
+            "--no-list-percent": `calc(var(--width-of-one) * (${props.total - (props.watching + props.planned + props.completed + props.delayed + props.abandoned)} / ${props.total} * 100%))`,
           } as React.CSSProperties
         }
       >

@@ -13,13 +13,15 @@ export async function generateMetadata(
   const previousOG = (await parent).openGraph;
 
   return {
-    title: "коллекция - " + collection.collection.title,
-    description: collection.collection.description,
+    title: collection.collection
+      ? "коллекция - " + collection.collection.title
+      : "Приватная коллекция",
+    description: collection.collection && collection.collection.description,
     openGraph: {
       ...previousOG,
       images: [
         {
-          url: collection.collection.image, // Must be an absolute URL
+          url: collection.collection && collection.collection.image, // Must be an absolute URL
           width: 600,
           height: 800,
         },

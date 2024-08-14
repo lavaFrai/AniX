@@ -12,6 +12,7 @@ import { ReleaseSection } from "#/components/ReleaseSection/ReleaseSection";
 
 import { CollectionInfoBasics } from "#/components/CollectionInfo/CollectionInfo.Basics";
 import { CollectionInfoLists } from "#/components/CollectionInfo/CollectionInfoLists";
+import { CollectionInfoControls } from "#/components/CollectionInfo/CollectionInfoControls";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -81,37 +82,54 @@ export const ViewCollectionPage = (props: { id: number }) => {
   return (
     <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
       {collectionInfoIsLoading ? (
-        <Spinner />
+        <div className="flex items-center justify-center w-full h-screen">
+          <Spinner />
+        </div>
       ) : (
-        <>
-          <div className="flex flex-col flex-wrap gap-4 px-2 sm:flex-row">
-            <CollectionInfoBasics
-              image={collectionInfo.collection.image}
-              title={collectionInfo.collection.title}
-              description={collectionInfo.collection.description}
-              authorAvatar={collectionInfo.collection.creator.avatar}
-              authorLogin={collectionInfo.collection.creator.login}
-              authorId={collectionInfo.collection.creator.id}
-              creationDate={collectionInfo.collection.creation_date}
-              updateDate={collectionInfo.collection.last_update_date}
-            />
-            {userStore.token && !isLoading && (
-              <CollectionInfoLists
-                completed={collectionInfo.completed_count}
-                planned={collectionInfo.plan_count}
-                abandoned={collectionInfo.dropped_count}
-                delayed={collectionInfo.hold_on_count}
-                watching={collectionInfo.watching_count}
-                total={data[0].total_count}
+        collectionInfo && (
+          <>
+            <div className="flex flex-col flex-wrap gap-4 px-2 pb-2 sm:flex-row">
+              <CollectionInfoBasics
+                image={collectionInfo.collection.image}
+                title={collectionInfo.collection.title}
+                description={collectionInfo.collection.description}
+                authorAvatar={collectionInfo.collection.creator.avatar}
+                authorLogin={collectionInfo.collection.creator.login}
+                authorId={collectionInfo.collection.creator.id}
+                creationDate={collectionInfo.collection.creation_date}
+                updateDate={collectionInfo.collection.last_update_date}
+              />
+              {userStore.token && !isLoading && (
+                <div className="flex flex-col gap-4 w-full max-w-full lg:max-w-[48%]">
+                  <CollectionInfoLists
+                    completed={collectionInfo.completed_count}
+                    planned={collectionInfo.plan_count}
+                    abandoned={collectionInfo.dropped_count}
+                    delayed={collectionInfo.hold_on_count}
+                    watching={collectionInfo.watching_count}
+                    total={data[0].total_count}
+                  />
+                  <CollectionInfoControls
+                    isFavorite={collectionInfo.collection.is_favorite}
+                    id={collectionInfo.collection.id}
+                    authorId={collectionInfo.collection.creator.id}
+                    isPrivate={collectionInfo.collection.is_private}
+                  />
+                </div>
+              )}
+            </div>
+            {isLoading || !content || !isLoadingEnd ? (
+              <div className="flex items-center justify-center w-full h-screen">
+                <Spinner />
+              </div>
+            ) : (
+              <ReleaseSection
+                sectionTitle={"Релизов в коллекции: " + data[0].total_count}
+                content={content}
               />
             )}
-          </div>
-          {isLoading || !content || !isLoadingEnd ? (
-            <Spinner />
-          ) : (
-            <ReleaseSection content={content} />
-          )}
-        </>
+          </>
+        )
       )}
     </main>
   );

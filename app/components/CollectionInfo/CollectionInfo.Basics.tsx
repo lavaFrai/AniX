@@ -14,7 +14,7 @@ export const CollectionInfoBasics = (props: {
   updateDate: number;
 }) => {
   return (
-    <Card className="w-full max-w-full lg:max-w-[50%]">
+    <Card className="flex-1 w-full">
       <div className="flex flex-col items-end justify-between sm:items-center sm:flex-row">
         <div className="flex flex-col gap-1">
           <p>создана: {unixToDate(props.creationDate, "full")}</p>

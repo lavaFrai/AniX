@@ -1,6 +1,9 @@
 import { ReleaseLink } from "../ReleaseLink/ReleaseLink";
 
-export const ReleaseSection = (props: {sectionTitle?: string, content: any}) => {
+export const ReleaseSection = (props: {
+  sectionTitle?: string;
+  content: any;
+}) => {
   return (
     <section>
       {props.sectionTitle && (
@@ -19,6 +22,7 @@ export const ReleaseSection = (props: {sectionTitle?: string, content: any}) => 
               </div>
             );
           })}
+          {props.content.length == 1 && <div></div>}
         </div>
       </div>
     </section>
