@@ -54,8 +54,14 @@ export const CollectionInfoControls = (props: {
       )}
       {userStore.user && userStore.user.id == props.authorId && (
         <div className="flex flex-wrap gap-2">
-          <Button color={"blue"} className="w-full sm:max-w-64">
-            <span className={`iconify w-6 h-6 mr-2 mdi--pencil`}></span>{" "}
+          <Button
+            color={"blue"}
+            className="w-full sm:max-w-64"
+            onClick={() =>
+              router.push("/collections/create?mode=edit&id=" + props.id)
+            }
+          >
+            <span className="w-6 h-6 mr-2 iconify mdi--pencil"></span>{" "}
             Редактировать
           </Button>
           <Button
@@ -63,7 +69,7 @@ export const CollectionInfoControls = (props: {
             className="w-full sm:max-w-64"
             onClick={() => _deleteCollection()}
           >
-            <span className={`iconify w-6 h-6 mr-2 mdi--trash`}></span> Удалить
+            <span className="w-6 h-6 mr-2 iconify mdi--trash"></span> Удалить
           </Button>
         </div>
       )}
