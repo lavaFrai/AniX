@@ -27,6 +27,10 @@ export const CreateCollectionPage = () => {
     title: "",
     description: "",
   });
+  const [stringLength, setStringLength] = useState({
+    title: 0,
+    description: 0,
+  });
 
   const collection_id = searchParams.get("id") || null;
   const mode = searchParams.get("mode") || null;
@@ -78,14 +82,22 @@ export const CreateCollectionPage = () => {
   };
 
   function handleInput(e) {
+    const regex = /[^a-zA-Zа-яА-Я0-9_.,:()!? \[\]]/g;
     setCollectionInfo({
       ...collectionInfo,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.replace(regex, ""),
+    });
+    setStringLength({
+      ...stringLength,
+      [e.target.name]: e.target.value.replace(regex, "").length,
     });
   }
 
   function submit(e) {
     e.preventDefault();
+
+    console.log(collectionInfo.title.length);
+
     console.log({
       ...collectionInfo,
       private: isPrivate,
@@ -100,7 +112,7 @@ export const CreateCollectionPage = () => {
           {edit ? "Редактирование коллекции" : "Создание коллекции"}
         </p>
         <form
-          className="flex flex-wrap w-full gap-2"
+          className="flex flex-wrap items-center w-full gap-2"
           onSubmit={(e) => submit(e)}
         >
           <Label
@@ -166,8 +178,10 @@ export const CreateCollectionPage = () => {
               required={true}
               onChange={(e) => handleInput(e)}
               value={collectionInfo.title}
+              maxLength={60}
             />
-            <div className="block mt-4 mb-2">
+            <p className="text-sm text-gray-500 dark:text-gray-300">{stringLength.title}/60</p>
+            <div className="block mt-2 mb-2">
               <Label
                 htmlFor="description"
                 value="Описание (максимум 1000 символов)"
@@ -180,8 +194,10 @@ export const CreateCollectionPage = () => {
               name="description"
               onChange={(e) => handleInput(e)}
               value={collectionInfo.description}
+              maxLength={1000}
             />
-            <div className="mt-4">
+            <p className="text-sm text-gray-500 dark:text-gray-300">{stringLength.description}/1000</p>
+            <div className="mt-2">
               <div className="flex items-center gap-1">
                 <Checkbox
                   id="private"
