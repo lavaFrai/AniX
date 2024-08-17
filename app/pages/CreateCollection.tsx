@@ -15,8 +15,8 @@ import {
   Label,
   Modal,
 } from "flowbite-react";
-import { ReleaseSection } from "#/components/ReleaseSection/ReleaseSection";
 import { ReleaseLink } from "#/components/ReleaseLink/ReleaseLink";
+import { CropModal } from "#/components/CropModal/CropModal";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -41,6 +41,7 @@ export const CreateCollectionPage = () => {
 
   const [imageData, setImageData] = useState<string>(null);
   const [imageUrl, setImageUrl] = useState<string>(null);
+  const [tempImageUrl, setTempImageUrl] = useState<string>(null);
   const [isPrivate, setIsPrivate] = useState(false);
   const [collectionInfo, setCollectionInfo] = useState({
     title: "",
@@ -53,6 +54,7 @@ export const CreateCollectionPage = () => {
   const [addedReleases, setAddedReleases] = useState([]);
   const [addedReleasesIds, setAddedReleasesIds] = useState([]);
   const [releasesEditModalOpen, setReleasesEditModalOpen] = useState(false);
+  const [cropModalOpen, setCropModalOpen] = useState(false);
 
   const collection_id = searchParams.get("id") || null;
   const mode = searchParams.get("mode") || null;
@@ -78,29 +80,17 @@ export const CreateCollectionPage = () => {
     }
   }, [userStore.user]);
 
-  const handleFileRead = (e, fileReader, type) => {
+  const handleFileRead = (e, fileReader) => {
     const content = fileReader.result;
-    if (type === "URL") {
-      setImageUrl(content);
-    } else {
-      setImageData(content);
-    }
+    setTempImageUrl(content);
   };
 
   const handleFilePreview = (file) => {
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
-      handleFileRead(e, fileReader, "URL");
+      handleFileRead(e, fileReader);
     };
     fileReader.readAsDataURL(file);
-  };
-
-  const handleFileLoad = (file) => {
-    const fileReader = new FileReader();
-    fileReader.onloadend = (e) => {
-      handleFileRead(e, fileReader, "TEXT");
-    };
-    fileReader.readAsText(file);
   };
 
   function handleInput(e) {
@@ -195,7 +185,7 @@ export const CreateCollectionPage = () => {
               accept="image/jpg, image/jpeg, image/png"
               onChange={(e) => {
                 handleFilePreview(e.target.files[0]);
-                handleFileLoad(e.target.files[0]);
+                setCropModalOpen(true);
               }}
             />
           </Label>
@@ -298,6 +288,20 @@ export const CreateCollectionPage = () => {
         setReleases={setAddedReleases}
         setReleasesIds={setAddedReleasesIds}
       />
+      <CropModal
+        src={tempImageUrl}
+        setSrc={setImageUrl}
+        setTempSrc={setTempImageUrl}
+        setImageData={setImageData}
+        aspectRatio={600 / 337}
+        guides={false}
+        quality={0.9}
+        isOpen={cropModalOpen}
+        setIsOpen={setCropModalOpen}
+        forceAspect={true}
+        width={600}
+        height={337}
+      />
     </main>
   );
 };
@@ -317,7 +321,7 @@ export const ReleasesEditModal = (props: {
 
     const url = new URL("/api/search", window.location.origin);
     url.searchParams.set("page", pageIndex.toString());
-    if (!query) return null
+    if (!query) return null;
     url.searchParams.set("q", query);
     return url.toString();
   };
