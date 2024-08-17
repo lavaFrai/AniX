@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { fetchDataViaGet, fetchDataViaPost } from "../utils";
 import { API_URL } from "../config";
+import { buffer } from "stream/consumers";
 
 export async function GET(
   req: NextRequest,
@@ -25,14 +26,24 @@ export async function POST(
 ) {
   const { endpoint } = params;
   let API_V2: boolean | string =
-  req.nextUrl.searchParams.get("API_V2") || false;
+    req.nextUrl.searchParams.get("API_V2") || false;
   if (API_V2 === "true") {
     req.nextUrl.searchParams.delete("API_V2");
   }
   const query = req.nextUrl.searchParams.toString();
   const url = `${API_URL}/${endpoint.join("/")}${query ? `?${query}` : ""}`;
-  const body = JSON.stringify( await req.json());
+  let body;
+  const ReqContentTypeHeader = req.headers.get("Content-Type") || "";
+  let ResContentTypeHeader = "";
 
-  const response = await fetchDataViaPost(url, body, API_V2);
+  if (ReqContentTypeHeader.split(";")[0] == "multipart/form-data") {
+    ResContentTypeHeader = ReqContentTypeHeader;
+    body = await req.arrayBuffer();
+  } else {
+    ResContentTypeHeader = "application/json; charset=UTF-8";
+    body = JSON.stringify(await req.json());
+  }
+
+  const response = await fetchDataViaPost(url, body, API_V2, ResContentTypeHeader);
   return NextResponse.json(response);
 }

@@ -28,11 +28,16 @@ export const fetchDataViaGet = async (
 export const fetchDataViaPost = async (
   url: string,
   body: string,
-  API_V2: string | boolean = false
+  API_V2: string | boolean = false,
+  contentType: string = ""
 ) => {
   if (API_V2) {
     HEADERS["API-Version"] = "v2";
   }
+  if (contentType != "") {
+    HEADERS["Content-Type"] = contentType;
+  }
+
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -116,8 +121,22 @@ const months = [
 
 export function unixToDate(unix: number, type: string = "short") {
   const date = new Date(unix * 1000);
-  if (type === "short") return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
-  if (type === "full") return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear() + ", " + date.getHours() + ":" + date.getMinutes();
+  if (type === "short")
+    return (
+      date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()
+    );
+  if (type === "full")
+    return (
+      date.getDate() +
+      " " +
+      months[date.getMonth()] +
+      " " +
+      date.getFullYear() +
+      ", " +
+      date.getHours() +
+      ":" +
+      date.getMinutes()
+    );
 }
 
 export const getSeasonFromUnix = (unix: number) => {
@@ -148,7 +167,9 @@ export function sinceUnixDate(unixInSeconds: number) {
   if (dateDifferenceSeconds < 86400) return `${hours} ${hoursName} назад`;
   if (dateDifferenceSeconds < 2592000) return `${days} ${daysName} назад`;
 
-  return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+  return (
+    date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()
+  );
 }
 
 export function minutesToTime(min: number) {
@@ -248,3 +269,31 @@ export const SortList = {
   alphabet_descending: 5,
   alphabet_ascending: 6,
 };
+
+export function b64toBlob(
+  b64Data: string,
+  contentType: string,
+  sliceSize?: number
+) {
+  contentType = contentType || "";
+  sliceSize = sliceSize || 512;
+
+  var byteCharacters = atob(b64Data);
+  var byteArrays = [];
+
+  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    var byteNumbers = new Array(slice.length);
+    for (var i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    var byteArray = new Uint8Array(byteNumbers);
+
+    byteArrays.push(byteArray);
+  }
+
+  var blob = new Blob(byteArrays, { type: contentType });
+  return blob;
+}

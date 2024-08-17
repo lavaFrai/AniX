@@ -21,4 +21,15 @@ export const ENDPOINTS = {
     addHistory: `${API_PREFIX}/history/add`,
     markWatched: `${API_PREFIX}/episode/watch`,
   },
+  collection: {
+    base: `${API_PREFIX}/collection`,
+    list: `${API_PREFIX}/collection/list`,
+    create: `${API_PREFIX}/collectionMy/create`,
+    delete: `${API_PREFIX}/collectionMy/delete`,
+    edit: `${API_PREFIX}/collectionMy/edit`,
+    editImage: `${API_PREFIX}/collectionMy/editImage`,
+    releaseInCollections: `${API_PREFIX}/collection/all/release`,
+    userCollections: `${API_PREFIX}/collection/all/profile`,
+    favoriteCollections: `${API_PREFIX}/collectionFavorite`,
+  }
 };
