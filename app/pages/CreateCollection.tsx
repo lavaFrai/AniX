@@ -1,5 +1,4 @@
 "use client";
-import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 import { useUserStore } from "#/store/auth";
 import { useEffect, useState, useCallback } from "react";
@@ -17,6 +16,7 @@ import {
 } from "flowbite-react";
 import { ReleaseLink } from "#/components/ReleaseLink/ReleaseLink";
 import { CropModal } from "#/components/CropModal/CropModal";
+import { b64toBlob } from "#/api/utils";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -39,7 +39,7 @@ export const CreateCollectionPage = () => {
 
   const [edit, setEdit] = useState(false);
 
-  const [imageData, setImageData] = useState<string>(null);
+  // const [imageData, setImageData] = useState<File | Blob>(null);
   const [imageUrl, setImageUrl] = useState<string>(null);
   const [tempImageUrl, setTempImageUrl] = useState<string>(null);
   const [isPrivate, setIsPrivate] = useState(false);
@@ -59,19 +59,59 @@ export const CreateCollectionPage = () => {
   const collection_id = searchParams.get("id") || null;
   const mode = searchParams.get("mode") || null;
 
+  const [isSending, setIsSending] = useState(false);
+
   useEffect(() => {
     async function _checkMode() {
       if (mode === "edit" && collection_id) {
+        setIsSending(true);
         const res = await fetch(
           `${ENDPOINTS.collection.base}/${collection_id}?token=${userStore.token}`
         );
         const data = await res.json();
+
+        let addedReleasesIdsArray = [];
+        let addedReleasesArray = [];
+
+        for (let i = 0; i < 4; i++) {
+          const res = await fetch(
+            `${ENDPOINTS.collection.base}/${collection_id}/releases/${i}?token=${userStore.token}`
+          );
+          const data = await res.json();
+
+          if (data.content.length > 0) {
+            data.content.forEach((release) => {
+              if (!addedReleasesIds.includes(release.id)) {
+                addedReleasesIdsArray.push(release.id);
+                addedReleasesArray.push(release);
+              }
+            });
+          } else {
+            setAddedReleases(addedReleasesArray);
+            setAddedReleasesIds(addedReleasesIdsArray);
+            break;
+          }
+        }
 
         if (
           mode === "edit" &&
           userStore.user.id == data.collection.creator.id
         ) {
           setEdit(true);
+
+          setCollectionInfo({
+            title: data.collection.title,
+            description: data.collection.description,
+          });
+          setStringLength({
+            title: data.collection.title.length,
+            description: data.collection.description.length,
+          });
+
+          setIsPrivate(data.collection.is_private);
+          setImageUrl(data.collection.image);
+
+          setIsSending(false);
         }
       }
     }
@@ -108,13 +148,65 @@ export const CreateCollectionPage = () => {
   function submit(e) {
     e.preventDefault();
 
-    console.log(collectionInfo.title.length);
+    async function _createCollection() {
+      const url =
+        mode === "edit"
+          ? `${ENDPOINTS.collection.edit}/${collection_id}?token=${userStore.token}`
+          : `${ENDPOINTS.collection.create}?token=${userStore.token}`;
 
-    console.log({
-      ...collectionInfo,
-      private: isPrivate,
-      image: imageData,
-    });
+      const res = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          ...collectionInfo,
+          is_private: isPrivate,
+          private: isPrivate,
+          releases: addedReleasesIds,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.code == 5) {
+        alert("Вы превысили допустимый еженедельный лимит создания коллекций!");
+        return;
+      }
+
+      if (imageUrl && !imageUrl.startsWith("http")) {
+        let block = imageUrl.split(";");
+        let contentType = block[0].split(":")[1];
+        let realData = block[1].split(",")[1];
+        const blob = b64toBlob(realData, contentType);
+
+        const formData = new FormData();
+        formData.append("image", blob, "cropped.jpg");
+        formData.append("name", "image");
+        const uploadRes = await fetch(
+          `${ENDPOINTS.collection.editImage}/${data.collection.id}?token=${userStore.token}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const uploadData = await uploadRes.json();
+      }
+
+      router.push(`/collection/${data.collection.id}`);
+    }
+
+    if (
+      collectionInfo.title.length >= 10 &&
+      addedReleasesIds.length >= 1 &&
+      userStore.token
+    ) {
+      // setIsSending(true);
+      _createCollection();
+    } else if (collectionInfo.title.length < 10) {
+      alert("Необходимо ввести название коллекции не менее 10 символов");
+    } else if (!userStore.token) {
+      alert("Для создания коллекции необходимо войти в аккаунт");
+    } else if (addedReleasesIds.length < 1) {
+      alert("Необходимо добавить хотя бы один релиз в коллекцию");
+    }
   }
 
   function _deleteRelease(release: any) {
@@ -233,13 +325,19 @@ export const CreateCollectionPage = () => {
                 <Checkbox
                   id="private"
                   name="private"
+                  color="blue"
                   checked={isPrivate}
                   onChange={(e) => setIsPrivate(e.target.checked)}
                 />
                 <Label htmlFor="private" value="Приватная коллекция" />
               </div>
             </div>
-            <Button color={"blue"} className="mt-4" type="submit">
+            <Button
+              color={"blue"}
+              className="mt-4"
+              type="submit"
+              disabled={isSending}
+            >
               {edit ? "Обновить" : "Создать"}
             </Button>
           </div>
@@ -292,10 +390,10 @@ export const CreateCollectionPage = () => {
         src={tempImageUrl}
         setSrc={setImageUrl}
         setTempSrc={setTempImageUrl}
-        setImageData={setImageData}
+        // setImageData={setImageData}
         aspectRatio={600 / 337}
         guides={false}
-        quality={0.9}
+        quality={100}
         isOpen={cropModalOpen}
         setIsOpen={setCropModalOpen}
         forceAspect={true}

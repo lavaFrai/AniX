@@ -2,13 +2,11 @@ import React, { useRef } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { Button, Modal } from "flowbite-react";
-import { b64toBlob } from "#/api/utils";
 
 type Props = {
   src: string;
   setSrc: (src: string) => void;
   setTempSrc: (src: string) => void;
-  setImageData: (src: string) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   height: number;
@@ -24,36 +22,16 @@ export const CropModal: React.FC<Props> = (props) => {
 
   const getCropData = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
-      props.setSrc(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-
-      let block = cropperRef.current?.cropper
-        .getCroppedCanvas({
-          width: props.width,
-          height: props.height,
-          maxWidth: props.width,
-          maxHeight: props.height,
-        })
-        .toDataURL("image/jpeg", props.quality)
-        .split(";");
-      let contentType = block[0].split(":")[1];
-      let realData = block[1].split(",")[1];
-
-      const blob = b64toBlob(realData, contentType);
-
-      const handleFileRead = (e, fileReader) => {
-        const content = fileReader.result;
-        props.setImageData(content);
-      };
-
-      const handleFileText = (file) => {
-        const fileReader = new FileReader();
-        fileReader.onloadend = (e) => {
-          handleFileRead(e, fileReader);
-        };
-        fileReader.readAsText(file);
-      };
-
-      handleFileText(blob);
+      props.setSrc(
+        cropperRef.current?.cropper
+          .getCroppedCanvas({
+            width: props.width,
+            height: props.height,
+            maxWidth: props.width,
+            maxHeight: props.height,
+          })
+          .toDataURL("image/jpeg", props.quality)
+      );
       props.setTempSrc("");
     }
   };
@@ -103,7 +81,7 @@ export const CropModal: React.FC<Props> = (props) => {
           onClick={() => {
             props.setSrc(null);
             props.setTempSrc(null);
-            props.setImageData(null);
+            // props.setImageData(null);
             props.setIsOpen(false);
           }}
         >

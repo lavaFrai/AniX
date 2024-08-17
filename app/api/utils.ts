@@ -28,11 +28,16 @@ export const fetchDataViaGet = async (
 export const fetchDataViaPost = async (
   url: string,
   body: string,
-  API_V2: string | boolean = false
+  API_V2: string | boolean = false,
+  contentType: string = ""
 ) => {
   if (API_V2) {
     HEADERS["API-Version"] = "v2";
   }
+  if (contentType != "") {
+    HEADERS["Content-Type"] = contentType;
+  }
+
   try {
     const response = await fetch(url, {
       method: "POST",
