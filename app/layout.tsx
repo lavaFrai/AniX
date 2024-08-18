@@ -3,6 +3,7 @@ import { App } from "./App";
 import { ThemeModeScript } from "flowbite-react";
 
 export const metadata = {
+  metadataBase: new URL("https://anix.wah.su"),
   keywords: ["anix", "anixart", "anime", "аниксарт", "аниме"],
   formatDetection: {
     email: false,
@@ -14,6 +15,7 @@ export const metadata = {
     default: "AniX | Домашняя",
   },
   description: "Неофициальное приложение для anixart.tv",
+
   openGraph: {
     images: [
       {
