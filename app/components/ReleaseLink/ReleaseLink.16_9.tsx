@@ -94,7 +94,7 @@ export const ReleaseLink169 = (props: any) => {
             )}
           </div>
           <div className="absolute bottom-0 left-0 px-2 py-2 lg:translate-y-[100%] group-hover:lg:translate-y-0 transition-transform">
-            <p className="text-sm font-bold text-white transition-transform lg:-translate-y-10 group-hover:lg:translate-y-0 xl:text-base lg:text-lg">
+            <p className="text-sm font-bold text-white transition-transform lg:-translate-y-[calc(100%_+_1rem)] group-hover:lg:translate-y-0 xl:text-base lg:text-lg">
               {props.title_ru}
             </p>
             <p className="text-xs text-white xl:text-base lg:text-lg right-2">
