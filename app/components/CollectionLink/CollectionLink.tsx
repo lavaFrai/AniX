@@ -13,8 +13,14 @@ export const CollectionLink = (props: any) => {
           }}
         >
           <div className="absolute flex flex-wrap items-start justify-start gap-0.5 sm:gap-1 left-2 top-2">
-            <Chip icon_name="material-symbols--favorite" name_2={props.favorites_count} />
-            <Chip icon_name="material-symbols--comment" name_2={props.comment_count} />
+            <Chip
+              icon_name="material-symbols--favorite"
+              name_2={props.favorites_count}
+            />
+            <Chip
+              icon_name="material-symbols--comment"
+              name_2={props.comment_count}
+            />
             {props.is_private && (
               <div className="flex items-center justify-center bg-yellow-400 rounded-sm">
                 <span className="w-3 px-4 py-2.5 text-white sm:px-4 sm:py-3 xl:px-6 xl:py-4 iconify mdi--lock"></span>
@@ -26,9 +32,14 @@ export const CollectionLink = (props: any) => {
               </div>
             )}
           </div>
-          <p className="absolute text-xs text-white xl:text-base lg:text-lg left-2 bottom-2 right-2">
-            {props.title}
-          </p>
+          <div className="absolute bottom-0 left-0 px-2 py-2 lg:translate-y-[100%] group-hover:lg:translate-y-0 transition-transform">
+            <p className="text-sm font-bold text-white transition-transform lg:-translate-y-10 group-hover:lg:translate-y-0 xl:text-base lg:text-lg">
+              {props.title}
+            </p>
+            <p className="text-xs text-white xl:text-base lg:text-lg right-2">
+              {props.description}
+            </p>
+          </div>
         </div>
       </div>
     </Link>
