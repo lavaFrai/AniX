@@ -9,6 +9,7 @@ export const CommentsEditModal = (props: {
   token: string;
   setShouldRender?: any;
   setCommentSend?: any;
+  type?: "release" | "collection";
 }) => {
   const [message, setMessage] = useState(props.parentComment.message);
   const [isSpoiler, setIsSpoiler] = useState(props.parentComment.isSpoiler);
@@ -23,13 +24,16 @@ export const CommentsEditModal = (props: {
     };
 
     async function _send() {
-      const res = await fetch(
-        `${ENDPOINTS.release.info}/comment/edit/${props.parentComment.id}?token=${props.token}`,
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let url;
+      if (props.type == "collection") {
+        url = `${ENDPOINTS.collection.base}/comment/edit/${props.parentComment.id}?token=${props.token}`;
+      } else {
+        url = `${ENDPOINTS.release.info}/comment/edit/${props.parentComment.id}?token=${props.token}`;
+      }
+      const res = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
 
       if (props.setShouldRender && props.setCommentSend) {
         props.setShouldRender(true);

@@ -27,6 +27,7 @@ export const CommentsComment = (props: {
   parentComment?: any;
   setShouldRender?: (shouldRender: boolean) => void;
   setCommentSend?: (commentSend: boolean) => void;
+  type?: "release" | "collection";
 }) => {
   const [replies, setReplies] = useState([]);
   const [likes, setLikes] = useState(props.comment.likes_count);
@@ -49,7 +50,12 @@ export const CommentsComment = (props: {
 
   async function _deleteComment() {
     if (props.token) {
-      let url = `${ENDPOINTS.release.info}/comment/delete/${props.comment.id}?token=${props.token}`;
+      let url;
+      if (props.type == "collection") {
+        url = `${ENDPOINTS.collection.base}/comment/delete/${props.comment.id}?token=${props.token}`;
+      } else {
+        url = `${ENDPOINTS.release.info}/comment/delete/${props.comment.id}?token=${props.token}`;
+      }
       await fetch(url);
 
       if (props.setShouldRender && props.setCommentSend) {
@@ -62,9 +68,17 @@ export const CommentsComment = (props: {
   useEffect(() => {
     async function _fetchReplies() {
       setReplies([]);
-      let url = `${ENDPOINTS.release.info}/comment/replies/${
-        parentCommentId || props.comment.id
-      }/0?sort=2`;
+      let url;
+      if (props.type == "collection") {
+        url = `${ENDPOINTS.collection.base}/comment/replies/${
+          parentCommentId || props.comment.id
+        }/0?sort=2`;
+      } else {
+        url = `${ENDPOINTS.release.info}/comment/replies/${
+          parentCommentId || props.comment.id
+        }/0?sort=2`;
+      }
+
       if (props.token) {
         url += `&token=${props.token}`;
       }
@@ -88,7 +102,13 @@ export const CommentsComment = (props: {
 
   async function _sendVote(action: number) {
     if (props.token) {
-      let url = `${ENDPOINTS.release.info}/comment/vote/${props.comment.id}/${action}?token=${props.token}`;
+      let url;
+
+      if (props.type == "collection") {
+        url = `${ENDPOINTS.collection.base}/comment/vote/${props.comment.id}/${action}?token=${props.token}`;
+      } else {
+        url = `${ENDPOINTS.release.info}/comment/vote/${props.comment.id}/${action}?token=${props.token}`;
+      }
       fetch(url);
     }
   }
@@ -126,7 +146,7 @@ export const CommentsComment = (props: {
     <>
       <article
         className={`${
-          !props.isSubComment ? "p-6" : "pt-4"
+          !props.isSubComment || props.type == "collection" ? "p-6" : "pt-4"
         } text-sm bg-gray-100 rounded-lg sm:text-base dark:bg-gray-900`}
       >
         <footer className="flex items-center justify-between mb-2">
@@ -162,7 +182,9 @@ export const CommentsComment = (props: {
               <Dropdown.Item onClick={() => setIsEditCommentsOpen(true)}>
                 Редактировать
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => _deleteComment()}>Удалить</Dropdown.Item>
+              <Dropdown.Item onClick={() => _deleteComment()}>
+                Удалить
+              </Dropdown.Item>
             </Dropdown>
           )}
         </footer>
@@ -300,6 +322,7 @@ export const CommentsComment = (props: {
         parentProfile={props.profile}
         setShouldRender={props.setShouldRender || setShouldRender}
         setCommentSend={props.setCommentSend || setCommentSend}
+        type={props.type}
       />
       {props.token && (
         <CommentsEditModal
@@ -309,6 +332,7 @@ export const CommentsComment = (props: {
           parentComment={props.comment}
           setShouldRender={props.setShouldRender || setShouldRender}
           setCommentSend={props.setCommentSend || setCommentSend}
+          type={props.type}
         />
       )}
     </>

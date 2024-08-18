@@ -12,6 +12,7 @@ import { ReleaseSection } from "#/components/ReleaseSection/ReleaseSection";
 import { CollectionInfoBasics } from "#/components/CollectionInfo/CollectionInfo.Basics";
 import { InfoLists } from "#/components/InfoLists/InfoLists";
 import { CollectionInfoControls } from "#/components/CollectionInfo/CollectionInfoControls";
+import { CommentsMain } from "#/components/Comments/Comments.Main";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -32,11 +33,17 @@ export const ViewCollectionPage = (props: { id: number }) => {
   const [isLoadingEnd, setIsLoadingEnd] = useState(false);
   const router = useRouter();
 
-  function useFetchCollectionInfo() {
-    let url: string = `${ENDPOINTS.collection.base}/${props.id}`;
+  function useFetchCollectionInfo(type: "info" | "comments") {
+    let url: string;
+
+    if (type == "info") {
+      url = `${ENDPOINTS.collection.base}/${props.id}`;
+    } else if (type == "comments") {
+      url = `${ENDPOINTS.collection.base}/comment/all/${props.id}/0?sort=3`;
+    }
 
     if (userStore.token) {
-      url += `?token=${userStore.token}`;
+      url += `${type != "info" ? "&" : "?"}token=${userStore.token}`;
     }
 
     const { data, isLoading } = useSWR(url, fetcher);
@@ -51,7 +58,10 @@ export const ViewCollectionPage = (props: { id: number }) => {
     return url;
   };
 
-  const [collectionInfo, collectionInfoIsLoading] = useFetchCollectionInfo();
+  const [collectionInfo, collectionInfoIsLoading] =
+    useFetchCollectionInfo("info");
+  const [collectionComments, collectionCommentsIsLoading] =
+    useFetchCollectionInfo("comments");
 
   const { data, error, isLoading, size, setSize } = useSWRInfinite(
     getKey,
@@ -87,7 +97,7 @@ export const ViewCollectionPage = (props: { id: number }) => {
       ) : (
         collectionInfo && (
           <>
-            <div className="flex flex-col flex-wrap gap-4 px-2 pb-2 sm:flex-row">
+            <div className="flex flex-col flex-wrap gap-2 px-2 pb-2 sm:flex-row">
               <CollectionInfoBasics
                 image={collectionInfo.collection.image}
                 title={collectionInfo.collection.title}
@@ -98,24 +108,34 @@ export const ViewCollectionPage = (props: { id: number }) => {
                 creationDate={collectionInfo.collection.creation_date}
                 updateDate={collectionInfo.collection.last_update_date}
               />
-              {userStore.token && !isLoading && (
-                <div className="flex flex-col gap-4 w-full max-w-full lg:max-w-[48%]">
-                  <InfoLists
-                    completed={collectionInfo.completed_count}
-                    planned={collectionInfo.plan_count}
-                    abandoned={collectionInfo.dropped_count}
-                    delayed={collectionInfo.hold_on_count}
-                    watching={collectionInfo.watching_count}
-                    total={data[0].total_count}
+              <div className="flex flex-col gap-2 w-full max-w-full lg:max-w-[48%]">
+                {collectionComments && !collectionCommentsIsLoading && (
+                  <CommentsMain
+                    release_id={props.id}
+                    token={userStore.token}
+                    comments={collectionComments.content.slice(0, 2)}
+                    type="collection"
                   />
-                  <CollectionInfoControls
-                    isFavorite={collectionInfo.collection.is_favorite}
-                    id={collectionInfo.collection.id}
-                    authorId={collectionInfo.collection.creator.id}
-                    isPrivate={collectionInfo.collection.is_private}
-                  />
-                </div>
-              )}
+                )}
+                {userStore.token && !isLoading && (
+                  <>
+                    <InfoLists
+                      completed={collectionInfo.completed_count}
+                      planned={collectionInfo.plan_count}
+                      abandoned={collectionInfo.dropped_count}
+                      delayed={collectionInfo.hold_on_count}
+                      watching={collectionInfo.watching_count}
+                      total={data[0].total_count}
+                    />
+                    <CollectionInfoControls
+                      isFavorite={collectionInfo.collection.is_favorite}
+                      id={collectionInfo.collection.id}
+                      authorId={collectionInfo.collection.creator.id}
+                      isPrivate={collectionInfo.collection.is_private}
+                    />
+                  </>
+                )}
+              </div>
             </div>
             {isLoading || !content || !isLoadingEnd ? (
               <div className="flex items-center justify-center w-full h-screen">

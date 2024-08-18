@@ -9,9 +9,11 @@ export const CommentsMain = (props: {
   release_id: number;
   token: string | null;
   comments: any;
+  type?: "release" | "collection";
 }) => {
   const [isAllCommentsOpen, setIsAllCommentsOpen] = useState(false);
   const [isAddCommentsOpen, setIsAddCommentsOpen] = useState(false);
+  const type = props.type || "release";
 
   return (
     <>
@@ -55,6 +57,8 @@ export const CommentsMain = (props: {
                   isDeleted: comment.is_deleted,
                 }}
                 token={props.token}
+                isSubComment={type != "release"}
+                type={type}
               />
             ))}
           </div>
@@ -65,13 +69,15 @@ export const CommentsMain = (props: {
         setIsOpen={setIsAllCommentsOpen}
         release_id={props.release_id}
         token={props.token}
+        type={props.type}
       />
       <CommentsAddModal
         isOpen={isAddCommentsOpen}
         setIsOpen={setIsAddCommentsOpen}
         release_id={props.release_id}
         token={props.token}
-        />
+        type={props.type}
+      />
     </>
   );
 };
@@ -95,6 +101,7 @@ const CommentsAllModal = (props: {
   setIsOpen: any;
   release_id: number;
   token: string | null;
+  type?: "release" | "collection";
 }) => {
   const [isLoadingEnd, setIsLoadingEnd] = useState(false);
   const [currentRef, setCurrentRef] = useState<any>(null);
@@ -102,9 +109,16 @@ const CommentsAllModal = (props: {
     setCurrentRef(ref);
   }, []);
 
+  const type = props.type || "release";
+
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.content.length) return null;
-    let url = `${ENDPOINTS.release.info}/comment/all/${props.release_id}/${pageIndex}?sort=1`;
+    let url;
+    if (type == "release") {
+      url = `${ENDPOINTS.release.info}/comment/all/${props.release_id}/${pageIndex}?sort=1`;
+    } else if (type == "collection") {
+      url = `${ENDPOINTS.collection.base}/comment/all/${props.release_id}/${pageIndex}?sort=1`;
+    }
     if (props.token) {
       url += `&token=${props.token}`;
     }
@@ -184,7 +198,8 @@ const CommentsAllModal = (props: {
                 isDeleted: comment.is_deleted,
               }}
               token={props.token}
-              />
+              type={type}
+            />
           ))
         ) : (
           <p className="text-sm font-bold text-gray-600 dark:text-gray-300">

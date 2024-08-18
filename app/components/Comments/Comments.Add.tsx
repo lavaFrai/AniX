@@ -13,6 +13,7 @@ export const CommentsAddModal = (props: {
   token: string;
   setShouldRender?: any;
   setCommentSend?: any;
+  type?: "release" | "collection";
 }) => {
   const [message, setMessage] = useState(
     props.isReply ? `${props.parentProfile.login}, ` : ""
@@ -31,13 +32,18 @@ export const CommentsAddModal = (props: {
     };
 
     async function _send() {
-      const res = await fetch(
-        `${ENDPOINTS.release.info}/comment/add/${props.release_id}?token=${props.token}`,
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let url;
+
+      if (props.type == "collection") {
+        url = `${ENDPOINTS.collection.base}/comment/add/${props.release_id}?token=${props.token}`;
+      } else {
+        url = `${ENDPOINTS.release.info}/comment/add/${props.release_id}?token=${props.token}`;
+      }
+
+      const res = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
 
       if (props.isReply && props.setShouldRender && props.setCommentSend) {
         props.setShouldRender(true);
