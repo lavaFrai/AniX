@@ -9,6 +9,7 @@ interface preferencesState {
     // saveSearchHistory: boolean;
     saveWatchHistory?: boolean;
     showChangelog?: boolean;
+    enableAnalytics?: boolean;
   };
   params: {
     isFirstLaunch?: boolean;
@@ -32,6 +33,7 @@ export const usePreferencesStore = create<preferencesState>()(
         // saveSearchHistory: true,
         saveWatchHistory: true,
         showChangelog: true,
+        enableAnalytics: true,
       },
       params: {
         isFirstLaunch: true,

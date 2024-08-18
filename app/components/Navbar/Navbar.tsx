@@ -310,6 +310,34 @@ const SettingsModal = (props: { isOpen: boolean; setIsOpen: any }) => {
               checked={preferenceStore.flags.showChangelog}
             />
           </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-bold dark:text-white">
+                Отправка аналитики
+              </p>
+              <p className="text-gray-500 dark:text-gray-400">
+                Требуется перезагрузка для применения
+              </p>
+            </div>
+            <ToggleSwitch
+              color="blue"
+              theme={{
+                toggle: {
+                  checked: {
+                    color: {
+                      blue: "border-blue-700 bg-blue-700",
+                    },
+                  },
+                },
+              }}
+              onChange={() =>
+                preferenceStore.setFlags({
+                  enableAnalytics: !preferenceStore.flags.enableAnalytics,
+                })
+              }
+              checked={preferenceStore.flags.enableAnalytics}
+            />
+          </div>
         </div>
       </Modal.Body>
     </Modal>
