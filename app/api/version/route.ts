@@ -13,5 +13,32 @@ export async function GET() {
     }
   });
 
-  return NextResponse.json({ version: current, previous: previous });
+  function compare(a: string, b: string) {
+    const aElement = a.split(".");
+    const bElement = b.split(".");
+
+    const aLength = aElement.length;
+    const bLength = bElement.length;
+
+    let order = 0;
+
+    for (let i = 0; i < Math.max(aLength, bLength); i++) {
+      const aNum = Number(aElement[i] || 0);
+      const bNum = Number(bElement[i] || 0);
+      if (aNum !== bNum) {
+        if (a > b) {
+          order += -1;
+        }
+        if (a < b) {
+          order += 1;
+        }
+      }
+    }
+    return order;
+  }
+
+  return NextResponse.json({
+    version: current,
+    previous: previous.sort(compare),
+  });
 }
