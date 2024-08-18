@@ -77,14 +77,14 @@ export const Navbar = () => {
   return (
     <>
       <header className="fixed bottom-0 left-0 z-50 w-full text-white bg-black sm:sticky sm:top-0">
-        <div className="container flex items-center justify-center gap-4 px-4 py-4 mx-auto md:justify-between md:gap-0">
+        <div className="container flex items-center justify-center gap-4 px-4 py-4 mx-auto lg:justify-between lg:gap-0">
           <nav className="flex gap-4">
             {navLinks.map((link) => {
               return (
                 <Link
                   key={link.id}
                   href={link.href}
-                  className={`flex-col items-center sm:flex-row ${
+                  className={`flex-col items-center lg:flex-row ${
                     link.withAuthOnly && !userStore.isAuth
                       ? "hidden"
                       : link.mobileMenu
@@ -109,7 +109,7 @@ export const Navbar = () => {
             })}
           </nav>
           {userStore.isAuth ? (
-            <div className="flex flex-col items-center justify-end text-sm sm:gap-1 sm:justify-center sm:flex-row sm:text-base">
+            <div className="flex flex-col items-center justify-end text-sm lg:gap-1 lg:justify-center lg:flex-row lg:text-base">
               <img
                 src={userStore.user.avatar}
                 alt=""
