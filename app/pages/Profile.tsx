@@ -76,13 +76,15 @@ export const ProfilePage = (props: any) => {
   const hasChips = user.is_verified || user.is_blocked || isMyProfile;
 
   return (
-    <main className="container flex flex-col gap-4 pt-4 px-4 pb-32 mx-auto overflow-hidden sm:pb-4">
-      {user.is_banned && (
-        <div className="flex flex-col justify-between w-full rounded-md p-4 border border-red-200 md:flex-row bg-red-50 dark:bg-red-700 dark:border-red-600">
+    <main className="container flex flex-col gap-4 px-4 pt-4 pb-32 mx-auto overflow-hidden sm:pb-4">
+      {(user.is_banned || user.is_perm_banned) && (
+        <div className="flex flex-col justify-between w-full p-4 border border-red-200 rounded-md md:flex-row bg-red-50 dark:bg-red-700 dark:border-red-600">
           <div className="mb-4 md:mb-0 md:me-4">
             <h2 className="mb-1 text-base font-semibold text-gray-900 dark:text-white">
-              Пользователь был заблокирован администрацией до{" "}
-              {unixToDate(user.ban_expires)}
+              {user.is_perm_banned
+                ? "Пользователь был заблокирован администрацией навсегда"
+                : `Пользователь был заблокирован администрацией до
+              ${unixToDate(user.ban_expires)}`}
             </h2>
             <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-200">
               {user.ban_reason}
@@ -111,17 +113,17 @@ export const ProfilePage = (props: any) => {
             rounded={true}
             bordered={true}
             size="lg"
-            className="justify-start flex-col sm:flex-row space-x-0 sm:space-x-4"
+            className="flex-col justify-start space-x-0 sm:flex-row sm:space-x-4"
           >
-            <div className="mt-2 sm:mt-0 space-y-1 font-medium dark:text-white">
+            <div className="mt-2 space-y-1 font-medium sm:mt-0 dark:text-white">
               <div className="text-xl">{user.login}</div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 max-w-full sm:max-w-96 whitespace-pre-wrap">
+              <p className="max-w-full text-sm text-gray-500 whitespace-pre-wrap dark:text-gray-400 sm:max-w-96">
                 {user.status}
               </p>
             </div>
           </Avatar>
           {hasSocials && (
-            <div className="overflow-x-auto scrollbar-thin flex gap-1">
+            <div className="flex gap-1 overflow-x-auto scrollbar-thin">
               {socials
                 .filter((social: any) => {
                   if (social.nickname == "") {
