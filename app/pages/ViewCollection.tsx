@@ -5,13 +5,12 @@ import { Spinner } from "#/components/Spinner/Spinner";
 import { useState, useEffect } from "react";
 import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useUserStore } from "../store/auth";
-import { Button, Card } from "flowbite-react";
 import { ENDPOINTS } from "#/api/config";
 import { useRouter } from "next/navigation";
 import { ReleaseSection } from "#/components/ReleaseSection/ReleaseSection";
 
 import { CollectionInfoBasics } from "#/components/CollectionInfo/CollectionInfo.Basics";
-import { CollectionInfoLists } from "#/components/CollectionInfo/CollectionInfoLists";
+import { InfoLists } from "#/components/InfoLists/InfoLists";
 import { CollectionInfoControls } from "#/components/CollectionInfo/CollectionInfoControls";
 
 const fetcher = async (url: string) => {
@@ -101,7 +100,7 @@ export const ViewCollectionPage = (props: { id: number }) => {
               />
               {userStore.token && !isLoading && (
                 <div className="flex flex-col gap-4 w-full max-w-full lg:max-w-[48%]">
-                  <CollectionInfoLists
+                  <InfoLists
                     completed={collectionInfo.completed_count}
                     planned={collectionInfo.plan_count}
                     abandoned={collectionInfo.dropped_count}

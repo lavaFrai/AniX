@@ -35,15 +35,22 @@ export function CollectionsFullPage(props: {
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.content.length) return null;
-    if (userStore.token) {
-      if (props.type == "favorites") {
-        return `${ENDPOINTS.collection.favoriteCollections}/all/${pageIndex}?token=${userStore.token}`;
-      } else if (props.type == "profile") {
-        return `${ENDPOINTS.collection.userCollections}/${props.profile_id}/${pageIndex}?token=${userStore.token}`;
-      } else if (props.type == "release") {
-        return `${ENDPOINTS.collection.releaseInCollections}/${props.release_id}/${pageIndex}?token=${userStore.token}`;
-      }
+
+    let url;
+
+    if (props.type == "favorites") {
+      url = `${ENDPOINTS.collection.favoriteCollections}/all/${pageIndex}`;
+    } else if (props.type == "profile") {
+      url = `${ENDPOINTS.collection.userCollections}/${props.profile_id}/${pageIndex}`;
+    } else if (props.type == "release") {
+      url = `${ENDPOINTS.collection.releaseInCollections}/${props.release_id}/${pageIndex}`;
     }
+
+    if (userStore.token) {
+      url += `?token=${userStore.token}`;
+    }
+
+    return url;
   };
 
   const { data, error, isLoading, size, setSize } = useSWRInfinite(
@@ -72,7 +79,11 @@ export function CollectionsFullPage(props: {
   }, [scrollPosition]);
 
   useEffect(() => {
-    if (userStore.state === "finished" && !userStore.token) {
+    if (
+      userStore.state === "finished" &&
+      !userStore.token &&
+      props.type == "favorites"
+    ) {
       router.push(`/login?redirect=/collections/favorites`);
     }
   }, [userStore.state, userStore.token]);

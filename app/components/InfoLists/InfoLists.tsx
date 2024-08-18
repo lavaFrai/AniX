@@ -1,13 +1,21 @@
 import { Card } from "flowbite-react";
 
-export const CollectionInfoLists = (props: {
+export const InfoLists = (props: {
   completed: number;
   planned: number;
   abandoned: number;
   delayed: number;
   watching: number;
-  total: number;
+  total?: number;
 }) => {
+  const total =
+    props.total ||
+    props.watching +
+      props.planned +
+      props.completed +
+      props.delayed +
+      props.abandoned;
+
   return (
     <Card className="w-full h-fit ">
       <div
@@ -15,12 +23,19 @@ export const CollectionInfoLists = (props: {
         style={
           {
             "--width-of-one": "5",
-            "--watching-percent": `calc(var(--width-of-one) * (${props.watching} / ${props.total} * 100%))`,
-            "--planned-percent": `calc(var(--width-of-one) * (${props.planned} / ${props.total} * 100%))`,
-            "--watched-percent": `calc(var(--width-of-one) * (${props.completed} / ${props.total} * 100%))`,
-            "--delayed-percent": `calc(var(--width-of-one) * (${props.delayed} / ${props.total} * 100%))`,
-            "--abandoned-percent": `calc(var(--width-of-one) * (${props.abandoned} / ${props.total} * 100%))`,
-            "--no-list-percent": `calc(var(--width-of-one) * (${props.total - (props.watching + props.planned + props.completed + props.delayed + props.abandoned)} / ${props.total} * 100%))`,
+            "--watching-percent": `calc(var(--width-of-one) * (${props.watching} / ${total} * 100%))`,
+            "--planned-percent": `calc(var(--width-of-one) * (${props.planned} / ${total} * 100%))`,
+            "--watched-percent": `calc(var(--width-of-one) * (${props.completed} / ${total} * 100%))`,
+            "--delayed-percent": `calc(var(--width-of-one) * (${props.delayed} / ${total} * 100%))`,
+            "--abandoned-percent": `calc(var(--width-of-one) * (${props.abandoned} / ${total} * 100%))`,
+            "--no-list-percent": `calc(var(--width-of-one) * (${
+              total -
+              (props.watching +
+                props.planned +
+                props.completed +
+                props.delayed +
+                props.abandoned)
+            } / ${total} * 100%))`,
           } as React.CSSProperties
         }
       >

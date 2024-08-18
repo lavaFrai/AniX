@@ -1,5 +1,6 @@
 import { Card, Dropdown, Button } from "flowbite-react";
 import { ENDPOINTS } from "#/api/config";
+import Link from "next/link";
 
 const lists = [
   { list: 0, name: "Не смотрю" },
@@ -12,8 +13,7 @@ const lists = [
 
 const DropdownTheme = {
   floating: {
-    target:
-      "flex-1",
+    target: "flex-1",
   },
 };
 
@@ -24,6 +24,7 @@ export const ReleaseInfoUserList = (props: {
   token: string | null;
   setUserList: any;
   setIsFavorite: any;
+  collection_count: number;
 }) => {
   function _addToFavorite() {
     if (props.token) {
@@ -51,39 +52,57 @@ export const ReleaseInfoUserList = (props: {
 
   return (
     <Card className="h-full">
-      {props.token ? (
-        <div className="flex flex-wrap gap-2">
-          <Dropdown
-            label={lists[props.userList].name}
-            dismissOnClick={true}
-            theme={DropdownTheme}
-            color="blue"
-          >
-            {lists.map((list) => (
-              <Dropdown.Item
-                key={list.list}
-                onClick={() => _addToList(list.list)}
-              >
-                {list.name}
-              </Dropdown.Item>
-            ))}
-          </Dropdown>
-          <Button
-            color="blue"
-            onClick={() => {
-              _addToFavorite();
-            }}
-          >
-            <span
-              className={`iconify w-6 h-6 ${
-                props.isFavorite ? "mdi--heart" : "mdi--heart-outline"
-              }`}
-            ></span>
+      <div className="flex flex-wrap gap-1">
+        <Button color={"blue"} size="sm" className="w-full lg:w-auto ">
+          <Link href={`/release/${props.release_id}/collections`}>
+            Показать в коллекциях{" "}
+            <span className="p-1 ml-1 text-gray-500 rounded bg-gray-50">
+              {props.collection_count}
+            </span>
+          </Link>
+        </Button>
+        {props.token && (
+          <Button color={"blue"} size="sm" className="w-full lg:w-auto lg:flex-1">
+            В коллекцию{" "}
+            <span className="w-6 h-6 iconify mdi--bookmark-add "></span>
           </Button>
-        </div>
-      ) : (
-        <p>Войдите что-бы добавить в избранное или список</p>
-      )}
+        )}
+        {props.token ? (
+          <>
+            <Dropdown
+              label={lists[props.userList].name}
+              dismissOnClick={true}
+              theme={DropdownTheme}
+              color="blue"
+              size="sm"
+            >
+              {lists.map((list) => (
+                <Dropdown.Item
+                  key={list.list}
+                  onClick={() => _addToList(list.list)}
+                >
+                  {list.name}
+                </Dropdown.Item>
+              ))}
+            </Dropdown>
+            <Button
+              color="blue"
+              onClick={() => {
+                _addToFavorite();
+              }}
+              size="sm"
+            >
+              <span
+                className={`iconify w-6 h-6 ${
+                  props.isFavorite ? "mdi--heart" : "mdi--heart-outline"
+                }`}
+              ></span>
+            </Button>
+          </>
+        ) : (
+          <p>Войдите что-бы добавить список, избранное или коллекцию</p>
+        )}
+      </div>
     </Card>
   );
 };
