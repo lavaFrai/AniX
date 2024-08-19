@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AniX - Unofficial Web Client for Anixart
 
-## Getting Started
+AniX is an unofficial web client for the Android application Anixart. It allows you to access and manage your Anixart account from a web browser on your desktop or laptop computer.
 
-First, run the development server:
+[Russian Readme](./docs/REAME.RU.md)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Changelog [RU]
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [3.1.0](./public/changelog/3.1.0.md)
+- [3.0.1](./public/changelog/3.0.1.md)
+- [3.0.0](./public/changelog/3.0.0.md)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+[other versions](./public/changelog)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Disclaimer
 
-## Learn More
+Please note that AniX is an unofficial project and is not affiliated with the developers of Anixart. It is recommended to use the official Anixart app for the most up-to-date features and functionality.
 
-To learn more about Next.js, take a look at the following resources:
+## Screenshots
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<details>
+<summary>Pages Short</summary>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![Pages Short Screenshot](./docs/images/shortPageView.jpg)
 
-## Deploy on Vercel
+</details>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<details>
+<summary>Pages Full</summary>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Pages Full Screenshot](./docs/images/fullPageView.jpg)
+
+</details>
+
+<details>
+<summary>Search Page</summary>
+
+![Search Page Screenshot](./docs/images/SearchPageView.jpg)
+
+</details>
+
+<details>
+<summary>Release Page</summary>
+
+![Release Page Screenshot](./docs/images/ReleasePageView.jpg)
+
+</details>
+
+<details>
+<summary>User Page</summary>
+
+![User Page Screenshot](./docs/images/ProfilePageView.jpg)
+
+</details>
+
+## Features
+
+1. Use your existing Anixart account
+2. sync lists, watch history, collections and more
+3. use almost all features of an android app
+
+## Contributing
+
+We welcome contributions to this project! If you have any bug fixes, improvements, or new features, please feel free to create a pull request.
