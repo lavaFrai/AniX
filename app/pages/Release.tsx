@@ -18,7 +18,7 @@ import { CommentsMain } from "#/components/Comments/Comments.Main";
 import { InfoLists } from "#/components/InfoLists/InfoLists";
 
 export const ReleasePage = (props: any) => {
-  const token = useUserStore((state) => state.token);
+  const userStore = useUserStore();
   const [userList, setUserList] = useState(0);
   const [userFavorite, setUserFavorite] = useState(false);
 
@@ -26,8 +26,8 @@ export const ReleasePage = (props: any) => {
     let url: string;
 
     url = `/api/release/${id}`;
-    if (token) {
-      url += `?token=${token}`;
+    if (userStore.token) {
+      url += `?token=${userStore.token}`;
     }
     const { data, isLoading, error } = useSWR(url, fetcher);
     return [data, isLoading, error];
@@ -84,7 +84,8 @@ export const ReleasePage = (props: any) => {
             userList={userList}
             isFavorite={userFavorite}
             release_id={data.release.id}
-            token={token}
+            token={userStore.token}
+            profile_id={userStore.user.id}
             setUserList={setUserList}
             setIsFavorite={setUserFavorite}
             collection_count={data.release.collection_count}
@@ -100,7 +101,7 @@ export const ReleasePage = (props: any) => {
             <ReleaseInfoRating
               release_id={props.id}
               grade={data.release.grade}
-              token={token}
+              token={userStore.token}
               votes={{
                 1: data.release.vote_1_count,
                 2: data.release.vote_2_count,
@@ -142,7 +143,7 @@ export const ReleasePage = (props: any) => {
         <div className="[grid-column:1] [grid-row:span_32]">
           <CommentsMain
             release_id={props.id}
-            token={token}
+            token={userStore.token}
             comments={data.release.comments}
           />
         </div>

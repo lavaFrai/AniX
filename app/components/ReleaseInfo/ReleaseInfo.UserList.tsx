@@ -1,6 +1,8 @@
-import { Card, Dropdown, Button } from "flowbite-react";
+import { Card, Dropdown, Button, Modal } from "flowbite-react";
 import { ENDPOINTS } from "#/api/config";
 import Link from "next/link";
+import useSWRInfinite from "swr/infinite";
+import { useCallback, useEffect, useState } from "react";
 
 const lists = [
   { list: 0, name: "Не смотрю" },
@@ -25,7 +27,10 @@ export const ReleaseInfoUserList = (props: {
   setUserList: any;
   setIsFavorite: any;
   collection_count: number;
+  profile_id: number;
 }) => {
+  const [AddReleaseToCollectionModalOpen, setAddReleaseToCollectionModalOpen] =
+    useState(false);
   function _addToFavorite() {
     if (props.token) {
       props.setIsFavorite(!props.isFavorite);
@@ -62,7 +67,12 @@ export const ReleaseInfoUserList = (props: {
           </Link>
         </Button>
         {props.token && (
-          <Button color={"blue"} size="sm" className="w-full lg:w-auto lg:flex-1">
+          <Button
+            color={"blue"}
+            size="sm"
+            className="w-full lg:w-auto lg:flex-1"
+            onClick={() => setAddReleaseToCollectionModalOpen(true)}
+          >
             В коллекцию{" "}
             <span className="w-6 h-6 iconify mdi--bookmark-add "></span>
           </Button>
@@ -103,6 +113,135 @@ export const ReleaseInfoUserList = (props: {
           <p>Войдите что-бы добавить в список, избранное или коллекцию</p>
         )}
       </div>
+      <AddReleaseToCollectionModal
+        isOpen={AddReleaseToCollectionModalOpen}
+        setIsOpen={setAddReleaseToCollectionModalOpen}
+        release_id={props.release_id}
+        token={props.token}
+        profile_id={props.profile_id}
+      />
     </Card>
+  );
+};
+
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    const error = new Error(
+      `An error occurred while fetching the data. status: ${res.status}`
+    );
+    error.message = await res.json();
+    throw error;
+  }
+
+  return res.json();
+};
+
+const AddReleaseToCollectionModal = (props: {
+  isOpen: boolean;
+  setIsOpen: (isopen: boolean) => void;
+  release_id: number;
+  token: string;
+  profile_id: number;
+}) => {
+  const getKey = (pageIndex: number, previousPageData: any) => {
+    if (previousPageData && !previousPageData.content.length) return null;
+    return `${ENDPOINTS.collection.userCollections}/${props.profile_id}/${pageIndex}?token=${props.token}`;
+  };
+
+  const { data, error, isLoading, size, setSize } = useSWRInfinite(
+    getKey,
+    fetcher,
+    { initialSize: 2 }
+  );
+
+  const [currentRef, setCurrentRef] = useState<any>(null);
+  const modalRef = useCallback((ref) => {
+    setCurrentRef(ref);
+  }, []);
+
+  const [content, setContent] = useState([]);
+  useEffect(() => {
+    if (data) {
+      let allReleases = [];
+      for (let i = 0; i < data.length; i++) {
+        allReleases.push(...data[i].content);
+      }
+      setContent(allReleases);
+    }
+  }, [data]);
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+  function handleScroll() {
+    const height = currentRef.scrollHeight - currentRef.clientHeight;
+    const windowScroll = currentRef.scrollTop;
+    const scrolled = (windowScroll / height) * 100;
+    setScrollPosition(Math.floor(scrolled));
+  }
+
+  useEffect(() => {
+    if (scrollPosition >= 95 && scrollPosition <= 96) {
+      setSize(size + 1);
+    }
+  }, [scrollPosition]);
+
+  function _addToCollection(collection_id: number) {
+    if (props.token) {
+      fetch(
+        `${ENDPOINTS.collection.addRelease}/${collection_id}?release_id=${props.release_id}&token=${props.token}`
+      )
+        .then((res) => {
+          if (!res.ok) {
+            alert("Ошибка добавления релиза в коллекцию.");
+          } else {
+            return res.json();
+          }
+        })
+        .then((data) => {
+          if (data.code != 0) {
+            alert(
+              "Не удалось добавить релиз в коллекцию, возможно он уже в ней находится."
+            );
+          } else {
+            props.setIsOpen(false);
+          }
+        });
+    }
+  }
+
+  return (
+    <Modal
+      dismissible
+      show={props.isOpen}
+      onClose={() => props.setIsOpen(false)}
+    >
+      <Modal.Header>Выбор коллекции</Modal.Header>
+      <div
+        className="flex flex-col gap-2 p-4 overflow-y-auto"
+        onScroll={handleScroll}
+        ref={modalRef}
+      >
+        {content && content.length > 0
+          ? content.map((collection) => (
+              <button
+                className="relative w-full h-64 overflow-hidden bg-center bg-no-repeat bg-cover rounded-sm group-hover:animate-bg_zoom animate-bg_zoom_rev group-hover:[background-size:110%] "
+                style={{
+                  backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%), url(${collection.image})`,
+                }}
+                key={`collection_${collection.id}`}
+                onClick={() => _addToCollection(collection.id)}
+              >
+                <div className="absolute bottom-0 left-0 gap-1 p-2">
+                  <p className="text-xl font-bold text-white">
+                    {collection.title}
+                  </p>
+                  <p className="text-gray-400">{collection.description}</p>
+                </div>
+              </button>
+            ))
+          : "коллекций не найдено"}
+      </div>
+    </Modal>
   );
 };

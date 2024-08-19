@@ -24,6 +24,7 @@ export const ENDPOINTS = {
   collection: {
     base: `${API_PREFIX}/collection`,
     list: `${API_PREFIX}/collection/list`,
+    addRelease: `${API_PREFIX}/collectionMy/release/add`,
     create: `${API_PREFIX}/collectionMy/create`,
     delete: `${API_PREFIX}/collectionMy/delete`,
     edit: `${API_PREFIX}/collectionMy/edit`,
