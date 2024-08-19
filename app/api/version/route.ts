@@ -5,7 +5,7 @@ import * as path from "node:path";
 export async function GET() {
   const directoryPath = path.join(process.cwd(), "public/changelog");
   const files = fs.readdirSync(directoryPath);
-  const current = "3.0.1";
+  const current = "3.1.0";
   const previous = [];
   files.forEach((file) => {
     if (file != `${current}.md`) {
