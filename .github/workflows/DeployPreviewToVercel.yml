@@ -9,7 +9,9 @@ on:
       - 'V3'
     paths-ignore:
       - '**/README.md'
+      - '**/LICENSE'
       - '**/TODO.md'
+      - '**/docs/**'
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest

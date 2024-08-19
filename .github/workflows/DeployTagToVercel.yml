@@ -9,7 +9,9 @@ on:
       - '*' # Push events to every tag not containing /
     paths-ignore:
       - '**/README.md'
+      - '**/LICENSE'
       - '**/TODO.md'
+      - '**/docs/**'
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
