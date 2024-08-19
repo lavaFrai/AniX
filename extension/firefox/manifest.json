@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "1.1",
+  "version": "1.2",
   "name": "Watch on Anix",
   "description": "Adds a button to watch on Anix.",
   "browser_specific_settings": {
@@ -13,7 +13,9 @@
       "matches": [
         "https://anixart.tv/release/*",
         "https://anixart.tv/collection/*",
-        "https://anixart.tv/profile/*"
+        "https://anixart.tv/profile/*",
+        "https://www.kinopoisk.ru/film/*",
+        "https://www.kinopoisk.ru/series/*"
       ],
       "js": [
         "main.js"
