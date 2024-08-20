@@ -12,6 +12,7 @@ on:
       - '**/LICENSE'
       - '**/TODO.md'
       - '**/docs/**'
+      - '**/extension/**'
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
