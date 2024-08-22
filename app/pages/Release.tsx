@@ -46,7 +46,7 @@ export const ReleasePage = (props: any) => {
   }, [data]);
 
   return data ? (
-    <main className="container px-4 pt-4 pb-24 mx-auto sm:pb-4">
+    <>
       <div className="flex flex-col lg:grid lg:grid-cols-[70%_30%] gap-2 grid-flow-row-dense">
         <div className="[grid-column:1] [grid-row:span_2]">
           <ReleaseInfoBasics
@@ -148,10 +148,10 @@ export const ReleasePage = (props: any) => {
           />
         </div>
       </div>
-    </main>
+    </>
   ) : (
-    <main className="flex h-[100dvh] w-full justify-center items-center">
+    <div className="flex h-[100dvh] w-full justify-center items-center">
       <Spinner />
-    </main>
+    </div>
   );
 };

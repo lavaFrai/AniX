@@ -48,7 +48,7 @@ export function IndexCategoryPage(props) {
   // if (error) return <div>failed to load</div>;
 
   return (
-    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
+    <>
       {content && content.length > 0 ? (
         <ReleaseSection
           sectionTitle={props.SectionTitleMapping[props.slug]}
@@ -76,6 +76,6 @@ export function IndexCategoryPage(props) {
           <span className="text-lg">Загрузить ещё</span>
         </div>
       </Button>
-    </main>
+    </>
   );
 }

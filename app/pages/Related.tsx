@@ -57,7 +57,7 @@ export function RelatedPage(props: {id: number|string, title: string}) {
   }, [scrollPosition]);
 
   return (
-    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
+    <>
       <div className="flex items-center justify-between px-4 py-2 border-b-2 border-black dark:border-white">
         <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
           Франшиза {props.title}
@@ -86,6 +86,6 @@ export function RelatedPage(props: {id: number|string, title: string}) {
             <span className="text-lg">Загрузить ещё</span>
           </button>
         )}
-    </main>
+    </>
   );
 }

@@ -90,7 +90,7 @@ export function SearchPage() {
   if (error) return <div>failed to load</div>;
 
   return (
-    <main className="container px-2 pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
+    <>
       <div>
         <form
           className="max-w-full mx-auto"
@@ -179,6 +179,6 @@ export function SearchPage() {
           </div>
         </Button>
       )}
-    </main>
+    </>
   );
 }

@@ -225,7 +225,7 @@ export const CreateCollectionPage = () => {
   }
 
   return (
-    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
+    <>
       <Card>
         <p className="text-xl font-bold">
           {edit ? "Редактирование коллекции" : "Создание коллекции"}
@@ -400,7 +400,7 @@ export const CreateCollectionPage = () => {
         width={600}
         height={337}
       />
-    </main>
+    </>
   );
 };
 

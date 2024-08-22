@@ -68,7 +68,7 @@ export function HistoryPage() {
   }, [authState, token]);
 
   return (
-    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-4">
+    <>
       {content && content.length > 0 ? (
         <>
           <ReleaseSection sectionTitle="История" content={content} />
@@ -95,6 +95,6 @@ export function HistoryPage() {
           <p>В истории пока ничего нет...</p>
         </div>
       )}
-    </main>
+    </>
   );
 }

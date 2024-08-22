@@ -38,7 +38,7 @@ export function CollectionsPage() {
   }, [userStore.state, userStore.token]);
 
   return (
-    <main className="container flex flex-col pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
+    <>
       {userStore.state === "loading" &&
         (!userCollections || !favoriteCollections) && (
           <div className="flex items-center justify-center min-w-full min-h-screen">
@@ -63,6 +63,6 @@ export function CollectionsPage() {
             content={favoriteCollections.content}
           />
         )}
-    </main>
+    </>
   );
 }

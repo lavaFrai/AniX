@@ -89,7 +89,7 @@ export const ViewCollectionPage = (props: { id: number }) => {
   }, [scrollPosition]);
 
   return (
-    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
+    <>
       {collectionInfoIsLoading ? (
         <div className="flex items-center justify-center w-full h-screen">
           <Spinner />
@@ -150,6 +150,6 @@ export const ViewCollectionPage = (props: { id: number }) => {
           </>
         )
       )}
-    </main>
+    </>
   );
 };

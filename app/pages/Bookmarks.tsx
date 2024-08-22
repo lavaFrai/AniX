@@ -39,7 +39,7 @@ export function BookmarksPage() {
   }, [authState, token]);
 
   return (
-    <main className="container flex flex-col pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
+    <>
       {authState === "loading" &&
         (!watchingData ||
           !plannedData ||
@@ -89,6 +89,6 @@ export function BookmarksPage() {
             content={abandonedData.content}
           />
         )}
-    </main>
+    </>
   );
 }

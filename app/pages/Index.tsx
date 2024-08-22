@@ -40,7 +40,7 @@ export function IndexPage() {
   }, [token]);
 
   return (
-    <main className="container flex flex-col pt-2 pb-20 mx-auto sm:pt-4 sm:pb-0">
+    <>
       {lastReleasesData ? (
         <ReleaseCourusel
           sectionTitle="Последние релизы"
@@ -89,6 +89,6 @@ export function IndexPage() {
             <h1 className="text-2xl">Ошибка загрузки контента...</h1>
           </div>
         )}
-    </main>
+    </>
   );
 }

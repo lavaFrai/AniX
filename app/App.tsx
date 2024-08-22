@@ -60,7 +60,9 @@ export const App = (props) => {
       className={`${inter.className} overflow-x-hidden dark:bg-[#0d1117] dark:text-white`}
     >
       <Navbar />
-      {props.children}
+      <main className="container px-2 pt-4 pb-24 mx-auto sm:pb-0">
+        {props.children}
+      </main>
       <ChangelogModal
         isOpen={showChangelog && preferencesStore.flags.showChangelog}
         setIsOpen={() => {

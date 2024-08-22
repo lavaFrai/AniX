@@ -89,7 +89,7 @@ export function CollectionsFullPage(props: {
   }, [userStore.state, userStore.token]);
 
   return (
-    <main className="container pt-2 pb-16 mx-auto sm:pt-4 sm:pb-0">
+    <>
       {content && content.length > 0 ? (
         <CollectionsSection
           sectionTitle={props.title}
@@ -122,6 +122,6 @@ export function CollectionsFullPage(props: {
             </div>
           </Button>
         )}
-    </main>
+    </>
   );
 }
