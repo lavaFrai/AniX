@@ -32,7 +32,7 @@ export const ReleaseLink169 = (props: any) => {
             backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%), url(${props.image})`,
           }}
         >
-          <div className="absolute flex flex-wrap items-start justify-start gap-0.5 sm:gap-1 left-2 top-2">
+          <div className="absolute flex flex-wrap items-start justify-start gap-0.5 sm:gap-1 left-0 top-0 p-2">
             <Chip
               bg_color={
                 grade == 0
@@ -94,9 +94,16 @@ export const ReleaseLink169 = (props: any) => {
             )}
           </div>
           <div className="absolute bottom-0 left-0 px-2 py-2 lg:translate-y-[100%] group-hover:lg:translate-y-0 transition-transform">
-            <p className="text-sm font-bold text-white transition-transform lg:-translate-y-[calc(100%_+_1rem)] group-hover:lg:translate-y-0 xl:text-base lg:text-lg">
-              {props.title_ru}
-            </p>
+            <div className="transition-transform lg:-translate-y-[calc(100%_+_1rem)] group-hover:lg:translate-y-0">
+              {props.genres && (
+                <p className="text-sm font-light text-white xl:text-base lg:text-lg">
+                  {props.genres}
+                </p>
+              )}
+              <p className="text-sm font-bold text-white xl:text-base lg:text-lg">
+                {props.title_ru}
+              </p>
+            </div>
             <p className="text-xs text-white xl:text-base lg:text-lg right-2">
               {props.description}
             </p>
