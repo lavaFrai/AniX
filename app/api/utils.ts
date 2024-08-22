@@ -16,7 +16,7 @@ export const fetchDataViaGet = async (
       headers: HEADERS,
     });
     if (response.status !== 200) {
-      throw new Error("Error fetching data");
+      return null;
     }
     const data = await response.json();
     return data;
@@ -45,7 +45,7 @@ export const fetchDataViaPost = async (
       body: body,
     });
     if (response.status !== 200) {
-      throw new Error("Error fetching data");
+      return null;
     }
     const data = await response.json();
     return data;

@@ -16,6 +16,7 @@ import { ReleaseInfoRelated } from "#/components/ReleaseInfo/ReleaseInfo.Related
 import { ReleaseInfoScreenshots } from "#/components/ReleaseInfo/ReleaseInfo.Screenshots";
 import { CommentsMain } from "#/components/Comments/Comments.Main";
 import { InfoLists } from "#/components/InfoLists/InfoLists";
+import { ENDPOINTS } from "#/api/config";
 
 export const ReleasePage = (props: any) => {
   const userStore = useUserStore();
@@ -25,7 +26,7 @@ export const ReleasePage = (props: any) => {
   function useFetch(id: number) {
     let url: string;
 
-    url = `/api/release/${id}`;
+    url = `${ENDPOINTS.release.info}/${id}`;
     if (userStore.token) {
       url += `?token=${userStore.token}`;
     }

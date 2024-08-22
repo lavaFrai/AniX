@@ -1,6 +1,7 @@
 "use client";
 import { create } from "zustand";
 import { getJWT, removeJWT, fetchDataViaGet } from "#/api/utils";
+import { ENDPOINTS } from "#/api/config";
 
 interface userState {
   _hasHydrated: boolean;
@@ -44,7 +45,7 @@ export const useUserStore = create<userState>((set, get) => ({
     if (jwt) {
       const _checkAuth = async () => {
         const data = await fetchDataViaGet(
-          `/api/profile/${jwt.user_id}?token=${jwt.jwt}`
+          `${ENDPOINTS.user.profile}/${jwt.user_id}?token=${jwt.jwt}`
         );
         if (data && data.is_my_profile) {
           get().login(data.profile, jwt.jwt);
