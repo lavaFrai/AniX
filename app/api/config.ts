@@ -1,3 +1,5 @@
+export const CURRENT_APP_VERSION = "3.1.1";
+
 export const API_URL = "https://api.anixart.tv";
 export const API_PREFIX = "/api";
 export const USER_AGENT =

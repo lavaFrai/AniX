@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { CURRENT_APP_VERSION } from "../config";
 
 export async function GET() {
   const directoryPath = path.join(process.cwd(), "public/changelog");
   const files = fs.readdirSync(directoryPath);
-  const current = "3.1.0";
+  const current = CURRENT_APP_VERSION;
   const previous = [];
   files.forEach((file) => {
     if (file != `${current}.md`) {
