@@ -93,19 +93,19 @@ export const ReleaseLink169 = (props: any) => {
               </div>
             )}
           </div>
-          <div className="absolute bottom-0 left-0 px-2 py-2 lg:translate-y-[100%] group-hover:lg:translate-y-0 transition-transform">
+          <div className="absolute bottom-0 left-0 p-2 lg:translate-y-[100%] group-hover:lg:translate-y-0 transition-transform">
             <div className="transition-transform lg:-translate-y-[calc(100%_+_1rem)] group-hover:lg:translate-y-0">
               {props.genres && (
-                <p className="text-sm font-light text-white xl:text-base lg:text-lg">
+                <p className="text-xs font-light text-white md:text-sm lg:text-base xl:text-lg">
                   {props.genres}
                 </p>
               )}
-              <p className="text-sm font-bold text-white xl:text-base lg:text-lg">
+              <p className="text-sm font-bold text-white md:text-base lg:text-lg xl:text-xl">
                 {props.title_ru}
               </p>
             </div>
-            <p className="text-xs text-white xl:text-base lg:text-lg right-2">
-              {props.description}
+            <p className="text-xs font-light text-white md:text-sm lg:text-base xl:text-lg">
+              {`${props.description.slice(0, 125)}${props.description.length > 125 ? "..." : ""}`}
             </p>
           </div>
         </div>
