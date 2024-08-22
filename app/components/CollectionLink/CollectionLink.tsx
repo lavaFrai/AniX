@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { sinceUnixDate } from "#/api/utils";
 import { Chip } from "#/components/Chip/Chip";
 
 export const CollectionLink = (props: any) => {

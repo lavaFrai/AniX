@@ -1,12 +1,12 @@
 "use client";
 import { useUserStore } from "#/store/auth";
 import { useEffect, useState } from "react";
-import { fetchDataViaGet } from "../api/utils";
 import { Spinner } from "../components/Spinner/Spinner";
 import { Avatar, Card, Button, Table } from "flowbite-react";
 import { Chip } from "../components/Chip/Chip";
-import { unixToDate, minutesToTime } from "../api/utils";
+import { fetchDataViaGet, unixToDate, minutesToTime } from "../api/utils";
 import { ReleaseCourusel } from "#/components/ReleaseCourusel/ReleaseCourusel";
+import { ENDPOINTS } from "#/api/config";
 
 export const ProfilePage = (props: any) => {
   const authUser = useUserStore((state) => state);
@@ -15,7 +15,7 @@ export const ProfilePage = (props: any) => {
 
   useEffect(() => {
     async function _getData() {
-      let url = `/api/profile/${props.id}`;
+      let url = `${ENDPOINTS.user.profile}/${props.id}`;
       if (authUser.token) {
         url += `?token=${authUser.token}`;
       }

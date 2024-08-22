@@ -1,7 +1,7 @@
 export const CURRENT_APP_VERSION = "3.1.1";
 
 export const API_URL = "https://api.anixart.tv";
-export const API_PREFIX = "/api";
+export const API_PREFIX = "/api/proxy";
 export const USER_AGENT =
   "AnixartApp/8.2.1-23121216 (Android 9; SDK 28; arm64-v8a; samsung SM-G975N; en)";
 
@@ -25,7 +25,6 @@ export const ENDPOINTS = {
   },
   collection: {
     base: `${API_PREFIX}/collection`,
-    list: `${API_PREFIX}/collection/list`,
     addRelease: `${API_PREFIX}/collectionMy/release/add`,
     create: `${API_PREFIX}/collectionMy/create`,
     delete: `${API_PREFIX}/collectionMy/delete`,
