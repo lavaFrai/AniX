@@ -49,14 +49,14 @@ export const ChangelogModal = (props: {
         <Markdown className={Styles.markdown}>
           {currentVersionChangelog}
         </Markdown>
-        {Object.keys(previousVersionsChangelog).length > 0 && (
+        {Object.keys(previousVersionsChangelog).length == props.previousVersions.length && (
           <Accordion collapseAll={true} className="mt-4">
-            {Object.entries(previousVersionsChangelog).map(
-              ([version, changelog]) => (
+            {props.previousVersions.map(
+              (version) => (
                 <Accordion.Panel key={version}>
                   <Accordion.Title>Список изменений v{version}</Accordion.Title>
                   <Accordion.Content>
-                    <Markdown className={Styles.markdown}>{changelog}</Markdown>
+                    <Markdown className={Styles.markdown}>{previousVersionsChangelog[version]}</Markdown>
                   </Accordion.Content>
                 </Accordion.Panel>
               )
