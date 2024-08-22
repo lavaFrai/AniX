@@ -6,6 +6,7 @@ import Link from "next/link";
 import { CommentsAddModal } from "./Comments.Add";
 import { CommentsEditModal } from "./Comments.Edit";
 import { useUserStore } from "#/store/auth";
+import Image from "next/image";
 
 export const CommentsComment = (props: {
   release_id: number;
@@ -155,8 +156,10 @@ export const CommentsComment = (props: {
               href={`/profile/${props.profile.id}`}
               className="inline-flex items-center mr-3 text-sm font-semibold text-gray-900 dark:text-white hover:underline"
             >
-              <img
+              <Image
                 className="w-6 h-6 mr-2 rounded-full"
+                width={24}
+                height={24}
                 src={props.profile.avatar}
                 alt=""
               />

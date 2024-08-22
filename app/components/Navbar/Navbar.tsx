@@ -11,6 +11,7 @@ import {
   ToggleSwitch,
 } from "flowbite-react";
 import { useState } from "react";
+import Image from "next/image";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -110,10 +111,12 @@ export const Navbar = () => {
           </nav>
           {userStore.isAuth ? (
             <div className="flex flex-col items-center justify-end text-sm lg:gap-1 lg:justify-center lg:flex-row lg:text-base">
-              <img
+              <Image
                 src={userStore.user.avatar}
                 alt=""
                 className="w-6 h-6 rounded-full"
+                width={24}
+                height={24}
               />
               <Dropdown
                 label={userStore.user.login}

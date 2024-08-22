@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { sinceUnixDate } from "#/api/utils";
 import { Chip } from "#/components/Chip/Chip";
+import Image from "next/image";
 
 const profile_lists = {
   // 0: "Не смотрю",
@@ -29,10 +30,21 @@ export const ReleaseLink169 = (props: any) => {
         <div
           className="relative w-full h-full overflow-hidden bg-center bg-no-repeat bg-cover rounded-sm group-hover:animate-bg_zoom animate-bg_zoom_rev group-hover:[background-size:110%] "
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%), url(${props.image})`,
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%)`,
           }}
         >
-          <div className="absolute flex flex-wrap items-start justify-start gap-0.5 sm:gap-1 left-0 top-0 p-2">
+          <Image
+            src={props.image}
+            fill={true}
+            alt={props.title}
+            className="-z-[1] object-cover"
+            sizes="
+                  (max-width: 768px) 300px,
+                  (max-width: 1024px) 600px,
+                  900px
+                  "
+          />
+          <div className="absolute flex flex-wrap items-start justify-start gap-0.5 sm:gap-1 left-0 top-0 p-1 sm:p-2">
             <Chip
               bg_color={
                 grade == 0
@@ -93,7 +105,7 @@ export const ReleaseLink169 = (props: any) => {
               </div>
             )}
           </div>
-          <div className="absolute bottom-0 left-0 p-2 lg:translate-y-[100%] group-hover:lg:translate-y-0 transition-transform">
+          <div className="absolute bottom-0 left-0 p-1 sm:p-2 lg:translate-y-[100%] group-hover:lg:translate-y-0 transition-transform">
             <div className="transition-transform lg:-translate-y-[calc(100%_+_1rem)] group-hover:lg:translate-y-0">
               {props.genres && (
                 <p className="text-xs font-light text-white md:text-sm lg:text-base xl:text-lg">
@@ -105,7 +117,9 @@ export const ReleaseLink169 = (props: any) => {
               </p>
             </div>
             <p className="text-xs font-light text-white md:text-sm lg:text-base xl:text-lg">
-              {`${props.description.slice(0, 125)}${props.description.length > 125 ? "..." : ""}`}
+              {`${props.description.slice(0, 125)}${
+                props.description.length > 125 ? "..." : ""
+              }`}
             </p>
           </div>
         </div>
