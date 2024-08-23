@@ -42,6 +42,7 @@ export const CollectionInfoBasics = (props: {
             width={725}
             height={400}
             className="w-full rounded-lg"
+            alt=""
           />
         </div>
         <div className="flex flex-col gap-1">

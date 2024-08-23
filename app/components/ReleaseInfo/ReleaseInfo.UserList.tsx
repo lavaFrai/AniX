@@ -184,7 +184,9 @@ const AddReleaseToCollectionModal = (props: {
     if (scrollPosition >= 95 && scrollPosition <= 96) {
       setSize(size + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
+
 
   function _addToCollection(collection_id: number) {
     if (props.token) {

@@ -39,7 +39,6 @@ export const CreateCollectionPage = () => {
 
   const [edit, setEdit] = useState(false);
 
-  // const [imageData, setImageData] = useState<File | Blob>(null);
   const [imageUrl, setImageUrl] = useState<string>(null);
   const [tempImageUrl, setTempImageUrl] = useState<string>(null);
   const [isPrivate, setIsPrivate] = useState(false);
@@ -118,6 +117,7 @@ export const CreateCollectionPage = () => {
     if (userStore.user) {
       _checkMode();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userStore.user]);
 
   const handleFileRead = (e, fileReader) => {
@@ -265,9 +265,11 @@ export const CreateCollectionPage = () => {
                   </p>
                 </>
               ) : (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={imageUrl}
                   className="object-cover w-[inherit] h-[inherit]"
+                  alt=""
                 />
               )}
             </div>
@@ -457,6 +459,7 @@ export const ReleasesEditModal = (props: {
     if (scrollPosition >= 95 && scrollPosition <= 96) {
       setSize(size + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
   function _addRelease(release: any) {

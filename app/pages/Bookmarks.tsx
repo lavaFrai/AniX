@@ -36,6 +36,7 @@ export function BookmarksPage() {
     if (authState === "finished" && !token) {
       router.push("/login?redirect=/bookmarks");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState, token]);
 
   return (

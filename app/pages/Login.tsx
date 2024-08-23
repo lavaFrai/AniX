@@ -49,6 +49,7 @@ export function LoginPage() {
     if (userStore.user) {
       router.push(`${redirect || "/"}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userStore.user]);
 
   return (

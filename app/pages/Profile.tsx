@@ -24,6 +24,7 @@ export const ProfilePage = (props: any) => {
       setIsMyProfile(data.is_my_profile);
     }
     _getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser]);
 
   if (!user) {

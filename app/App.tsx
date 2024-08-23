@@ -18,21 +18,24 @@ export const App = (props) => {
   const [currentVersion, setCurrentVersion] = useState("");
   const [previousVersions, setPreviousVersions] = useState([]);
 
-  async function _checkVersion() {
-    const res = await fetch("/api/version");
-    const data = await res.json();
-
-    if (data.version !== preferencesStore.params.version) {
-      setShowChangelog(true);
-      setCurrentVersion(data.version);
-      setPreviousVersions(data.previous);
-    }
-  }
   useEffect(() => {
+    async function _checkVersion() {
+      const res = await fetch("/api/version");
+      const data = await res.json();
+
+      if (data.version !== preferencesStore.params.version) {
+        setShowChangelog(true);
+        setCurrentVersion(data.version);
+        setPreviousVersions(data.previous);
+      }
+    }
+
     if (preferencesStore._hasHydrated) {
       _checkVersion();
       userStore.checkAuth();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferencesStore._hasHydrated]);
 
   if (!preferencesStore._hasHydrated && !userStore._hasHydrated) {

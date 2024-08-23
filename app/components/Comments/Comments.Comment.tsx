@@ -99,6 +99,7 @@ export const CommentsComment = (props: {
       setShouldRender(false);
       setCommentSend(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentSend]);
 
   async function _sendVote(action: number) {

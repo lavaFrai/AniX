@@ -13,12 +13,11 @@ export const RelatedSection = (props: any) => {
     <section>
       <div className="flex flex-col justify-between gap-4 p-4 xl:flex-row">
         <div className="flex items-center justify-center p-4">
-          {props.images.map((item) => {
+          {props.images.map((item, index) => {
             return (
-              <div className="w-[100px] lg:w-[300px] aspect-[9/12] even:scale-110 shadow-md even:shadow-lg even:z-30 origin-center first:[transform:translateX(25%)] last:[transform:translateX(-25%)]">
+              <div key={`related-img-${index}`} className="w-[100px] lg:w-[300px] aspect-[9/12] even:scale-110 shadow-md even:shadow-lg even:z-30 origin-center first:[transform:translateX(25%)] last:[transform:translateX(-25%)]">
                 <Image
                   fill={true}
-                  key={item}
                   src={item}
                   alt=""
                   sizes="

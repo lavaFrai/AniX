@@ -155,6 +155,7 @@ const CommentsAllModal = (props: {
     if (scrollPosition >= 95 && scrollPosition <= 96) {
       setSize(size + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
   return (

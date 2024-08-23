@@ -25,6 +25,7 @@ export function IndexCategoryPage(props) {
     }
 
     _loadInitialReleases();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export function IndexCategoryPage(props) {
     if (content) {
       _loadNextReleasesPage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const scrollPosition = useScrollPosition();
@@ -43,9 +45,8 @@ export function IndexCategoryPage(props) {
     if (scrollPosition == 98) {
       setPage(page + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
-
-  // if (error) return <div>failed to load</div>;
 
   return (
     <>

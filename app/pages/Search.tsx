@@ -85,6 +85,7 @@ export function SearchPage() {
     if (scrollPosition >= 98 && scrollPosition <= 99) {
       setSize(size + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
   if (error) return <div>failed to load</div>;

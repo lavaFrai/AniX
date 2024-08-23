@@ -35,6 +35,7 @@ export function CollectionsPage() {
     if (userStore.state === "finished" && !userStore.token) {
       router.push("/login?redirect=/collections");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userStore.state, userStore.token]);
 
   return (

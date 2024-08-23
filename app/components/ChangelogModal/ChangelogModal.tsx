@@ -40,6 +40,7 @@ export const ChangelogModal = (props: {
         });
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.version]);
 
   return (

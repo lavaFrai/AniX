@@ -59,12 +59,14 @@ export function HistoryPage() {
     if (scrollPosition >= 98 && scrollPosition <= 99) {
       setSize(size + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
   useEffect(() => {
     if (authState === "finished" && !token) {
       router.push("/login?redirect=/history");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState, token]);
 
   return (

@@ -76,6 +76,7 @@ export function CollectionsFullPage(props: {
     if (scrollPosition >= 98 && scrollPosition <= 99) {
       setSize(size + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
   useEffect(() => {
@@ -86,6 +87,7 @@ export function CollectionsFullPage(props: {
     ) {
       router.push(`/login?redirect=/collections/favorites`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userStore.state, userStore.token]);
 
   return (
