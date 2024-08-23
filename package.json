@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "apexcharts": "^3.52.0",
     "deepmerge-ts": "^7.1.0",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",

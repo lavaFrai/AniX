@@ -12,7 +12,9 @@ module.exports = {
   plugins: [
     addIconSelectors(["mdi", "material-symbols", "twemoji", "fa6-brands"]),
     require("tailwind-scrollbar"),
-    flowbite.plugin(),
+    flowbite.plugin()({
+      charts: true,
+    }),
   ],
   darkMode: "selector",
   theme: {

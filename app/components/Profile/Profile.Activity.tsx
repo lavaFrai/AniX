@@ -11,7 +11,7 @@ export function ProfileActivity(props: {
   friendsCount: number;
 }) {
   return (
-    <Card className="w-full md:w-[325px]">
+    <Card className="h-full">
       <h1 className="text-2xl font-bold">Активность</h1>
       <div className="flex items-center gap-4 text-lg">
         <div>

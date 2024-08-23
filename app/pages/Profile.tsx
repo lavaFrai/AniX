@@ -9,6 +9,7 @@ import { ProfileUser } from "#/components/Profile/Profile.User";
 import { ProfileBannedBanner } from "#/components/Profile/ProfileBannedBanner";
 import { ProfilePrivacyBanner } from "#/components/Profile/Profile.PrivacyBanner";
 import { ProfileActivity } from "#/components/Profile/Profile.Activity";
+import { ProfileStats } from "#/components/Profile/Profile.Stats";
 
 export const ProfilePage = (props: any) => {
   const authUser = useUserStore((state) => state);
@@ -96,38 +97,57 @@ export const ProfilePage = (props: any) => {
         <ProfilePrivacyBanner is_privacy={isPrivacy} />
       </div>
       <div
-        className={`flex flex-wrap gap-2 ${
+        className={`grid grid-cols-[100%] xl:grid-cols-[630px,626px] 2xl:grid-cols-[777px,743px] gap-2 ${
           isPrivacy || user.is_banned || user.is_perm_banned ? "mt-4" : ""
         }`}
       >
-        <ProfileUser
-          isOnline={user.is_online}
-          avatar={user.avatar}
-          login={user.login}
-          status={user.status}
-          socials={{
-            isPrivate: user.is_social_hidden,
-            hasSocials: hasSocials,
-            socials: socials,
-          }}
-          chips={{
-            hasChips: hasChips,
-            isMyProfile: isMyProfile,
-            isVerified: user.is_verified,
-            isSponsor: user.is_sponsor,
-            isBlocked: user.is_blocked,
-            roles: user.roles,
-          }}
-          rating={user.rating_score}
-        />
-        {!user.is_stats_hidden && (
-          <ProfileActivity
-            profile_id={user.id}
-            commentCount={user.comment_count}
-            videoCount={user.video_count}
-            collectionCount={user.collection_count}
-            friendsCount={user.friend_count}
+        <div className="[grid-column:1] [grid-row:1]">
+          <ProfileUser
+            isOnline={user.is_online}
+            avatar={user.avatar}
+            login={user.login}
+            status={user.status}
+            socials={{
+              isPrivate: user.is_social_hidden,
+              hasSocials: hasSocials,
+              socials: socials,
+            }}
+            chips={{
+              hasChips: hasChips,
+              isMyProfile: isMyProfile,
+              isVerified: user.is_verified,
+              isSponsor: user.is_sponsor,
+              isBlocked: user.is_blocked,
+              roles: user.roles,
+            }}
+            rating={user.rating_score}
           />
+        </div>
+        {!user.is_counts_hidden && (
+          <div className="[grid-column:1] [grid-row:2]">
+            <ProfileActivity
+              profile_id={user.id}
+              commentCount={user.comment_count}
+              videoCount={user.video_count}
+              collectionCount={user.collection_count}
+              friendsCount={user.friend_count}
+            />
+          </div>
+        )}
+        {!user.is_stats_hidden && (
+          <div className="[grid-column:1] xl:[grid-column:2] xl:[grid-row:span_2]">
+            <ProfileStats
+              lists={[
+                user.watching_count,
+                user.plan_count,
+                user.completed_count,
+                user.hold_on_count,
+                user.dropped_count,
+              ]}
+              watched_count={user.watched_episode_count}
+              watched_time={user.watched_time}
+            />
+          </div>
         )}
       </div>
     </>
