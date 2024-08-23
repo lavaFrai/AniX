@@ -8,6 +8,7 @@ import { ENDPOINTS } from "#/api/config";
 import { ProfileUser } from "#/components/Profile/Profile.User";
 import { ProfileBannedBanner } from "#/components/Profile/ProfileBannedBanner";
 import { ProfilePrivacyBanner } from "#/components/Profile/Profile.PrivacyBanner";
+import { ProfileActivity } from "#/components/Profile/Profile.Activity";
 
 export const ProfilePage = (props: any) => {
   const authUser = useUserStore((state) => state);
@@ -95,9 +96,9 @@ export const ProfilePage = (props: any) => {
         <ProfilePrivacyBanner is_privacy={isPrivacy} />
       </div>
       <div
-        className={
+        className={`flex flex-wrap gap-2 ${
           isPrivacy || user.is_banned || user.is_perm_banned ? "mt-4" : ""
-        }
+        }`}
       >
         <ProfileUser
           isOnline={user.is_online}
@@ -119,6 +120,15 @@ export const ProfilePage = (props: any) => {
           }}
           rating={user.rating_score}
         />
+        {!user.is_stats_hidden && (
+          <ProfileActivity
+            profile_id={user.id}
+            commentCount={user.comment_count}
+            videoCount={user.video_count}
+            collectionCount={user.collection_count}
+            friendsCount={user.friend_count}
+          />
+        )}
       </div>
     </>
   );
