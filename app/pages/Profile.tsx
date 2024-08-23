@@ -94,7 +94,11 @@ export const ProfilePage = (props: any) => {
         />
         <ProfilePrivacyBanner is_privacy={isPrivacy} />
       </div>
-      <div className="mt-4">
+      <div
+        className={
+          isPrivacy || user.is_banned || user.is_perm_banned ? "mt-4" : ""
+        }
+      >
         <ProfileUser
           isOnline={user.is_online}
           avatar={user.avatar}
@@ -105,16 +109,15 @@ export const ProfilePage = (props: any) => {
             hasSocials: hasSocials,
             socials: socials,
           }}
-          chips={
-            {
-              hasChips: hasChips,
-              isMyProfile: isMyProfile,
-              isVerified: user.is_verified,
-              isSponsor: user.is_sponsor,
-              isBlocked: user.is_blocked,
-              roles: user.roles
-            }
-          }
+          chips={{
+            hasChips: hasChips,
+            isMyProfile: isMyProfile,
+            isVerified: user.is_verified,
+            isSponsor: user.is_sponsor,
+            isBlocked: user.is_blocked,
+            roles: user.roles,
+          }}
+          rating={user.rating_score}
         />
       </div>
     </>

@@ -31,6 +31,7 @@ export const ProfileUser = (props: {
       color: string;
     }[];
   };
+  rating: number;
 }) => {
   const router = useRouter();
   console.log(props.chips);
@@ -76,7 +77,18 @@ export const ProfileUser = (props: {
         color={props.isOnline ? "success" : "light"}
       >
         <div className="space-y-1 text-2xl font-medium whitespace-pre-wrap dark:text-white">
-          <div className="text-center sm:text-left">{props.login}</div>
+          <div className="text-center sm:text-left">
+            {props.login}{" "}
+            <span
+              className={`border rounded-md px-2 py-1 text-sm ${
+                props.rating > 0
+                  ? "border-green-500 text-green-500"
+                  : "border-red-500 text-red-500"
+              }`}
+            >
+              {props.rating}
+            </span>
+          </div>
           <div className="text-sm text-gray-500 whitespace-pre-wrap sm:text-md dark:text-gray-400 ">
             {props.status}
           </div>
