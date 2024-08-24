@@ -15,7 +15,7 @@ export const ProfileBannedBanner = (props: {
               {props.is_perm_banned
                 ? "Пользователь был заблокирован администрацией навсегда"
                 : `Пользователь был заблокирован администрацией до
-              ${unixToDate(props.ban_expires)}`}
+              ${unixToDate(props.ban_expires, "full")}`}
             </h2>
             <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-200">
               {props.ban_reason}

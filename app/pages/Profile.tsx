@@ -10,6 +10,7 @@ import { ProfileBannedBanner } from "#/components/Profile/ProfileBannedBanner";
 import { ProfilePrivacyBanner } from "#/components/Profile/Profile.PrivacyBanner";
 import { ProfileActivity } from "#/components/Profile/Profile.Activity";
 import { ProfileStats } from "#/components/Profile/Profile.Stats";
+import { ProfileWatchDynamic } from "#/components/Profile/Profile.WatchDynamic";
 
 export const ProfilePage = (props: any) => {
   const authUser = useUserStore((state) => state);
@@ -135,19 +136,24 @@ export const ProfilePage = (props: any) => {
           </div>
         )}
         {!user.is_stats_hidden && (
-          <div className="[grid-column:1] xl:[grid-column:2] xl:[grid-row:span_2]">
-            <ProfileStats
-              lists={[
-                user.watching_count,
-                user.plan_count,
-                user.completed_count,
-                user.hold_on_count,
-                user.dropped_count,
-              ]}
-              watched_count={user.watched_episode_count}
-              watched_time={user.watched_time}
-            />
-          </div>
+          <>
+            <div className="[grid-column:1] xl:[grid-column:2] xl:[grid-row:span_2]">
+              <ProfileStats
+                lists={[
+                  user.watching_count,
+                  user.plan_count,
+                  user.completed_count,
+                  user.hold_on_count,
+                  user.dropped_count,
+                ]}
+                watched_count={user.watched_episode_count}
+                watched_time={user.watched_time}
+              />
+            </div>
+            <div className="[grid-column:1] xl:[grid-column:2] xl:[grid-row:span_2]">
+              <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
+            </div>
+          </>
         )}
       </div>
     </>

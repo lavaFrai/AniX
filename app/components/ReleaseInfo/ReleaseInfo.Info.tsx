@@ -133,7 +133,7 @@ export const ReleaseInfoInfo = (props: {
               </Table.Cell>
               <Table.Cell className="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {props.aired_on_date != 0 ? (
-                  unixToDate(props.aired_on_date)
+                  unixToDate(props.aired_on_date, "full")
                 ) : props.year ? (
                   <>
                     {props.season && props.season != 0

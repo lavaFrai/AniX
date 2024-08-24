@@ -1,5 +1,3 @@
-import { unixToDate } from "#/api/utils";
-
 export const ProfilePrivacyBanner = (props: { is_privacy: boolean }) => {
   return (
     <>

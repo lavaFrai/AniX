@@ -119,12 +119,11 @@ const months = [
   "дек.",
 ];
 
-export function unixToDate(unix: number, type: string = "short") {
+export function unixToDate(
+  unix: number,
+  type: "full" | "dayMonth" | "dayMonthYear"
+) {
   const date = new Date(unix * 1000);
-  if (type === "short")
-    return (
-      date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()
-    );
   if (type === "full")
     return (
       date.getDate() +
@@ -136,6 +135,12 @@ export function unixToDate(unix: number, type: string = "short") {
       date.getHours() +
       ":" +
       date.getMinutes()
+    );
+  if (type === "dayMonth")
+    return date.getDate() + " " + months[date.getMonth()];
+  if (type === "dayMonthYear")
+    return (
+      date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()
     );
 }
 
