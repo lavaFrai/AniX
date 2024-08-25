@@ -11,6 +11,7 @@ import { ProfilePrivacyBanner } from "#/components/Profile/Profile.PrivacyBanner
 import { ProfileActivity } from "#/components/Profile/Profile.Activity";
 import { ProfileStats } from "#/components/Profile/Profile.Stats";
 import { ProfileWatchDynamic } from "#/components/Profile/Profile.WatchDynamic";
+import { ProfileActions } from "#/components/Profile/Profile.Actions";
 
 export const ProfilePage = (props: any) => {
   const authUser = useUserStore((state) => state);
@@ -98,7 +99,11 @@ export const ProfilePage = (props: any) => {
         <ProfilePrivacyBanner is_privacy={isPrivacy} />
       </div>
       <div
-        className={`grid grid-cols-[100%] xl:grid-cols-[630px,626px] 2xl:grid-cols-[777px,743px] gap-2 ${
+        className={`grid grid-cols-[100%] ${
+          !user.is_stats_hidden
+            ? "xl:grid-cols-[630px,626px] 2xl:grid-cols-[777px,743px]"
+            : ""
+        } gap-2 ${
           isPrivacy || user.is_banned || user.is_perm_banned ? "mt-4" : ""
         }`}
       >
@@ -135,6 +140,17 @@ export const ProfilePage = (props: any) => {
             />
           </div>
         )}
+        <div
+          className={`[grid-column:1] ${
+            !user.is_counts_hidden ? "[grid-row:3]" : "[grid-row:2]"
+          }`}
+        >
+          <ProfileActions
+            isMyProfile={isMyProfile}
+            profile_id={user.id}
+            isFriendRequestsDisallowed={user.is_friend_requests_disallowed}
+          />
+        </div>
         {!user.is_stats_hidden && (
           <>
             <div className="[grid-column:1] xl:[grid-column:2] xl:[grid-row:span_2]">
