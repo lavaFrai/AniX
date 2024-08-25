@@ -12,6 +12,7 @@ import { ProfileActivity } from "#/components/Profile/Profile.Activity";
 import { ProfileStats } from "#/components/Profile/Profile.Stats";
 import { ProfileWatchDynamic } from "#/components/Profile/Profile.WatchDynamic";
 import { ProfileActions } from "#/components/Profile/Profile.Actions";
+import { ProfileReleaseRatings } from "#/components/Profile/Profile.ReleaseRatings";
 
 export const ProfilePage = (props: any) => {
   const authUser = useUserStore((state) => state);
@@ -99,15 +100,11 @@ export const ProfilePage = (props: any) => {
         <ProfilePrivacyBanner is_privacy={isPrivacy} />
       </div>
       <div
-        className={`grid grid-cols-[100%] ${
-          !user.is_stats_hidden
-            ? "xl:grid-cols-[630px,626px] 2xl:grid-cols-[777px,743px]"
-            : ""
-        } gap-2 ${
+        className={`flex flex-wrap gap-2 ${
           isPrivacy || user.is_banned || user.is_perm_banned ? "mt-4" : ""
         }`}
       >
-        <div className="[grid-column:1] [grid-row:1]">
+        <div className="flex flex-col gap-2 w-[50%]">
           <ProfileUser
             isOnline={user.is_online}
             avatar={user.avatar}
@@ -128,9 +125,7 @@ export const ProfilePage = (props: any) => {
             }}
             rating={user.rating_score}
           />
-        </div>
-        {!user.is_counts_hidden && (
-          <div className="[grid-column:1] [grid-row:2]">
+          {!user.is_counts_hidden && (
             <ProfileActivity
               profile_id={user.id}
               commentCount={user.comment_count}
@@ -138,39 +133,38 @@ export const ProfilePage = (props: any) => {
               collectionCount={user.collection_count}
               friendsCount={user.friend_count}
             />
-          </div>
-        )}
-        <div
-          className={`[grid-column:1] ${
-            !user.is_counts_hidden ? "[grid-row:3]" : "[grid-row:2]"
-          }`}
-        >
+          )}
           <ProfileActions
             isMyProfile={isMyProfile}
             profile_id={user.id}
             isFriendRequestsDisallowed={user.is_friend_requests_disallowed}
           />
+          {!user.is_stats_hidden && (
+            <ProfileReleaseRatings ratings={user.votes} />
+          )}
         </div>
+        <div className="flex flex-col gap-2 flex-1">
+          <ProfileStats
+            lists={[
+              user.watching_count,
+              user.plan_count,
+              user.completed_count,
+              user.hold_on_count,
+              user.dropped_count,
+            ]}
+            watched_count={user.watched_episode_count}
+            watched_time={user.watched_time}
+          />
+          <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
+        </div>
+        {/*
         {!user.is_stats_hidden && (
-          <>
-            <div className="[grid-column:1] xl:[grid-column:2] xl:[grid-row:span_2]">
-              <ProfileStats
-                lists={[
-                  user.watching_count,
-                  user.plan_count,
-                  user.completed_count,
-                  user.hold_on_count,
-                  user.dropped_count,
-                ]}
-                watched_count={user.watched_episode_count}
-                watched_time={user.watched_time}
-              />
-            </div>
-            <div className="[grid-column:1] xl:[grid-column:2] xl:[grid-row:span_2]">
-              <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
-            </div>
-          </>
+          <div className="flex flex-col gap-2">
+            
+          </div>
         )}
+        <div className="[grid-column:1] xl:[grid-row:3]">
+        </div>*/}
       </div>
     </>
   );

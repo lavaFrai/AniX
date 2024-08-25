@@ -57,7 +57,7 @@ export const ProfileStats = (props: {
   }, []);
 
   return (
-    <Card className="h-full font-light">
+    <Card className="h-fit font-light">
       <h1 className="text-2xl font-bold">Статистика</h1>
       <div className="flex items-center">
         <div>

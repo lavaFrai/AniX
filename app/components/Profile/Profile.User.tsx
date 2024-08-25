@@ -36,7 +36,7 @@ export const ProfileUser = (props: {
   const router = useRouter();
   console.log(props.chips);
   return (
-    <Card className="h-full">
+    <Card className="h-fit">
       {props.chips.hasChips && (
         <div className="flex gap-1 overflow-x-auto scrollbar-thin">
           {props.chips.isMyProfile && (
