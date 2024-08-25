@@ -16,7 +16,7 @@ import { ProfileReleaseRatings } from "#/components/Profile/Profile.ReleaseRatin
 import { ProfileReleaseHistory } from "#/components/Profile/Profile.ReleaseHistory";
 
 export const ProfilePage = (props: any) => {
-  const authUser = useUserStore((state) => state);
+  const authUser = useUserStore();
   const [user, setUser] = useState(null);
   const [isMyProfile, setIsMyProfile] = useState(false);
 
@@ -136,7 +136,7 @@ export const ProfilePage = (props: any) => {
             />
           )}
           {!user.is_stats_hidden && (
-            <div className="hidden xl:flex flex-col gap-2">
+            <div className="flex-col hidden gap-2 xl:flex">
               {user.votes && user.votes.length > 0 && (
                 <ProfileReleaseRatings ratings={user.votes} />
               )}
@@ -146,12 +146,17 @@ export const ProfilePage = (props: any) => {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-2 w-full xl:flex-1 xl:w-auto ">
-          <ProfileActions
-            isMyProfile={isMyProfile}
-            profile_id={user.id}
-            isFriendRequestsDisallowed={user.is_friend_requests_disallowed}
-          />
+        <div className="flex flex-col w-full gap-2 xl:flex-1 xl:w-auto ">
+          {authUser.token && (
+            <ProfileActions
+              isMyProfile={isMyProfile}
+              profile_id={user.id}
+              isFriendRequestsDisallowed={user.is_friend_requests_disallowed}
+              friendStatus={user.friend_status}
+              my_profile_id={authUser.user.id}
+              token={authUser.token}
+            />
+          )}
           {!user.is_stats_hidden && (
             <>
               <ProfileStats
@@ -166,7 +171,7 @@ export const ProfilePage = (props: any) => {
                 watched_time={user.watched_time}
               />
               <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
-              <div className="xl:hidden flex flex-col gap-2">
+              <div className="flex flex-col gap-2 xl:hidden">
                 {user.votes && user.votes.length > 0 && (
                   <ProfileReleaseRatings ratings={user.votes} />
                 )}

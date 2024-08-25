@@ -34,7 +34,6 @@ export const ProfileUser = (props: {
   rating: number;
 }) => {
   const router = useRouter();
-  console.log(props.chips);
   return (
     <Card className="h-fit">
       {props.chips.hasChips && (
