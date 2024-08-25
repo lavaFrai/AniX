@@ -24,14 +24,14 @@ const CarouselTheme = {
 
 export const ProfileReleaseRatings = (props: any) => {
   return (
-    <Card>
+    <Card className="h-fit">
       <h1 className="text-2xl font-bold">Оценки</h1>
       <div className="max-w-[700px] min-h-[200px]">
         <Carousel theme={CarouselTheme}>
           {props.ratings.map((release) => {
             return (
               <div
-                className="flex gap-4 mx-16"
+                className="flex gap-4 mx-20"
                 key={`vote-${release.id}`}
               >
                 <Image

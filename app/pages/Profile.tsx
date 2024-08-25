@@ -134,37 +134,33 @@ export const ProfilePage = (props: any) => {
               friendsCount={user.friend_count}
             />
           )}
+          {!user.is_stats_hidden && (
+            <ProfileReleaseRatings ratings={user.votes} />
+          )}
+        </div>
+        <div className="flex flex-col gap-2 flex-1">
           <ProfileActions
             isMyProfile={isMyProfile}
             profile_id={user.id}
             isFriendRequestsDisallowed={user.is_friend_requests_disallowed}
           />
           {!user.is_stats_hidden && (
-            <ProfileReleaseRatings ratings={user.votes} />
+            <>
+              <ProfileStats
+                lists={[
+                  user.watching_count,
+                  user.plan_count,
+                  user.completed_count,
+                  user.hold_on_count,
+                  user.dropped_count,
+                ]}
+                watched_count={user.watched_episode_count}
+                watched_time={user.watched_time}
+              />
+              <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
+            </>
           )}
         </div>
-        <div className="flex flex-col gap-2 flex-1">
-          <ProfileStats
-            lists={[
-              user.watching_count,
-              user.plan_count,
-              user.completed_count,
-              user.hold_on_count,
-              user.dropped_count,
-            ]}
-            watched_count={user.watched_episode_count}
-            watched_time={user.watched_time}
-          />
-          <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
-        </div>
-        {/*
-        {!user.is_stats_hidden && (
-          <div className="flex flex-col gap-2">
-            
-          </div>
-        )}
-        <div className="[grid-column:1] xl:[grid-row:3]">
-        </div>*/}
       </div>
     </>
   );
