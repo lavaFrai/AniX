@@ -13,6 +13,7 @@ import { ProfileStats } from "#/components/Profile/Profile.Stats";
 import { ProfileWatchDynamic } from "#/components/Profile/Profile.WatchDynamic";
 import { ProfileActions } from "#/components/Profile/Profile.Actions";
 import { ProfileReleaseRatings } from "#/components/Profile/Profile.ReleaseRatings";
+import { ProfileReleaseHistory } from "#/components/Profile/Profile.ReleaseHistory";
 
 export const ProfilePage = (props: any) => {
   const authUser = useUserStore((state) => state);
@@ -104,7 +105,7 @@ export const ProfilePage = (props: any) => {
           isPrivacy || user.is_banned || user.is_perm_banned ? "mt-4" : ""
         }`}
       >
-        <div className="flex flex-col gap-2 w-[50%]">
+        <div className="flex flex-col gap-2 w-full xl:w-[50%]">
           <ProfileUser
             isOnline={user.is_online}
             avatar={user.avatar}
@@ -135,10 +136,17 @@ export const ProfilePage = (props: any) => {
             />
           )}
           {!user.is_stats_hidden && (
-            <ProfileReleaseRatings ratings={user.votes} />
+            <div className="hidden xl:flex flex-col gap-2">
+              {user.votes && user.votes.length > 0 && (
+                <ProfileReleaseRatings ratings={user.votes} />
+              )}
+              {user.history && user.history.length > 0 && (
+                <ProfileReleaseHistory history={user.history} />
+              )}
+            </div>
           )}
         </div>
-        <div className="flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-2 w-full xl:flex-1 xl:w-auto ">
           <ProfileActions
             isMyProfile={isMyProfile}
             profile_id={user.id}
@@ -158,6 +166,14 @@ export const ProfilePage = (props: any) => {
                 watched_time={user.watched_time}
               />
               <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
+              <div className="xl:hidden flex flex-col gap-2">
+                {user.votes && user.votes.length > 0 && (
+                  <ProfileReleaseRatings ratings={user.votes} />
+                )}
+                {user.history && user.history.length > 0 && (
+                  <ProfileReleaseHistory history={user.history} />
+                )}
+              </div>
             </>
           )}
         </div>
