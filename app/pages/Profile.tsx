@@ -98,7 +98,7 @@ export const ProfilePage = (props: any) => {
           ban_reason={user.ban_reason}
           ban_expires={user.ban_expires}
         />
-        <ProfilePrivacyBanner is_privacy={isPrivacy} />
+        <ProfilePrivacyBanner is_privacy={isPrivacy} is_me_blocked={user.is_me_blocked} />
       </div>
       <div
         className={`flex flex-wrap gap-2 ${
@@ -155,6 +155,8 @@ export const ProfilePage = (props: any) => {
               friendStatus={user.friend_status}
               my_profile_id={authUser.user.id}
               token={authUser.token}
+              is_me_blocked={user.is_me_blocked}
+              is_blocked={user.is_blocked}
             />
           )}
           {!user.is_stats_hidden && (

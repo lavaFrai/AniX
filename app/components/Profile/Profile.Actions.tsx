@@ -18,12 +18,13 @@ export const ProfileActions = (props: {
   my_profile_id: number;
   friendStatus: number;
   token: string;
+  is_me_blocked: boolean;
+  is_blocked: boolean;
 }) => {
   const router = useRouter();
-  const z2 = props.my_profile_id < props.profile_id;
-  let profileIdIsSmaller = z2 ? true : false;
-
-  const [friendRequestDisabled, setfriendRequestDisabled] = useState(false);
+  const profileIdIsSmaller = props.my_profile_id < props.profile_id;
+  const [friendRequestDisabled, setFriendRequestDisabled] = useState(false);
+  const [blockRequestDisabled, setBlockRequestDisabled] = useState(false);
 
   function _getFriendStatus() {
     const num = props.friendStatus;
@@ -35,8 +36,9 @@ export const ProfileActions = (props: {
     if (num == 2) {
       return 1;
     }
-    let z3 = (num == 0 && z2) || (num == 1 && !z2);
-    if ((num != 1 || z2) && (num != 0 || !z2)) {
+    let z3 =
+      (num == 0 && profileIdIsSmaller) || (num == 1 && !profileIdIsSmaller);
+    if ((num != 1 || profileIdIsSmaller) && (num != 0 || !profileIdIsSmaller)) {
       z = false;
     }
     if (z3) {
@@ -58,7 +60,8 @@ export const ProfileActions = (props: {
 
   function _addToFriends() {
     let url = `${ENDPOINTS.user.profile}/friend/request`;
-    setfriendRequestDisabled(true);
+    setFriendRequestDisabled(true);
+    setBlockRequestDisabled(true);
 
     FriendStatus == 1
       ? (url += "/remove/")
@@ -70,7 +73,22 @@ export const ProfileActions = (props: {
     fetch(url).then((res) => {
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
+      }, 100);
+    });
+  }
+
+  function _addToBlocklist() {
+    let url = `${ENDPOINTS.user.profile}/blocklist`;
+    setBlockRequestDisabled(true);
+    setFriendRequestDisabled(true);
+
+    !props.is_blocked ? (url += "/add/") : (url += "/remove/");
+
+    url += `${props.profile_id}?token=${props.token}`;
+    fetch(url).then((res) => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     });
   }
 
@@ -85,26 +103,34 @@ export const ProfileActions = (props: {
           <>
             {(!props.isFriendRequestsDisallowed ||
               FriendStatus == 1 ||
-              isRequestedStatus) && (
-              <Button
-                disabled={friendRequestDisabled}
-                color={
-                  FriendStatus == 1
-                    ? "red"
+              isRequestedStatus) &&
+              !props.is_me_blocked &&
+              !props.is_blocked && (
+                <Button
+                  disabled={friendRequestDisabled}
+                  color={
+                    FriendStatus == 1
+                      ? "red"
+                      : isRequestedStatus
+                      ? "light"
+                      : "blue"
+                  }
+                  onClick={() => _addToFriends()}
+                >
+                  {FriendStatus == 1
+                    ? "Удалить из друзей"
                     : isRequestedStatus
-                    ? "light"
-                    : "blue"
-                }
-                onClick={() => _addToFriends()}
-              >
-                {FriendStatus == 1
-                  ? "Удалить из друзей"
-                  : isRequestedStatus
-                  ? "Заявка отправлена"
-                  : "Добавить в друзья"}
-              </Button>
-            )}
-            <Button color={"red"}>Заблокировать</Button>
+                    ? "Заявка отправлена"
+                    : "Добавить в друзья"}
+                </Button>
+              )}
+            <Button
+              color={!props.is_blocked ? "red" : "blue"}
+              disabled={blockRequestDisabled}
+              onClick={() => _addToBlocklist()}
+            >
+              {!props.is_blocked ? "Заблокировать" : "Разблокировать"}
+            </Button>
           </>
         )}
       </div>

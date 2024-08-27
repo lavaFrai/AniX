@@ -48,7 +48,7 @@ export const ProfileUser = (props: {
             <Chip bg_color="bg-yellow-500" name="Спонсор Anixart" />
           )}
           {props.chips.isBlocked && (
-            <Chip bg_color="bg-yellow-500" name="Заблокирован" />
+            <Chip bg_color="bg-red-500" name="Заблокирован" />
           )}
           {props.chips.roles &&
             props.chips.roles.length > 0 &&
