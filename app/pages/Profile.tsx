@@ -2,8 +2,8 @@
 import { useUserStore } from "#/store/auth";
 import { useEffect, useState } from "react";
 import { Spinner } from "../components/Spinner/Spinner";
-import { fetchDataViaGet } from "../api/utils";
 import { ENDPOINTS } from "#/api/config";
+import useSWR from "swr";
 
 import { ProfileUser } from "#/components/Profile/Profile.User";
 import { ProfileBannedBanner } from "#/components/Profile/ProfileBannedBanner";
@@ -15,24 +15,35 @@ import { ProfileActions } from "#/components/Profile/Profile.Actions";
 import { ProfileReleaseRatings } from "#/components/Profile/Profile.ReleaseRatings";
 import { ProfileReleaseHistory } from "#/components/Profile/Profile.ReleaseHistory";
 
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    const error = new Error(`An error occurred while fetching the data. status: ${res.status}`);
+    error.message = await res.json();
+    throw error;
+  }
+
+  return res.json();
+};
+
 export const ProfilePage = (props: any) => {
   const authUser = useUserStore();
   const [user, setUser] = useState(null);
   const [isMyProfile, setIsMyProfile] = useState(false);
 
+  let url = `${ENDPOINTS.user.profile}/${props.id}`;
+  if (authUser.token) {
+    url += `?token=${authUser.token}`;
+  }
+  const { data } = useSWR(url, fetcher);
+
   useEffect(() => {
-    async function _getData() {
-      let url = `${ENDPOINTS.user.profile}/${props.id}`;
-      if (authUser.token) {
-        url += `?token=${authUser.token}`;
-      }
-      const data = await fetchDataViaGet(url);
+    if (data) {
       setUser(data.profile);
       setIsMyProfile(data.is_my_profile);
     }
-    _getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authUser]);
+  }, [data]);
 
   if (!user) {
     return (
@@ -98,7 +109,10 @@ export const ProfilePage = (props: any) => {
           ban_reason={user.ban_reason}
           ban_expires={user.ban_expires}
         />
-        <ProfilePrivacyBanner is_privacy={isPrivacy} is_me_blocked={user.is_me_blocked} />
+        <ProfilePrivacyBanner
+          is_privacy={isPrivacy}
+          is_me_blocked={user.is_me_blocked}
+        />
       </div>
       <div
         className={`flex flex-wrap gap-2 ${

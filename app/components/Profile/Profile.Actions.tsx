@@ -3,6 +3,7 @@ import { ENDPOINTS } from "#/api/config";
 import { Card, Button } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useSWR, { useSWRConfig } from "swr";
 
 // null - не друзья
 // 0 - заявка в друзья authUserId < profileId
@@ -25,7 +26,7 @@ export const ProfileActions = (props: {
   const profileIdIsSmaller = props.my_profile_id < props.profile_id;
   const [friendRequestDisabled, setFriendRequestDisabled] = useState(false);
   const [blockRequestDisabled, setBlockRequestDisabled] = useState(false);
-
+  const { mutate } = useSWRConfig();
   function _getFriendStatus() {
     const num = props.friendStatus;
 
@@ -71,8 +72,12 @@ export const ProfileActions = (props: {
 
     url += `${props.profile_id}?token=${props.token}`;
     fetch(url).then((res) => {
+      mutate(
+        `${ENDPOINTS.user.profile}/${props.profile_id}?token=${props.token}`
+      );
       setTimeout(() => {
-        window.location.reload();
+        setBlockRequestDisabled(false);
+        setFriendRequestDisabled(false);
       }, 100);
     });
   }
@@ -86,8 +91,12 @@ export const ProfileActions = (props: {
 
     url += `${props.profile_id}?token=${props.token}`;
     fetch(url).then((res) => {
+      mutate(
+        `${ENDPOINTS.user.profile}/${props.profile_id}?token=${props.token}`
+      );
       setTimeout(() => {
-        window.location.reload();
+        setBlockRequestDisabled(false);
+        setFriendRequestDisabled(false);
       }, 100);
     });
   }
