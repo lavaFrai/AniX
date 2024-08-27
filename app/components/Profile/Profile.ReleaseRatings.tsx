@@ -39,11 +39,11 @@ export const ProfileReleaseRatings = (props: any) => {
                   <Image
                     src={release.image}
                     width={100}
-                    height={150}
+                    height={125}
                     alt=""
-                    className="border-gray-200 rounded-lg shadow-md dark:border-gray-700 dark:bg-gray-800"
+                    className="object-cover border-gray-200 rounded-lg shadow-md dark:border-gray-700 dark:bg-gray-800 w-[100px] h-[125px]"
                   />
-                  <div className="py-4 flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 py-4">
                     <h2 className="text-lg">{release.title_ru}</h2>
                     <Rating size="md">
                       <RatingStar filled={release.my_vote >= 1} />
@@ -52,7 +52,7 @@ export const ProfileReleaseRatings = (props: any) => {
                       <RatingStar filled={release.my_vote >= 4} />
                       <RatingStar filled={release.my_vote >= 5} />
                     </Rating>
-                    <h2 className="text-md text-gray-500 dark:text-gray-400">
+                    <h2 className="text-gray-500 text-md dark:text-gray-400">
                       {unixToDate(release.voted_at, "full")}
                     </h2>
                   </div>

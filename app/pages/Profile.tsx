@@ -19,7 +19,9 @@ const fetcher = async (url: string) => {
   const res = await fetch(url);
 
   if (!res.ok) {
-    const error = new Error(`An error occurred while fetching the data. status: ${res.status}`);
+    const error = new Error(
+      `An error occurred while fetching the data. status: ${res.status}`
+    );
     error.message = await res.json();
     throw error;
   }
@@ -185,6 +187,7 @@ export const ProfilePage = (props: any) => {
                 ]}
                 watched_count={user.watched_episode_count}
                 watched_time={user.watched_time}
+                profile_id={user.id}
               />
               <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
               <div className="flex flex-col gap-2 xl:hidden">

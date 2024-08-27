@@ -8,6 +8,7 @@ export const ProfileStats = (props: {
   lists: Array<number>;
   watched_count: number;
   watched_time: number;
+  profile_id: number
 }) => {
   const getChartOptions = () => {
     return {
@@ -57,8 +58,16 @@ export const ProfileStats = (props: {
   }, []);
 
   return (
-    <Card className="h-fit font-light">
-      <h1 className="text-2xl font-bold">Статистика</h1>
+    <Card className="font-light h-fit">
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold">Статистика</h1>
+        <Link href={`/profile/${props.profile_id}/bookmarks`}>
+          <div className="flex items-center">
+            <p className="hidden text-xl font-bold sm:block">Показать все</p>
+            <span className="w-6 h-6 iconify mdi--arrow-right"></span>
+          </div>
+        </Link>
+      </div>
       <div className="flex items-center">
         <div>
           <p className="align-center whitespace-nowrap">
