@@ -86,7 +86,7 @@ export const ReleasePage = (props: any) => {
             isFavorite={userFavorite}
             release_id={data.release.id}
             token={userStore.token}
-            profile_id={userStore.user.id}
+            profile_id={userStore.user ? userStore.user.id : null}
             setUserList={setUserList}
             setIsFavorite={setUserFavorite}
             collection_count={data.release.collection_count}

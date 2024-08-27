@@ -27,7 +27,7 @@ export const ReleaseInfoUserList = (props: {
   setUserList: any;
   setIsFavorite: any;
   collection_count: number;
-  profile_id: number;
+  profile_id: number | null;
 }) => {
   const [AddReleaseToCollectionModalOpen, setAddReleaseToCollectionModalOpen] =
     useState(false);

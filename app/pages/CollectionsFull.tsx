@@ -97,7 +97,7 @@ export function CollectionsFullPage(props: {
           sectionTitle={props.title}
           content={content}
           isMyCollections={
-            props.type == "profile" && props.profile_id == userStore.user.id
+            props.type == "profile" && userStore.user && props.profile_id == userStore.user.id
           }
         />
       ) : !isLoadingEnd || isLoading ? (
