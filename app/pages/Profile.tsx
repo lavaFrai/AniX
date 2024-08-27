@@ -154,7 +154,7 @@ export const ProfilePage = (props: any) => {
           {!user.is_stats_hidden && (
             <div className="flex-col hidden gap-2 xl:flex">
               {user.votes && user.votes.length > 0 && (
-                <ProfileReleaseRatings ratings={user.votes} />
+                <ProfileReleaseRatings ratings={user.votes} token={authUser.token} profile_id={user.id} />
               )}
               {user.history && user.history.length > 0 && (
                 <ProfileReleaseHistory history={user.history} />
@@ -192,7 +192,7 @@ export const ProfilePage = (props: any) => {
               <ProfileWatchDynamic watchDynamic={user.watch_dynamics || []} />
               <div className="flex flex-col gap-2 xl:hidden">
                 {user.votes && user.votes.length > 0 && (
-                  <ProfileReleaseRatings ratings={user.votes} />
+                  <ProfileReleaseRatings ratings={user.votes} token={authUser.token} profile_id={user.id} />
                 )}
                 {user.history && user.history.length > 0 && (
                   <ProfileReleaseHistory history={user.history} />
