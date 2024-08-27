@@ -119,12 +119,11 @@ const months = [
   "дек.",
 ];
 
-export function unixToDate(unix: number, type: string = "short") {
+export function unixToDate(
+  unix: number,
+  type: "full" | "dayMonth" | "dayMonthYear"
+) {
   const date = new Date(unix * 1000);
-  if (type === "short")
-    return (
-      date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()
-    );
   if (type === "full")
     return (
       date.getDate() +
@@ -136,6 +135,12 @@ export function unixToDate(unix: number, type: string = "short") {
       date.getHours() +
       ":" +
       date.getMinutes()
+    );
+  if (type === "dayMonth")
+    return date.getDate() + " " + months[date.getMonth()];
+  if (type === "dayMonthYear")
+    return (
+      date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()
     );
 }
 
@@ -172,18 +177,31 @@ export function sinceUnixDate(unixInSeconds: number) {
   );
 }
 
-export function minutesToTime(min: number) {
+export function minutesToTime(
+  min: number,
+  type?: "full" | "daysOnly" | "daysHours"
+) {
   const d = Math.floor(min / 1440); // 60*24
   const h = Math.floor((min - d * 1440) / 60);
   const m = Math.round(min % 60);
 
   var dDisplay =
-    d > 0 ? `${d} ${numberDeclension(d, "день", "дня", "дней")}, ` : "";
+    d > 0 ? `${d} ${numberDeclension(d, "день", "дня", "дней")}` : "";
   var hDisplay =
-    h > 0 ? `${h} ${numberDeclension(h, "час", "часа", "часов")}, ` : "";
+    h > 0 ? `${h} ${numberDeclension(h, "час", "часа", "часов")}` : "";
   var mDisplay =
     m > 0 ? `${m} ${numberDeclension(m, "минута", "минуты", "минут")}` : "";
-  return dDisplay + hDisplay + mDisplay;
+
+  if (type == "daysOnly") {
+    if (d > 0) return dDisplay;
+    return "? дней";
+  } else if (type == "daysHours") {
+    if (d > 0 && h > 0) return dDisplay + ", " + hDisplay;
+    if (h > 0) return hDisplay;
+    if (m > 0) return mDisplay;
+  } else {
+    return `${dDisplay}${h > 0 && ", " + hDisplay}${m > 0 && ", " + mDisplay}`;
+  }
 }
 
 const StatusList: Record<string, null | number> = {

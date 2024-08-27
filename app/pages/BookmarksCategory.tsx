@@ -40,11 +40,22 @@ export function BookmarksCategoryPage(props: any) {
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.content.length) return null;
-    if (token) {
-      return `${ENDPOINTS.user.bookmark}/all/${
+    let url: string;
+    if (props.profile_id) {
+      url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${
         BookmarksList[props.slug]
-      }/${pageIndex}?token=${token}&sort=${sort.values[selectedSort].id}`;
+      }/${pageIndex}?sort=${sort.values[selectedSort].id}`;
+      if (token) {
+        url += `&token=${token}`;
+      }
+    } else {
+      if (token) {
+        url = `${ENDPOINTS.user.bookmark}/all/${
+          BookmarksList[props.slug]
+        }/${pageIndex}?sort=${sort.values[selectedSort].id}&token=${token}`;
+      }
     }
+    return url;
   };
 
   const { data, error, isLoading, size, setSize } = useSWRInfinite(
@@ -74,7 +85,7 @@ export function BookmarksCategoryPage(props: any) {
   }, [scrollPosition]);
 
   useEffect(() => {
-    if (authState === "finished" && !token) {
+    if (authState === "finished" && !token && !props.profile_id) {
       router.push(`/login?redirect=/bookmarks/${props.slug}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

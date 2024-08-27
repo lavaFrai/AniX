@@ -10,7 +10,7 @@ import { ENDPOINTS } from "#/api/config";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export function BookmarksPage() {
+export function BookmarksPage(props: { profile_id?: number }) {
   const token = useUserStore((state) => state.token);
   const authState = useUserStore((state) => state.state);
   const router = useRouter();
@@ -18,8 +18,15 @@ export function BookmarksPage() {
   function useFetchReleases(listName: string) {
     let url: string;
 
-    if (token) {
-      url = `${ENDPOINTS.user.bookmark}/all/${BookmarksList[listName]}/0?token=${token}`;
+    if (props.profile_id) {
+      url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${BookmarksList[listName]}/0?sort=1`;
+      if (token) {
+        url += `&token=${token}`;
+      }
+    } else {
+      if (token) {
+        url = `${ENDPOINTS.user.bookmark}/all/${BookmarksList[listName]}/0?sort=1&token=${token}`;
+      }
     }
 
     const { data } = useSWR(url, fetcher);
@@ -33,7 +40,7 @@ export function BookmarksPage() {
   const [abandonedData] = useFetchReleases("abandoned");
 
   useEffect(() => {
-    if (authState === "finished" && !token) {
+    if (authState === "finished" && !token && !props.profile_id) {
       router.push("/login?redirect=/bookmarks");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,28 +63,44 @@ export function BookmarksPage() {
         watchingData.content.length > 0 && (
           <ReleaseCourusel
             sectionTitle="Смотрю"
-            showAllLink="/bookmarks/watching"
+            showAllLink={
+              !props.profile_id
+                ? "/bookmarks/watching"
+                : `/profile/${props.profile_id}/bookmarks/watching`
+            }
             content={watchingData.content}
           />
         )}
       {plannedData && plannedData.content && plannedData.content.length > 0 && (
         <ReleaseCourusel
           sectionTitle="В планах"
-          showAllLink="/bookmarks/planned"
+          showAllLink={
+            !props.profile_id
+              ? "/bookmarks/planned"
+              : `/profile/${props.profile_id}/bookmarks/planned`
+          }
           content={plannedData.content}
         />
       )}
       {watchedData && watchedData.content && watchedData.content.length > 0 && (
         <ReleaseCourusel
           sectionTitle="Просмотрено"
-          showAllLink="/bookmarks/watched"
+          showAllLink={
+            !props.profile_id
+              ? "/bookmarks/watched"
+              : `/profile/${props.profile_id}/bookmarks/watched`
+          }
           content={watchedData.content}
         />
       )}
       {delayedData && delayedData.content && delayedData.content.length > 0 && (
         <ReleaseCourusel
           sectionTitle="Отложено"
-          showAllLink="/bookmarks/delayed"
+          showAllLink={
+            !props.profile_id
+              ? "/bookmarks/delayed"
+              : `/profile/${props.profile_id}/bookmarks/delayed`
+          }
           content={delayedData.content}
         />
       )}
@@ -86,7 +109,11 @@ export function BookmarksPage() {
         abandonedData.content.length > 0 && (
           <ReleaseCourusel
             sectionTitle="Заброшено"
-            showAllLink="/bookmarks/abandoned"
+            showAllLink={
+              !props.profile_id
+                ? "/bookmarks/abandoned"
+                : `/profile/${props.profile_id}/bookmarks/abandoned`
+            }
             content={abandonedData.content}
           />
         )}
