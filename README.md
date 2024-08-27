@@ -6,9 +6,9 @@ AniX is an unofficial web client for the Android application Anixart. It allows 
 
 ## Changelog [RU]
 
+- [3.2.0](./public/changelog/3.2.0.md)
+- [3.1.1](./public/changelog/3.1.1.md)
 - [3.1.0](./public/changelog/3.1.0.md)
-- [3.0.1](./public/changelog/3.0.1.md)
-- [3.0.0](./public/changelog/3.0.0.md)
 
 [other versions](./public/changelog)
 

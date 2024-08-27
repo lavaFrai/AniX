@@ -1,4 +1,4 @@
-export const CURRENT_APP_VERSION = "3.1.1";
+export const CURRENT_APP_VERSION = "3.2.0";
 
 export const API_URL = "https://api.anixart.tv";
 export const API_PREFIX = "/api/proxy";
