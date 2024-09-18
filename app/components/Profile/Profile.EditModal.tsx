@@ -17,7 +17,8 @@ export const ProfileEditModal = (props: {isOpen: boolean, setIsOpen: (isOpen: bo
                         <p className="text-xl font-semibold">Профиль</p>
                     </div>
                     <div>
-                        <p className="text-lg">Изменить аватар</p>
+                        <p className="text-lg">Изменить фото профиля</p>
+                        <p className="text-lg text-gray-500">Загрузить с устройства</p>
                     </div>
                     <div>
                         <p className="text-lg">Изменить статус</p>
@@ -26,6 +27,10 @@ export const ProfileEditModal = (props: {isOpen: boolean, setIsOpen: (isOpen: bo
                     <div>
                         <p className="text-lg">Изменить никнейм</p>
                         <p className="text-lg text-gray-500">никнейм</p>
+                    </div>
+                    <div>
+                        <p className="text-lg">Мои социальные сети</p>
+                        <p className="text-lg text-gray-500">укажите ссылки на свои страницы в соц. сетях</p>
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 pb-4 border-b-2 border-gray-300 border-solid">
