@@ -16,6 +16,9 @@ export const ENDPOINTS = {
     bookmark: `${API_PREFIX}/profile/list`,
     history: `${API_PREFIX}/history`,
     favorite: `${API_PREFIX}/favorite`,
+    settings: {
+      my: `${API_PREFIX}/profile/preference/my`,
+    }
   },
   filter: `${API_PREFIX}/filter`,
   search: `${API_URL}/search`,

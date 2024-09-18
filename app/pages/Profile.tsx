@@ -207,7 +207,7 @@ export const ProfilePage = (props: any) => {
           )}
         </div>
       </div>
-      <ProfileEditModal isOpen={isOpen && isMyProfile} setIsOpen={setIsOpen} />
+      <ProfileEditModal isOpen={isOpen && isMyProfile} setIsOpen={setIsOpen} token={authUser.token} />
     </>
   );
 };
