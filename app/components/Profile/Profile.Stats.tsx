@@ -32,6 +32,16 @@ export const ProfileStats = (props: {
       },
       responsive: [
         {
+          breakpoint: 400,
+          options: {
+            chart: {
+              height: 170,
+              width: 170,
+              type: "donut",
+            },
+          },
+        },
+        {
           breakpoint: 640,
           options: {
             chart: {
