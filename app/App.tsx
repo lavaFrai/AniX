@@ -106,7 +106,7 @@ export const App = (props) => {
       {preferencesStore.flags.enableAnalytics && (
         <PlausibleProvider
           domain="anix.wah.su"
-          trackLocalhost={true}
+          trackLocalhost={false}
           selfHosted={true}
           enabled={true}
         />

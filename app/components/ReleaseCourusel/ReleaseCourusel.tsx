@@ -20,6 +20,7 @@ export const ReleaseCourusel = (props: {
       spaceBetween: 8,
       allowTouchMove: true,
       slidesPerView: "auto",
+      rewind: true,
       navigation: {
         enabled: false,
         nextEl: ".swiper-button-next",
@@ -30,6 +31,8 @@ export const ReleaseCourusel = (props: {
           navigation: {
             enabled: true,
           },
+          initialSlide: 1,
+          centeredSlides: true,
         },
       },
       modules: [Navigation],
@@ -52,8 +55,8 @@ export const ReleaseCourusel = (props: {
           </Link>
         )}
       </div>
-      <div className="m-4">
-        <div className="swiper">
+      <div className="my-4">
+        <div className={`swiper ${Styles["swiper"]}`}>
           <div className="swiper-wrapper">
             {props.content.map((release) => {
               return (

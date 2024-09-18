@@ -12,4 +12,7 @@
     width: 64px;
     height: 64px;
   }
+  .swiper {
+    overflow: visible !important;
+  }
 }
