@@ -14,6 +14,7 @@ import { ProfileWatchDynamic } from "#/components/Profile/Profile.WatchDynamic";
 import { ProfileActions } from "#/components/Profile/Profile.Actions";
 import { ProfileReleaseRatings } from "#/components/Profile/Profile.ReleaseRatings";
 import { ProfileReleaseHistory } from "#/components/Profile/Profile.ReleaseHistory";
+import { ProfileEditModal } from "#/components/Profile/Profile.EditModal";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -33,6 +34,8 @@ export const ProfilePage = (props: any) => {
   const authUser = useUserStore();
   const [user, setUser] = useState(null);
   const [isMyProfile, setIsMyProfile] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   let url = `${ENDPOINTS.user.profile}/${props.id}`;
   if (authUser.token) {
@@ -173,6 +176,8 @@ export const ProfilePage = (props: any) => {
               token={authUser.token}
               is_me_blocked={user.is_me_blocked}
               is_blocked={user.is_blocked}
+              edit_isOpen={isOpen}
+              edit_setIsOpen={setIsOpen}
             />
           )}
           {!user.is_stats_hidden && (
@@ -202,6 +207,7 @@ export const ProfilePage = (props: any) => {
           )}
         </div>
       </div>
+      <ProfileEditModal isOpen={isOpen && isMyProfile} setIsOpen={setIsOpen} />
     </>
   );
 };

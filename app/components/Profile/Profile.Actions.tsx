@@ -21,6 +21,8 @@ export const ProfileActions = (props: {
   token: string;
   is_me_blocked: boolean;
   is_blocked: boolean;
+  edit_isOpen: boolean;
+  edit_setIsOpen: any;
 }) => {
   const router = useRouter();
   const profileIdIsSmaller = props.my_profile_id < props.profile_id;
@@ -107,7 +109,7 @@ export const ProfileActions = (props: {
         <p>Отправил(-а) вам заявку в друзья</p>
       )}
       <div className="flex gap-2">
-        {props.isMyProfile && <Button color={"blue"}>Редактировать</Button>}
+        {props.isMyProfile && <Button color={"blue"} onClick={() => props.edit_setIsOpen(!props.edit_isOpen)}>Редактировать</Button>}
         {!props.isMyProfile && (
           <>
             {(!props.isFriendRequestsDisallowed ||
