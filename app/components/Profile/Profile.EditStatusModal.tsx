@@ -61,6 +61,7 @@ export const ProfileEditStatusModal = (props: {
       <Modal.Header>Изменить статус</Modal.Header>
       <Modal.Body>
         <Textarea
+          disabled={loading}
           rows={3}
           id="status"
           className="w-full"
@@ -74,7 +75,7 @@ export const ProfileEditStatusModal = (props: {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button color="blue" onClick={() => _setStatusSetting()}>Сохранить</Button>
+        <Button color="blue" onClick={() => _setStatusSetting()} disabled={loading}>Сохранить</Button>
         <Button color="red" onClick={() => props.setIsOpen(false)}>
           Отмена
         </Button>

@@ -18,6 +18,11 @@ export const ENDPOINTS = {
     favorite: `${API_PREFIX}/favorite`,
     settings: {
       my: `${API_PREFIX}/profile/preference/my`,
+      login: {
+        info: `${API_PREFIX}/profile/preference/login/info`,
+        history: `${API_PREFIX}/profile/login/history/all`, // /<user_id>/<page>
+        change: `${API_PREFIX}/profile/preference/login/change`, // ?login=<url_encoded_string>
+      },
       statusEdit: `${API_PREFIX}/profile/preference/status/edit`,
       statsEdit: `${API_PREFIX}/profile/preference/privacy/stats/edit`,
       countsEdit: `${API_PREFIX}/profile/preference/privacy/counts/edit`,

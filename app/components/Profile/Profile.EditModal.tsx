@@ -41,6 +41,7 @@ export const ProfileEditModal = (props: {
     google: false,
   });
   const [status, setStatus] = useState("");
+  const [login, setLogin] = useState("");
 
   const privacy_stat_act_social_text = {
     0: "Все пользователи",
@@ -54,26 +55,39 @@ export const ProfileEditModal = (props: {
     9: "Неизвестно",
   };
 
-  const { data, isLoading, error } = useSWR(
-    `${ENDPOINTS.user.settings.my}?token=${props.token}`,
-    fetcher
+  function _fetchInfo(url: string) {
+    const { data, isLoading, error } = useSWR(url, fetcher);
+    return [data, isLoading, error];
+  }
+
+  const [prefData, prefLoading, prefError] = _fetchInfo(
+    `${ENDPOINTS.user.settings.my}?token=${props.token}`
+  );
+  const [loginData, loginLoading, loginError] = _fetchInfo(
+    `${ENDPOINTS.user.settings.login.info}?token=${props.token}`
   );
 
   useEffect(() => {
-    if (data) {
+    if (prefData) {
       setPrivacySettings({
-        privacy_stats: data.privacy_stats,
-        privacy_counts: data.privacy_counts,
-        privacy_social: data.privacy_social,
-        privacy_friend_requests: data.privacy_friend_requests,
+        privacy_stats: prefData.privacy_stats,
+        privacy_counts: prefData.privacy_counts,
+        privacy_social: prefData.privacy_social,
+        privacy_friend_requests: prefData.privacy_friend_requests,
       });
       setSocialBounds({
-        vk: data.is_vk_bound || data.isVkBound || false,
-        google: data.is_google_bound || data.isGoogleBound || false,
+        vk: prefData.is_vk_bound || prefData.isVkBound || false,
+        google: prefData.is_google_bound || prefData.isGoogleBound || false,
       });
-      setStatus(data.status);
+      setStatus(prefData.status);
     }
-  }, [data]);
+  }, [prefData]);
+
+  useEffect(() => {
+    if (loginData) {
+      setLogin(loginData.login);
+    }
+  }, [loginData]);
 
   return (
     <>
@@ -84,21 +98,26 @@ export const ProfileEditModal = (props: {
       >
         <Modal.Header>Редактирование профиля</Modal.Header>
         <Modal.Body>
-          {isLoading ? (
+          {prefLoading ? (
             <Spinner />
           ) : (
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-4 pb-4 border-b-2 border-gray-300 border-solid">
+              <div className="flex flex-col gap-2 pb-4 border-b-2 border-gray-300 border-solid">
                 <div className="flex items-center gap-2">
                   <span className="w-8 h-8 iconify mdi--user"></span>
-                  <p className="text-xl font-bold">Профиль</p>
+                  <div className="flex flex-col">
+                    <p className="text-xl font-bold">Профиль</p>
+                    <p className="text-base text-gray-500">
+                      Изменения будут видны после перезагрузки страницы
+                    </p>
+                  </div>
                 </div>
-                <div>
+                <button className="p-2 text-left rounded-md hover:bg-gray-100">
                   <p className="text-lg">Изменить фото профиля</p>
                   <p className="text-base text-gray-500">
                     Загрузить с устройства
                   </p>
-                </div>
+                </button>
                 <button
                   className="p-2 text-left rounded-md hover:bg-gray-100"
                   onClick={() => {
@@ -110,17 +129,18 @@ export const ProfileEditModal = (props: {
                     {status}
                   </p>
                 </button>
-                <div>
+                <button className="p-2 text-left rounded-md hover:bg-gray-100">
                   <p className="text-lg">Изменить никнейм</p>
-                </div>
-                <div>
+                  <p className="text-base text-gray-500">{login}</p>
+                </button>
+                <button className="p-2 text-left rounded-md hover:bg-gray-100">
                   <p className="text-lg">Мои социальные сети</p>
                   <p className="text-base text-gray-500">
                     укажите ссылки на свои страницы в соц. сетях
                   </p>
-                </div>
+                </button>
               </div>
-              <div className="flex flex-col gap-4 pb-4 border-b-2 border-gray-300 border-solid">
+              <div className="flex flex-col gap-2 pb-4 border-b-2 border-gray-300 border-solid">
                 <div className="flex items-center gap-2">
                   <span className="w-8 h-8 iconify mdi--anonymous "></span>
                   <p className="text-xl font-bold">Приватность</p>
@@ -198,32 +218,28 @@ export const ProfileEditModal = (props: {
                     }
                   </p>
                 </button>
-                <div>
+                <button className="p-2 text-left rounded-md hover:bg-gray-100">
                   <p className="text-lg">Блоклист</p>
                   <p className="text-base text-gray-500">
                     Список пользователей, которым запрещён доступ к вашей
                     странице
                   </p>
-                </div>
+                </button>
               </div>
-              <div className="flex flex-col gap-4">
+              <div>
                 <div className="flex items-center gap-2">
                   <span className="w-8 h-8 iconify mdi--shield"></span>
-                  <p className="text-xl font-bold">
-                    Безопасность и привязка к сервисам
-                  </p>
+                  <div className="flex flex-col">
+                    <p className="text-xl font-bold">
+                      Безопасность и привязка к сервисам
+                    </p>
+                    <p className="text-base text-gray-500">
+                      Не доступно для изменения в данном клиенте
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-lg">Изменить Email или Пароль</p>
-                  <p className="text-base text-gray-500">
-                    Изменить возможно только в мобильном приложении
-                  </p>
-                </div>
-                <div>
+                <div className="p-2 mt-2 cursor-not-allowed">
                   <p className="text-lg">Привязка к сервисам</p>
-                  <p className="text-base text-gray-500">
-                    Изменить возможно только в мобильном приложении
-                  </p>
                   <p className="text-base text-gray-500">
                     {socialBounds.vk || socialBounds.google
                       ? "Аккаунт привязан к:"
@@ -232,6 +248,9 @@ export const ProfileEditModal = (props: {
                     {socialBounds.vk && socialBounds.google && ", "}
                     {socialBounds.google && "Google"}
                   </p>
+                </div>
+                <div className="p-2 cursor-not-allowed">
+                  <p className="text-lg">Смена Эл. Почты или Пароля</p>
                 </div>
               </div>
             </div>
