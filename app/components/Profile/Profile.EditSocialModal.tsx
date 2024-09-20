@@ -122,7 +122,7 @@ export const ProfileEditSocialModal = (props: {
     >
       <Modal.Header>Соц. сети</Modal.Header>
       <Modal.Body>
-        <p className="p-2 text-gray-400 border-2 border-gray-200 rounded-md">
+        <p className="p-2 text-gray-400 border-2 border-gray-200 rounded-md dark:border-gray-500 dark:text-gray-300">
           Укажите ссылки на свои социальные сети, чтобы другие пользователи
           могли с вами связаться
         </p>

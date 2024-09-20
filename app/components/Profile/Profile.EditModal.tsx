@@ -164,7 +164,7 @@ export const ProfileEditModal = (props: {
                   </div>
                 </div>
                 <button
-                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900"
                   disabled={prefData.is_change_avatar_banned}
                 >
                   <Label htmlFor="dropzone-file" className="cursor-pointer">
@@ -179,7 +179,7 @@ export const ProfileEditModal = (props: {
                     />
                     <div>
                       <p className="text-lg">Изменить фото профиля</p>
-                      <p className="text-base text-gray-500">
+                      <p className="text-base text-gray-500 dark:text-gray-400">
                         {prefData.is_change_avatar_banned
                           ? `Заблокировано до ${unixToDate(
                               prefData.ban_change_avatar_expires,
@@ -191,25 +191,25 @@ export const ProfileEditModal = (props: {
                   </Label>
                 </button>
                 <button
-                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900"
                   onClick={() => {
                     setStatusModalOpen(true);
                   }}
                 >
                   <p className="text-lg">Изменить статус</p>
-                  <p className="text-base text-gray-500 whitespace-pre">
+                  <p className="text-base text-gray-500 whitespace-pre dark:text-gray-400">
                     {status}
                   </p>
                 </button>
                 <button
-                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900"
                   disabled={prefData.is_change_login_banned}
                   onClick={() => {
                     setLoginModalOpen(true);
                   }}
                 >
                   <p className="text-lg">Изменить никнейм</p>
-                  <p className="text-base text-gray-500">
+                  <p className="text-base text-gray-500 dark:text-gray-400">
                     {prefData.is_change_login_banned
                       ? `Заблокировано до ${unixToDate(
                           prefData.ban_change_login_expires,
@@ -219,13 +219,13 @@ export const ProfileEditModal = (props: {
                   </p>
                 </button>
                 <button
-                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900"
                   onClick={() => {
                     setSocialModalOpen(true);
                   }}
                 >
                   <p className="text-lg">Мои социальные сети</p>
-                  <p className="text-base text-gray-500">
+                  <p className="text-base text-gray-500 dark:text-gray-400">
                     укажите ссылки на свои страницы в соц. сетях
                   </p>
                 </button>
@@ -236,7 +236,7 @@ export const ProfileEditModal = (props: {
                   <p className="text-xl font-bold">Приватность</p>
                 </div>
                 <button
-                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900"
                   onClick={() => {
                     setPrivacyModalOpen(true);
                     setPrivacyModalSetting("privacy_stats");
@@ -245,7 +245,7 @@ export const ProfileEditModal = (props: {
                   <p className="text-lg">
                     Кто видит мою статистику, оценки и историю просмотра
                   </p>
-                  <p className="text-base text-gray-500">
+                  <p className="text-base text-gray-500 dark:text-gray-400">
                     {
                       privacy_stat_act_social_text[
                         privacySettings.privacy_stats
@@ -254,7 +254,7 @@ export const ProfileEditModal = (props: {
                   </p>
                 </button>
                 <button
-                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900"
                   onClick={() => {
                     setPrivacyModalOpen(true);
                     setPrivacyModalSetting("privacy_counts");
@@ -264,7 +264,7 @@ export const ProfileEditModal = (props: {
                     Кто видит в профиле мои комментарии, коллекции, видео и
                     друзей
                   </p>
-                  <p className="text-base text-gray-500">
+                  <p className="text-base text-gray-500 dark:text-gray-400">
                     {
                       privacy_stat_act_social_text[
                         privacySettings.privacy_counts
@@ -273,7 +273,7 @@ export const ProfileEditModal = (props: {
                   </p>
                 </button>
                 <button
-                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900"
                   onClick={() => {
                     setPrivacyModalOpen(true);
                     setPrivacyModalSetting("privacy_social");
@@ -282,7 +282,7 @@ export const ProfileEditModal = (props: {
                   <p className="text-lg">
                     Кто видит в профиле мои социальные сети
                   </p>
-                  <p className="text-base text-gray-500">
+                  <p className="text-base text-gray-500 dark:text-gray-400">
                     {
                       privacy_stat_act_social_text[
                         privacySettings.privacy_social
@@ -291,7 +291,7 @@ export const ProfileEditModal = (props: {
                   </p>
                 </button>
                 <button
-                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900"
                   onClick={() => {
                     setPrivacyModalOpen(true);
                     setPrivacyModalSetting("privacy_friend_requests");
@@ -300,7 +300,7 @@ export const ProfileEditModal = (props: {
                   <p className="text-lg">
                     Кто может отправлять мне заявки в друзья
                   </p>
-                  <p className="text-base text-gray-500">
+                  <p className="text-base text-gray-500 dark:text-gray-400">
                     {
                       privacy_friend_req_text[
                         privacySettings.privacy_friend_requests
@@ -308,13 +308,13 @@ export const ProfileEditModal = (props: {
                     }
                   </p>
                 </button>
-                <button className="p-2 text-left rounded-md hover:bg-gray-100">
+                {/* <button className="p-2 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-900">
                   <p className="text-lg">Блоклист</p>
-                  <p className="text-base text-gray-500">
+                  <p className="text-base text-gray-500 dark:text-gray-400">
                     Список пользователей, которым запрещён доступ к вашей
                     странице
                   </p>
-                </button>
+                </button> */}
               </div>
               <div>
                 <div className="flex flex-col">
@@ -322,13 +322,13 @@ export const ProfileEditModal = (props: {
                     <span className="w-8 h-8 iconify mdi--link"></span>
                     <p className="text-xl font-bold">Привязка к сервисам</p>
                   </div>
-                  <p className="mx-1 text-base text-gray-500">
+                  <p className="mx-1 text-base text-gray-500 dark:text-gray-400">
                     Недоступно для изменения в данном клиенте
                   </p>
                 </div>
                 <div className="p-2 mt-2 cursor-not-allowed">
                   <p className="text-lg">Связанные аккаунты</p>
-                  <p className="text-base text-gray-500">
+                  <p className="text-base text-gray-500 dark:text-gray-400">
                     {socialBounds.vk || socialBounds.google
                       ? "Аккаунт привязан к:"
                       : "не привязан к сервисам"}{" "}
