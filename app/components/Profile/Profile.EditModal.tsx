@@ -28,6 +28,7 @@ export const ProfileEditModal = (props: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   token: string;
+  profile_id: number;
 }) => {
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
@@ -112,7 +113,7 @@ export const ProfileEditModal = (props: {
                     <p className="text-xl font-bold">Профиль</p>
                   </div>
                   <p className="mx-1 text-base text-gray-500">
-                    Изменения будут видны после перезагрузки страницы
+                    Некоторые изменения будут видны после перезагрузки страницы
                   </p>
                 </div>
                 <button
@@ -297,11 +298,13 @@ export const ProfileEditModal = (props: {
         token={props.token}
         status={status}
         setStatus={setStatus}
+        profile_id={props.profile_id}
       />
       <ProfileEditSocialModal
         isOpen={socialModalOpen}
         setIsOpen={setSocialModalOpen}
         token={props.token}
+        profile_id={props.profile_id}
       />
     </>
   );

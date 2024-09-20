@@ -4,11 +4,13 @@ import { Button, Modal, Label, TextInput } from "flowbite-react";
 import { Spinner } from "../Spinner/Spinner";
 import { ENDPOINTS } from "#/api/config";
 import { useEffect, useState } from "react";
+import { useSWRConfig } from "swr";
 
 export const ProfileEditSocialModal = (props: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   token: string;
+  profile_id: number;
 }) => {
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
@@ -19,6 +21,7 @@ export const ProfileEditSocialModal = (props: {
     instPage: "",
     ttPage: "",
   });
+  const { mutate } = useSWRConfig();
 
   function _addUrl(username: string, social: string) {
     if (!username) {
@@ -95,6 +98,9 @@ export const ProfileEditSocialModal = (props: {
     })
       .then((res) => {
         if (res.ok) {
+          mutate(
+            `${ENDPOINTS.user.profile}/${props.profile_id}?token=${props.token}`
+          );
           setUpdating(false);
           props.setIsOpen(false);
         } else {

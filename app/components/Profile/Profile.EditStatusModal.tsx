@@ -3,6 +3,7 @@
 import { Button, Modal, Textarea } from "flowbite-react";
 import { ENDPOINTS } from "#/api/config";
 import { useEffect, useState } from "react";
+import { useSWRConfig } from "swr";
 
 export const ProfileEditStatusModal = (props: {
   isOpen: boolean;
@@ -10,10 +11,12 @@ export const ProfileEditStatusModal = (props: {
   token: string;
   status: string;
   setStatus: (status: string) => void;
+  profile_id: number;
 }) => {
   const [loading, setLoading] = useState(false);
   const [_status, _setStatus] = useState("");
   const [_stringLength, _setStringLength] = useState(0);
+  const { mutate } = useSWRConfig();
 
   useEffect(() => {
     _setStatus(props.status);
@@ -38,6 +41,9 @@ export const ProfileEditStatusModal = (props: {
     })
       .then((res) => {
         if (res.ok) {
+          mutate(
+            `${ENDPOINTS.user.profile}/${props.profile_id}?token=${props.token}`
+          );
           setLoading(false);
           props.setStatus(_status);
           props.setIsOpen(false);
