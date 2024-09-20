@@ -1,14 +1,17 @@
 "use client";
 
-import { Modal } from "flowbite-react";
+import { FileInput, Label, Modal } from "flowbite-react";
 import { Spinner } from "../Spinner/Spinner";
 import useSWR from "swr";
 import { ENDPOINTS } from "#/api/config";
 import { useEffect, useState } from "react";
-import { unixToDate } from "#/api/utils";
+import { b64toBlob, unixToDate } from "#/api/utils";
 import { ProfileEditPrivacyModal } from "./Profile.EditPrivacyModal";
 import { ProfileEditStatusModal } from "./Profile.EditStatusModal";
 import { ProfileEditSocialModal } from "./Profile.EditSocialModal";
+import { CropModal } from "../CropModal/CropModal";
+import { useSWRConfig } from "swr";
+import { useUserStore } from "#/store/auth";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -33,6 +36,9 @@ export const ProfileEditModal = (props: {
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
   const [socialModalOpen, setSocialModalOpen] = useState(false);
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
+  const [avatarUri, setAvatarUri] = useState(null);
+  const [tempAvatarUri, setTempAvatarUri] = useState(null);
   const [privacyModalSetting, setPrivacyModalSetting] = useState("none");
   const [privacySettings, setPrivacySettings] = useState({
     privacy_stats: 9,
@@ -46,6 +52,8 @@ export const ProfileEditModal = (props: {
   });
   const [status, setStatus] = useState("");
   const [login, setLogin] = useState("");
+  const { mutate } = useSWRConfig();
+  const userStore = useUserStore();
 
   const privacy_stat_act_social_text = {
     0: "Все пользователи",
@@ -71,6 +79,19 @@ export const ProfileEditModal = (props: {
     `${ENDPOINTS.user.settings.login.info}?token=${props.token}`
   );
 
+  const handleFileRead = (e, fileReader) => {
+    const content = fileReader.result;
+    setTempAvatarUri(content);
+  };
+
+  const handleFilePreview = (file) => {
+    const fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
+      handleFileRead(e, fileReader);
+    };
+    fileReader.readAsDataURL(file);
+  };
+
   useEffect(() => {
     if (prefData) {
       setPrivacySettings({
@@ -92,6 +113,33 @@ export const ProfileEditModal = (props: {
       setLogin(loginData.login);
     }
   }, [loginData]);
+
+  useEffect(() => {
+    if (avatarUri) {
+      let block = avatarUri.split(";");
+      let contentType = block[0].split(":")[1];
+      let realData = block[1].split(",")[1];
+      const blob = b64toBlob(realData, contentType);
+
+      const formData = new FormData();
+      formData.append("image", blob, "cropped.jpg");
+      formData.append("name", "image");
+      const uploadRes = fetch(
+        `${ENDPOINTS.user.settings.avatar}?token=${props.token}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      ).then((res) => {
+        if (res.ok) {
+          mutate(
+            `${ENDPOINTS.user.profile}/${props.profile_id}?token=${props.token}`
+          );
+          userStore.checkAuth();
+        }
+      });
+    }
+  }, [avatarUri]);
 
   return (
     <>
@@ -120,15 +168,28 @@ export const ProfileEditModal = (props: {
                   className="p-2 text-left rounded-md hover:bg-gray-100"
                   disabled={prefData.is_change_avatar_banned}
                 >
-                  <p className="text-lg">Изменить фото профиля</p>
-                  <p className="text-base text-gray-500">
-                    {prefData.is_change_avatar_banned
-                      ? `Заблокировано до ${unixToDate(
-                          prefData.ban_change_avatar_expires,
-                          "full"
-                        )}`
-                      : "Загрузить с устройства"}
-                  </p>
+                  <Label htmlFor="dropzone-file" className="cursor-pointer">
+                    <FileInput
+                      id="dropzone-file"
+                      className="hidden"
+                      accept="image/jpg, image/jpeg, image/png"
+                      onChange={(e) => {
+                        handleFilePreview(e.target.files[0]);
+                        setAvatarModalOpen(true);
+                      }}
+                    />
+                    <div>
+                      <p className="text-lg">Изменить фото профиля</p>
+                      <p className="text-base text-gray-500">
+                        {prefData.is_change_avatar_banned
+                          ? `Заблокировано до ${unixToDate(
+                              prefData.ban_change_avatar_expires,
+                              "full"
+                            )}`
+                          : "Загрузить с устройства"}
+                      </p>
+                    </div>
+                  </Label>
                 </button>
                 <button
                   className="p-2 text-left rounded-md hover:bg-gray-100"
@@ -257,9 +318,7 @@ export const ProfileEditModal = (props: {
                 <div className="flex flex-col">
                   <div className="flex items-center gap-2">
                     <span className="w-8 h-8 iconify mdi--link"></span>
-                    <p className="text-xl font-bold">
-                      Привязка к сервисам
-                    </p>
+                    <p className="text-xl font-bold">Привязка к сервисам</p>
                   </div>
                   <p className="mx-1 text-base text-gray-500">
                     Недоступно для изменения в данном клиенте
@@ -302,6 +361,20 @@ export const ProfileEditModal = (props: {
         setIsOpen={setSocialModalOpen}
         token={props.token}
         profile_id={props.profile_id}
+      />
+      <CropModal
+        src={tempAvatarUri}
+        setSrc={setAvatarUri}
+        setTempSrc={setTempAvatarUri}
+        // setImageData={setImageData}
+        aspectRatio={1 / 1}
+        guides={true}
+        quality={100}
+        isOpen={avatarModalOpen}
+        setIsOpen={setAvatarModalOpen}
+        forceAspect={true}
+        width={600}
+        height={600}
       />
     </>
   );

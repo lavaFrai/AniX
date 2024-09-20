@@ -24,6 +24,7 @@ export const ENDPOINTS = {
         change: `${API_PREFIX}/profile/preference/login/change`, // ?login=<url_encoded_string>
       },
       status: `${API_PREFIX}/profile/preference/status/edit`,
+      avatar: `${API_PREFIX}/profile/preference/avatar/edit`,
       privacy: {
         stats: `${API_PREFIX}/profile/preference/privacy/stats/edit`,
         counts: `${API_PREFIX}/profile/preference/privacy/counts/edit`,
