@@ -64,6 +64,15 @@ export const ReleasePlayer = (props: { id: number }) => {
     async function _fetchInfo(url: string) {
       const episodes = await _fetch(url);
 
+      if (episodes.episodes.length === 0) {
+
+        const remSources = sourcesInfo.filter((source) => source.id !== selectedSource.id);
+        setSourcesInfo(remSources);
+        setSelectedSource(remSources[0]);
+
+        return;
+      }
+
       setEpisodeInfo(episodes.episodes);
       setSelectedEpisode(episodes.episodes[0]);
     }
