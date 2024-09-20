@@ -7,6 +7,7 @@ import { ENDPOINTS } from "#/api/config";
 import { useEffect, useState } from "react";
 import { ProfileEditPrivacyModal } from "./Profile.EditPrivacyModal";
 import { ProfileEditStatusModal } from "./Profile.EditStatusModal";
+import { unixToDate } from "#/api/utils";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -103,19 +104,27 @@ export const ProfileEditModal = (props: {
           ) : (
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2 pb-4 border-b-2 border-gray-300 border-solid">
-                <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 iconify mdi--user"></span>
-                  <div className="flex flex-col">
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span className="w-8 h-8 iconify mdi--user"></span>
                     <p className="text-xl font-bold">Профиль</p>
-                    <p className="text-base text-gray-500">
-                      Изменения будут видны после перезагрузки страницы
-                    </p>
                   </div>
+                  <p className="mx-1 text-base text-gray-500">
+                    Изменения будут видны после перезагрузки страницы
+                  </p>
                 </div>
-                <button className="p-2 text-left rounded-md hover:bg-gray-100">
+                <button
+                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  disabled={prefData.is_change_avatar_banned}
+                >
                   <p className="text-lg">Изменить фото профиля</p>
                   <p className="text-base text-gray-500">
-                    Загрузить с устройства
+                    {prefData.is_change_avatar_banned
+                      ? `Заблокировано до ${unixToDate(
+                          prefData.ban_change_avatar_expires,
+                          "full"
+                        )}`
+                      : "Загрузить с устройства"}
                   </p>
                 </button>
                 <button
@@ -129,9 +138,19 @@ export const ProfileEditModal = (props: {
                     {status}
                   </p>
                 </button>
-                <button className="p-2 text-left rounded-md hover:bg-gray-100">
+                <button
+                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  disabled={prefData.is_change_login_banned}
+                >
                   <p className="text-lg">Изменить никнейм</p>
-                  <p className="text-base text-gray-500">{login}</p>
+                  <p className="text-base text-gray-500">
+                    {prefData.is_change_login_banned
+                      ? `Заблокировано до ${unixToDate(
+                          prefData.ban_change_login_expires,
+                          "full"
+                        )}`
+                      : login}
+                  </p>
                 </button>
                 <button className="p-2 text-left rounded-md hover:bg-gray-100">
                   <p className="text-lg">Мои социальные сети</p>
@@ -227,16 +246,16 @@ export const ProfileEditModal = (props: {
                 </button>
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 iconify mdi--shield"></span>
-                  <div className="flex flex-col">
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span className="w-8 h-8 iconify mdi--shield"></span>
                     <p className="text-xl font-bold">
                       Безопасность и привязка к сервисам
                     </p>
-                    <p className="text-base text-gray-500">
-                      Не доступно для изменения в данном клиенте
-                    </p>
                   </div>
+                  <p className="mx-1 text-base text-gray-500">
+                    Не доступно для изменения в данном клиенте
+                  </p>
                 </div>
                 <div className="p-2 mt-2 cursor-not-allowed">
                   <p className="text-lg">Привязка к сервисам</p>
