@@ -23,11 +23,17 @@ export const ENDPOINTS = {
         history: `${API_PREFIX}/profile/login/history/all`, // /<user_id>/<page>
         change: `${API_PREFIX}/profile/preference/login/change`, // ?login=<url_encoded_string>
       },
-      statusEdit: `${API_PREFIX}/profile/preference/status/edit`,
-      statsEdit: `${API_PREFIX}/profile/preference/privacy/stats/edit`,
-      countsEdit: `${API_PREFIX}/profile/preference/privacy/counts/edit`,
-      socialEdit: `${API_PREFIX}/profile/preference/privacy/social/edit`,
-      friendRequestsEdit: `${API_PREFIX}/profile/preference/privacy/friendRequests/edit`,
+      status: `${API_PREFIX}/profile/preference/status/edit`,
+      privacy: {
+        stats: `${API_PREFIX}/profile/preference/privacy/stats/edit`,
+        counts: `${API_PREFIX}/profile/preference/privacy/counts/edit`,
+        socials: `${API_PREFIX}/profile/preference/privacy/social/edit`,
+        friendRequests: `${API_PREFIX}/profile/preference/privacy/friendRequests/edit`,
+      },
+      socials: {
+        info: `${API_PREFIX}/profile/preference/social`,
+        edit: `${API_PREFIX}/profile/preference/social/edit`,
+      },
     }
   },
   filter: `${API_PREFIX}/filter`,

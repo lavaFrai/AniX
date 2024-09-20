@@ -26,10 +26,10 @@ export const ProfileEditPrivacyModal = (props: {
   };
 
   const _endpoints = {
-    privacy_stats: `${ENDPOINTS.user.settings.statsEdit}?token=${props.token}`,
-    privacy_counts: `${ENDPOINTS.user.settings.countsEdit}?token=${props.token}`,
-    privacy_social: `${ENDPOINTS.user.settings.socialEdit}?token=${props.token}`,
-    privacy_friend_requests: `${ENDPOINTS.user.settings.friendRequestsEdit}?token=${props.token}`,
+    privacy_stats: `${ENDPOINTS.user.settings.privacy.stats}?token=${props.token}`,
+    privacy_counts: `${ENDPOINTS.user.settings.privacy.counts}?token=${props.token}`,
+    privacy_social: `${ENDPOINTS.user.settings.privacy.socials}?token=${props.token}`,
+    privacy_friend_requests: `${ENDPOINTS.user.settings.privacy.friendRequests}?token=${props.token}`,
   };
 
   const [loading, setLoading] = useState(false);
@@ -51,6 +51,7 @@ export const ProfileEditPrivacyModal = (props: {
           setLoading(false);
           privacySettings[el.target.name] = el.target.value;
           props.setPrivacySettings(privacySettings);
+          props.setIsOpen(false)
         } else {
           new Error("failed to send data");
         }

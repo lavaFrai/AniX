@@ -5,9 +5,10 @@ import { Spinner } from "../Spinner/Spinner";
 import useSWR from "swr";
 import { ENDPOINTS } from "#/api/config";
 import { useEffect, useState } from "react";
+import { unixToDate } from "#/api/utils";
 import { ProfileEditPrivacyModal } from "./Profile.EditPrivacyModal";
 import { ProfileEditStatusModal } from "./Profile.EditStatusModal";
-import { unixToDate } from "#/api/utils";
+import { ProfileEditSocialModal } from "./Profile.EditSocialModal";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -30,6 +31,7 @@ export const ProfileEditModal = (props: {
 }) => {
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
+  const [socialModalOpen, setSocialModalOpen] = useState(false);
   const [privacyModalSetting, setPrivacyModalSetting] = useState("none");
   const [privacySettings, setPrivacySettings] = useState({
     privacy_stats: 9,
@@ -152,7 +154,12 @@ export const ProfileEditModal = (props: {
                       : login}
                   </p>
                 </button>
-                <button className="p-2 text-left rounded-md hover:bg-gray-100">
+                <button
+                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  onClick={() => {
+                    setSocialModalOpen(true);
+                  }}
+                >
                   <p className="text-lg">Мои социальные сети</p>
                   <p className="text-base text-gray-500">
                     укажите ссылки на свои страницы в соц. сетях
@@ -290,6 +297,11 @@ export const ProfileEditModal = (props: {
         token={props.token}
         status={status}
         setStatus={setStatus}
+      />
+      <ProfileEditSocialModal
+        isOpen={socialModalOpen}
+        setIsOpen={setSocialModalOpen}
+        token={props.token}
       />
     </>
   );
