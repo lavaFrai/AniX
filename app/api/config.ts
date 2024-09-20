@@ -18,6 +18,7 @@ export const ENDPOINTS = {
     favorite: `${API_PREFIX}/favorite`,
     settings: {
       my: `${API_PREFIX}/profile/preference/my`,
+      statusEdit: `${API_PREFIX}/profile/preference/status/edit`,
       statsEdit: `${API_PREFIX}/profile/preference/privacy/stats/edit`,
       countsEdit: `${API_PREFIX}/profile/preference/privacy/counts/edit`,
       socialEdit: `${API_PREFIX}/profile/preference/privacy/social/edit`,

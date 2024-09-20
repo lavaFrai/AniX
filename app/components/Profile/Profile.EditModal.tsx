@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { ENDPOINTS } from "#/api/config";
 import { useEffect, useState } from "react";
 import { ProfileEditPrivacyModal } from "./Profile.EditPrivacyModal";
+import { ProfileEditStatusModal } from "./Profile.EditStatusModal";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -27,6 +28,7 @@ export const ProfileEditModal = (props: {
   token: string;
 }) => {
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
+  const [statusModalOpen, setStatusModalOpen] = useState(false);
   const [privacyModalSetting, setPrivacyModalSetting] = useState("none");
   const [privacySettings, setPrivacySettings] = useState({
     privacy_stats: 9,
@@ -38,6 +40,7 @@ export const ProfileEditModal = (props: {
     vk: false,
     google: false,
   });
+  const [status, setStatus] = useState("");
 
   const privacy_stat_act_social_text = {
     0: "Все пользователи",
@@ -68,6 +71,7 @@ export const ProfileEditModal = (props: {
         vk: data.is_vk_bound || data.isVkBound || false,
         google: data.is_google_bound || data.isGoogleBound || false,
       });
+      setStatus(data.status);
     }
   }, [data]);
 
@@ -95,10 +99,17 @@ export const ProfileEditModal = (props: {
                     Загрузить с устройства
                   </p>
                 </div>
-                <div>
+                <button
+                  className="p-2 text-left rounded-md hover:bg-gray-100"
+                  onClick={() => {
+                    setStatusModalOpen(true);
+                  }}
+                >
                   <p className="text-lg">Изменить статус</p>
-                  <p className="text-base text-gray-500">{data.status}</p>
-                </div>
+                  <p className="text-base text-gray-500 whitespace-pre">
+                    {status}
+                  </p>
+                </button>
                 <div>
                   <p className="text-lg">Изменить никнейм</p>
                 </div>
@@ -234,6 +245,13 @@ export const ProfileEditModal = (props: {
         setting={privacyModalSetting}
         privacySettings={privacySettings}
         setPrivacySettings={setPrivacySettings}
+      />
+      <ProfileEditStatusModal
+        isOpen={statusModalOpen}
+        setIsOpen={setStatusModalOpen}
+        token={props.token}
+        status={status}
+        setStatus={setStatus}
       />
     </>
   );
