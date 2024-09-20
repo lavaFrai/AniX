@@ -2,6 +2,7 @@
 
 import { Modal } from "flowbite-react";
 import { ENDPOINTS } from "#/api/config";
+import { useState } from "react";
 
 export const ProfileEditPrivacyModal = (props: {
   isOpen: boolean;
@@ -16,7 +17,6 @@ export const ProfileEditPrivacyModal = (props: {
   };
   setPrivacySettings: (privacySettings: any) => void;
 }) => {
-
   const setting_text = {
     privacy_stats: "Кто видит мою статистику, оценки и историю просмотра",
     privacy_counts:
@@ -25,10 +25,40 @@ export const ProfileEditPrivacyModal = (props: {
     privacy_friend_requests: "Кто может отправлять мне заявки в друзья",
   };
 
+  const _endpoints = {
+    privacy_stats: `${ENDPOINTS.user.settings.statsEdit}?token=${props.token}`,
+    privacy_counts: `${ENDPOINTS.user.settings.countsEdit}?token=${props.token}`,
+    privacy_social: `${ENDPOINTS.user.settings.socialEdit}?token=${props.token}`,
+    privacy_friend_requests: `${ENDPOINTS.user.settings.friendRequestsEdit}?token=${props.token}`,
+  };
+
+  const [loading, setLoading] = useState(false);
+
   function _setPrivacySetting(el: any) {
     let privacySettings = structuredClone(props.privacySettings);
-    privacySettings[el.target.name] = el.target.value;
-    props.setPrivacySettings(privacySettings);
+    setLoading(true);
+    fetch(_endpoints[props.setting], {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        permission: el.target.value,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          setLoading(false);
+          privacySettings[el.target.name] = el.target.value;
+          props.setPrivacySettings(privacySettings);
+        } else {
+          new Error("failed to send data");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }
 
   return (
@@ -47,6 +77,7 @@ export const ProfileEditPrivacyModal = (props: {
                 <>
                   <div className="flex items-center">
                     <input
+                      disabled={loading}
                       onClick={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 0}
                       id="default-radio-1"
@@ -64,6 +95,7 @@ export const ProfileEditPrivacyModal = (props: {
                   </div>
                   <div className="flex items-center">
                     <input
+                      disabled={loading}
                       onClick={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 1}
                       id="default-radio-2"
@@ -84,6 +116,7 @@ export const ProfileEditPrivacyModal = (props: {
                 <>
                   <div className="flex items-center">
                     <input
+                      disabled={loading}
                       onClick={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 0}
                       id="default-radio-1"
@@ -101,6 +134,7 @@ export const ProfileEditPrivacyModal = (props: {
                   </div>
                   <div className="flex items-center">
                     <input
+                      disabled={loading}
                       onClick={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 1}
                       id="default-radio-2"
@@ -118,6 +152,7 @@ export const ProfileEditPrivacyModal = (props: {
                   </div>
                   <div className="flex items-center">
                     <input
+                      disabled={loading}
                       onClick={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 2}
                       id="default-radio-3"
