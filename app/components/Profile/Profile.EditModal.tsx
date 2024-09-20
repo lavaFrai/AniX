@@ -12,6 +12,7 @@ import { ProfileEditSocialModal } from "./Profile.EditSocialModal";
 import { CropModal } from "../CropModal/CropModal";
 import { useSWRConfig } from "swr";
 import { useUserStore } from "#/store/auth";
+import { ProfileEditLoginModal } from "./Profile.EditLoginModal";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -37,6 +38,7 @@ export const ProfileEditModal = (props: {
   const [statusModalOpen, setStatusModalOpen] = useState(false);
   const [socialModalOpen, setSocialModalOpen] = useState(false);
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [avatarUri, setAvatarUri] = useState(null);
   const [tempAvatarUri, setTempAvatarUri] = useState(null);
   const [privacyModalSetting, setPrivacyModalSetting] = useState("none");
@@ -160,9 +162,6 @@ export const ProfileEditModal = (props: {
                     <span className="w-8 h-8 iconify mdi--user"></span>
                     <p className="text-xl font-bold">Профиль</p>
                   </div>
-                  <p className="mx-1 text-base text-gray-500">
-                    Некоторые изменения будут видны после перезагрузки страницы
-                  </p>
                 </div>
                 <button
                   className="p-2 text-left rounded-md hover:bg-gray-100"
@@ -205,6 +204,9 @@ export const ProfileEditModal = (props: {
                 <button
                   className="p-2 text-left rounded-md hover:bg-gray-100"
                   disabled={prefData.is_change_login_banned}
+                  onClick={() => {
+                    setLoginModalOpen(true);
+                  }}
                 >
                   <p className="text-lg">Изменить никнейм</p>
                   <p className="text-base text-gray-500">
@@ -366,7 +368,6 @@ export const ProfileEditModal = (props: {
         src={tempAvatarUri}
         setSrc={setAvatarUri}
         setTempSrc={setTempAvatarUri}
-        // setImageData={setImageData}
         aspectRatio={1 / 1}
         guides={true}
         quality={100}
@@ -375,6 +376,13 @@ export const ProfileEditModal = (props: {
         forceAspect={true}
         width={600}
         height={600}
+      />
+      <ProfileEditLoginModal
+        isOpen={loginModalOpen}
+        setIsOpen={setLoginModalOpen}
+        token={props.token}
+        setLogin={setLogin}
+        profile_id={props.profile_id}
       />
     </>
   );
