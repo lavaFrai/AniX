@@ -256,17 +256,17 @@ export const ProfileEditModal = (props: {
               <div>
                 <div className="flex flex-col">
                   <div className="flex items-center gap-2">
-                    <span className="w-8 h-8 iconify mdi--shield"></span>
+                    <span className="w-8 h-8 iconify mdi--link"></span>
                     <p className="text-xl font-bold">
-                      Безопасность и привязка к сервисам
+                      Привязка к сервисам
                     </p>
                   </div>
                   <p className="mx-1 text-base text-gray-500">
-                    Не доступно для изменения в данном клиенте
+                    Недоступно для изменения в данном клиенте
                   </p>
                 </div>
                 <div className="p-2 mt-2 cursor-not-allowed">
-                  <p className="text-lg">Привязка к сервисам</p>
+                  <p className="text-lg">Связанные аккаунты</p>
                   <p className="text-base text-gray-500">
                     {socialBounds.vk || socialBounds.google
                       ? "Аккаунт привязан к:"
@@ -275,9 +275,6 @@ export const ProfileEditModal = (props: {
                     {socialBounds.vk && socialBounds.google && ", "}
                     {socialBounds.google && "Google"}
                   </p>
-                </div>
-                <div className="p-2 cursor-not-allowed">
-                  <p className="text-lg">Смена Эл. Почты или Пароля</p>
                 </div>
               </div>
             </div>
