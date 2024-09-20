@@ -78,7 +78,7 @@ export const ProfileEditPrivacyModal = (props: {
                   <div className="flex items-center">
                     <input
                       disabled={loading}
-                      onClick={(e) => _setPrivacySetting(e)}
+                      onChange={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 0}
                       id="default-radio-1"
                       type="radio"
@@ -96,7 +96,7 @@ export const ProfileEditPrivacyModal = (props: {
                   <div className="flex items-center">
                     <input
                       disabled={loading}
-                      onClick={(e) => _setPrivacySetting(e)}
+                      onChange={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 1}
                       id="default-radio-2"
                       type="radio"
@@ -117,7 +117,7 @@ export const ProfileEditPrivacyModal = (props: {
                   <div className="flex items-center">
                     <input
                       disabled={loading}
-                      onClick={(e) => _setPrivacySetting(e)}
+                      onChange={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 0}
                       id="default-radio-1"
                       type="radio"
@@ -135,7 +135,7 @@ export const ProfileEditPrivacyModal = (props: {
                   <div className="flex items-center">
                     <input
                       disabled={loading}
-                      onClick={(e) => _setPrivacySetting(e)}
+                      onChange={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 1}
                       id="default-radio-2"
                       type="radio"
@@ -153,7 +153,7 @@ export const ProfileEditPrivacyModal = (props: {
                   <div className="flex items-center">
                     <input
                       disabled={loading}
-                      onClick={(e) => _setPrivacySetting(e)}
+                      onChange={(e) => _setPrivacySetting(e)}
                       checked={props.privacySettings[props.setting] == 2}
                       id="default-radio-3"
                       type="radio"

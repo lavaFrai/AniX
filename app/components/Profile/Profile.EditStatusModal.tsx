@@ -27,7 +27,7 @@ export const ProfileEditStatusModal = (props: {
 
   function _setStatusSetting() {
     setLoading(true);
-    fetch(ENDPOINTS.user.settings.statusEdit, {
+    fetch(`${ENDPOINTS.user.settings.statusEdit}?token=${props.token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
