@@ -1,10 +1,9 @@
 "use client";
-import { useEffect } from "react";
 import { ReleaseLink } from "../ReleaseLink/ReleaseLink";
 import Link from "next/link";
 
+import { Swiper, SwiperSlide } from 'swiper/react';
 import Styles from "./ReleaseCourusel.module.css";
-import Swiper from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
@@ -14,34 +13,8 @@ export const ReleaseCourusel = (props: {
   showAllLink?: string;
   content: any;
 }) => {
-  useEffect(() => {
-    const options: any = {
-      direction: "horizontal",
-      spaceBetween: 8,
-      allowTouchMove: true,
-      slidesPerView: "auto",
-      rewind: true,
-      navigation: {
-        enabled: false,
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      breakpoints: {
-        450: {
-          navigation: {
-            enabled: true,
-          },
-          initialSlide: 1,
-          centeredSlides: true,
-        },
-      },
-      modules: [Navigation],
-    };
-    new Swiper(".swiper", options);
-  }, []);
-
   return (
-    <section className={`${Styles.section}`}>
+    <section className={Styles.section}>
       <div className="flex justify-between px-4 py-2 border-b-2 border-black dark:border-white">
         <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
           {props.sectionTitle}
@@ -56,35 +29,53 @@ export const ReleaseCourusel = (props: {
         )}
       </div>
       <div className="my-4">
-        <div className={`swiper ${Styles["swiper"]}`}>
-          <div className="swiper-wrapper">
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={8}
+          slidesPerView={'auto'}
+          direction={'horizontal'}
+          rewind={true}
+          navigation={{
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+          }}
+          allowTouchMove={true}
+          breakpoints={{
+            1800: {
+              initialSlide: 1,
+              centeredSlides: true
+            }
+          }}
+          className={Styles.swiper}
+        >
             {props.content.map((release) => {
               return (
-                <div
-                  className="swiper-slide"
+                <SwiperSlide
                   key={release.id}
-                  style={{ width: "fit-content" }}
+                  className="xl:max-w-[600px] sm:max-w-[400px] aspect-video"
                 >
-                  <div className="xl:w-[600px] sm:w-[400px] w-[84vw] aspect-video">
-                    <ReleaseLink {...release} />
-                  </div>
-                </div>
+                  <ReleaseLink {...release} />
+                </SwiperSlide>
               );
             })}
+            <div
+              className={`swiper-button-prev ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-left aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`}
+              style={
+                { "--swiper-navigation-size": "64px" } as React.CSSProperties
+              }
+          ></div>
+          <div
+              className={`swiper-button-next ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-right aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`}
+              style={
+                { "--swiper-navigation-size": "64px" } as React.CSSProperties
+              }
+          ></div>
+        </Swiper>
+        {/* <div className={`swiper ${Styles["swiper"]}`}>
+          <div className="swiper-wrapper">
           </div>
-          <div
-            className={`swiper-button-prev ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-left aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`}
-            style={
-              { "--swiper-navigation-size": "64px" } as React.CSSProperties
-            }
-          ></div>
-          <div
-            className={`swiper-button-next ${Styles["swiper-button"]} after:iconify after:material-symbols--chevron-right aspect-square bg-black bg-opacity-25 backdrop-blur rounded-full after:bg-white`}
-            style={
-              { "--swiper-navigation-size": "64px" } as React.CSSProperties
-            }
-          ></div>
-        </div>
+          
+        </div> */}
       </div>
     </section>
   );
