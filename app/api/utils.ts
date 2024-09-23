@@ -200,7 +200,7 @@ export function minutesToTime(
     if (h > 0) return hDisplay;
     if (m > 0) return mDisplay;
   } else {
-    return `${dDisplay}${h > 0 && ", " + hDisplay}${m > 0 && ", " + mDisplay}`;
+    return `${d > 0 ? dDisplay : ""}${h > 0 ? ", " + hDisplay : ""}${m > 0 ? ", " + mDisplay : ""}`;
   }
 }
 

@@ -59,7 +59,7 @@ export const ReleaseInfoInfo = (props: {
               {props.episodes.released ? props.episodes.released : "?"}
               {"/"}
               {props.episodes.total ? props.episodes.total + " эп. " : "? эп. "}
-              {props.duration != 0 && `по ${minutesToTime(props.duration)}`}
+              {props.duration != 0 && `по ${minutesToTime(props.duration, "daysHours")}`}
             </Table.Cell>
           </Table.Row>
           <Table.Row>
