@@ -152,7 +152,7 @@ export const ReleasePlayer = (props: { id: number }) => {
                   }}
                   disabled={selectedEpisode.position === episode.position}
                 >
-                  {episode.position} серия
+                  {episode.name ? episode.name : `${selectedSource.name != "Sibnet" ? episode.position : episode.position + 1} серия`}
                   {episode.is_watched && (
                     <span className="w-5 h-5 ml-2 iconify material-symbols--check-circle"></span>
                   )}
