@@ -22,8 +22,11 @@ export const MenuPage = () => {
       {userStore.user && (
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <Link href={`/profile/${userStore.user.id}`} className="flex-1">
-              <Card>
+            <Link
+              href={`/profile/${userStore.user.id}`}
+              className="flex-1 w-full min-w-full sm:w-auto sm:min-w-0"
+            >
+              <Card className="flex-1 w-full min-w-full sm:w-auto sm:min-w-0">
                 <div className="flex items-center gap-4">
                   <img
                     src={userStore.user.avatar}
@@ -34,7 +37,7 @@ export const MenuPage = () => {
                     <p className="text-xl sm:text-2xl">
                       {userStore.user.login}
                     </p>
-                    <p className="text-sm text-gray-400 whitespace-pre sm:text-base dark:text-gray-300">
+                    <p className="text-sm text-gray-400 whitespace-pre-wrap sm:text-base dark:text-gray-300">
                       {userStore.user.status}
                     </p>
                   </div>
@@ -101,6 +104,32 @@ export const MenuPage = () => {
                   className={`iconify material-symbols--history w-6 h-6`}
                 ></span>
                 <p>История</p>
+              </div>
+            </Card>
+          </Link>
+          <Link href={"https://t.me/anix_web"} className="flex-1">
+            <Card>
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 iconify fa6-brands--telegram"></span>
+                <div>
+                  <p>Телеграм канал</p>
+                  <p className="text-sm text-gray-400 dark:text-gray-200">
+                    @anix_web
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </Link>
+          <Link href={"https://wah.su/radiquum"} className="flex-1">
+            <Card>
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 iconify mdi--code"></span>
+                <div>
+                  <p>Разработчик</p>
+                  <p className="text-sm text-gray-400 dark:text-gray-200">
+                    Radiquum
+                  </p>
+                </div>
               </div>
             </Card>
           </Link>

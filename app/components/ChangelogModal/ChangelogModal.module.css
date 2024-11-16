@@ -14,3 +14,7 @@
     -webkit-padding-start: 20px;
     padding-inline-start: 20px;
 }
+
+.markdown a {
+    text-decoration: underline;
+}
