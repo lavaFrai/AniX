@@ -146,6 +146,7 @@ const AddReleaseToCollectionModal = (props: {
   profile_id: number;
 }) => {
   const getKey = (pageIndex: number, previousPageData: any) => {
+    if (!props.token) return null;
     if (previousPageData && !previousPageData.content.length) return null;
     return `${ENDPOINTS.collection.userCollections}/${props.profile_id}/${pageIndex}?token=${props.token}`;
   };
