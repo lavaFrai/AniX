@@ -5,13 +5,6 @@ module.exports = withPlausibleProxy({
 })({
   reactStrictMode: false,
   images: {
-    loader: 'custom',
-    loaderFile: './imageLoader.ts',
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "anixstatic.com",
-      },
-    ],
+    unoptimized: true,
   },
 });
