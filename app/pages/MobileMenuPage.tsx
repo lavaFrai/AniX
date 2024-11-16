@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SettingsModal } from "#/components/SettingsModal/SettingsModal";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export const MenuPage = () => {
   const userStore = useUserStore();
@@ -15,6 +16,7 @@ export const MenuPage = () => {
     if (!userStore.user) {
       router.push("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userStore.user]);
 
   return (
@@ -28,8 +30,10 @@ export const MenuPage = () => {
             >
               <Card className="flex-1 w-full min-w-full sm:w-auto sm:min-w-0">
                 <div className="flex items-center gap-4">
-                  <img
+                  <Image
                     src={userStore.user.avatar}
+                    width={64}
+                    height={64}
                     alt=""
                     className="w-16 h-16 rounded-full sm:w-28 sm:h-28"
                   />

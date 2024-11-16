@@ -91,6 +91,7 @@ export const ProfileWatchDynamic = (props: { watchDynamic: Array<any> }) => {
       );
       chart.render();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

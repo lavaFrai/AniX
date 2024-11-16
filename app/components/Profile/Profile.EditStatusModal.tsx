@@ -21,6 +21,7 @@ export const ProfileEditStatusModal = (props: {
   useEffect(() => {
     _setStatus(props.status);
     _setStringLength(props.status.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.isOpen]);
 
   function handleInput(e: any) {

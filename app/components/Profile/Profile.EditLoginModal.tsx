@@ -44,6 +44,7 @@ export const ProfileEditLoginModal = (props: {
         _setLoginLength(data.login.length);
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.isOpen]);
 
   function handleInput(e: any) {

@@ -65,6 +65,7 @@ export const ProfileStats = (props: {
       );
       chart.render();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

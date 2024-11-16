@@ -69,15 +69,15 @@ export const ProfileEditModal = (props: {
     9: "Неизвестно",
   };
 
-  function _fetchInfo(url: string) {
+  function useFetchInfo(url: string) {
     const { data, isLoading, error } = useSWR(url, fetcher);
     return [data, isLoading, error];
   }
 
-  const [prefData, prefLoading, prefError] = _fetchInfo(
+  const [prefData, prefLoading, prefError] = useFetchInfo(
     `${ENDPOINTS.user.settings.my}?token=${props.token}`
   );
-  const [loginData, loginLoading, loginError] = _fetchInfo(
+  const [loginData, loginLoading, loginError] = useFetchInfo(
     `${ENDPOINTS.user.settings.login.info}?token=${props.token}`
   );
 
@@ -141,6 +141,7 @@ export const ProfileEditModal = (props: {
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatarUri]);
 
   return (

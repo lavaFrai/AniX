@@ -69,7 +69,9 @@ export const ProfileEditSocialModal = (props: {
         });
         setLoading(false);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.isOpen]);
+
 
   function handleInput(e: any) {
     const social = {
