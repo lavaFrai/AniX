@@ -5,7 +5,7 @@ import { ENDPOINTS } from "../config";
 
 export async function GET(request: NextRequest) {
   const page = parseInt(request.nextUrl.searchParams.get("page")) || 0;
-  const query = request.nextUrl.searchParams.get("q") || null;
+  const query = decodeURI(request.nextUrl.searchParams.get("q")) || null;
   const token = request.nextUrl.searchParams.get("token") || null;
 
   const where = request.nextUrl.searchParams.get("where") || "releases"

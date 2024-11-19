@@ -28,6 +28,7 @@ export function SearchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || null);
+  const [searchVal, setSearchVal] = useState(searchParams.get("q") || "")
   const where = searchParams.get("where") || null;
   const searchBy = searchParams.get("searchBy") || null;
   const list = searchParams.get("list") || null;
@@ -88,7 +89,22 @@ export function SearchPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
-  if (error) return <div>failed to load</div>;
+  function _executeSearch(query) {
+    const Params = new URLSearchParams(window.location.search);
+    Params.set("q", query);
+    const url = new URL(`/search?${Params.toString()}`, window.location.origin);
+    setContent(null);
+    setQuery(searchVal.trim());
+    router.push(url.toString());
+  }
+
+  useEffect(() => {
+    if (searchVal.length % 4 == 1) {
+      _executeSearch(searchVal)
+    }
+  }, [searchVal]);
+
+  if (error) return <div>failed to load: {error.message}</div>;
 
   return (
     <>
@@ -97,9 +113,7 @@ export function SearchPage() {
           className="max-w-full mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
-            setContent(null);
-            setQuery(e.target[0].value.trim());
-            router.push(`/search?q=${e.target[0].value.trim()}`);
+            _executeSearch(searchVal)
           }}
         >
           <label
@@ -132,6 +146,8 @@ export function SearchPage() {
               className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Поиск аниме..."
               required
+              value={searchVal}
+              onChange={(e) => setSearchVal(e.target.value)}
               defaultValue={query || ""}
             />
             <button
