@@ -28,15 +28,23 @@ export function SearchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || null);
-  const [searchVal, setSearchVal] = useState(searchParams.get("q") || "")
-  const where = searchParams.get("where") || null;
-  const searchBy = searchParams.get("searchBy") || null;
-  const list = searchParams.get("list") || null;
+  const [searchVal, setSearchVal] = useState(
+    decodeURI(searchParams.get("q")) || ""
+  );
+  const [where, setWhere] = useState(searchParams.get("where") || "releases");
+  const [searchBy, setSearchBy] = useState(
+    searchParams.get("searchBy") || null
+  );
+  const [list, setList] = useState(searchParams.get("list") || null);
 
   const token = useUserStore((state) => state.token);
 
   const getKey = (pageIndex: number, previousPageData: any) => {
-    if (previousPageData && !previousPageData.releases.length) return null;
+    if (where == "list") {
+      if (previousPageData && !previousPageData.content.length) return null;
+    } else {
+      if (previousPageData && !previousPageData.releases.length) return null;
+    }
 
     const url = new URL("/api/search", window.location.origin);
     url.searchParams.set("page", pageIndex.toString());
@@ -74,8 +82,14 @@ export function SearchPage() {
   useEffect(() => {
     if (data) {
       let allReleases = [];
-      for (let i = 0; i < data.length; i++) {
-        allReleases.push(...data[i].releases);
+      if (where == "list") {
+        for (let i = 0; i < data.length; i++) {
+          allReleases.push(...data[i].content);
+        }
+      } else {
+        for (let i = 0; i < data.length; i++) {
+          allReleases.push(...data[i].releases);
+        }
       }
       setContent(allReleases);
     }
@@ -89,18 +103,18 @@ export function SearchPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
 
-  function _executeSearch(query) {
+  function _executeSearch(value: string) {
     const Params = new URLSearchParams(window.location.search);
-    Params.set("q", query);
+    Params.set("q", value);
     const url = new URL(`/search?${Params.toString()}`, window.location.origin);
     setContent(null);
-    setQuery(searchVal.trim());
+    setQuery(value);
     router.push(url.toString());
   }
 
   useEffect(() => {
-    if (searchVal.length % 4 == 1) {
-      _executeSearch(searchVal)
+    if (searchVal && searchVal.length % 4 == 1) {
+      _executeSearch(searchVal.trim());
     }
   }, [searchVal]);
 
@@ -113,7 +127,7 @@ export function SearchPage() {
           className="max-w-full mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
-            _executeSearch(searchVal)
+            _executeSearch(searchVal.trim());
           }}
         >
           <label
@@ -148,7 +162,6 @@ export function SearchPage() {
               required
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
-              defaultValue={query || ""}
             />
             <button
               type="submit"
@@ -184,18 +197,20 @@ export function SearchPage() {
           </div>
         )}
       </div>
-      {data && data[data.length - 1].releases.length == 25 && (
-        <Button
-          className="w-full"
-          color={"light"}
-          onClick={() => setSize(size + 1)}
-        >
-          <div className="flex items-center gap-2">
-            <span className="w-6 h-6 iconify mdi--plus-circle "></span>
-            <span className="text-lg">Загрузить ещё</span>
-          </div>
-        </Button>
-      )}
+      {(data && data.length > 1) && (where == "releases"
+        ? data[data.length - 1].releases.length == 25
+        : data[data.length - 1].content.length == 25) ? (
+            <Button
+              className="w-full"
+              color={"light"}
+              onClick={() => setSize(size + 1)}
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 iconify mdi--plus-circle "></span>
+                <span className="text-lg">Загрузить ещё</span>
+              </div>
+            </Button>
+          ) : ""}
     </>
   );
 }
