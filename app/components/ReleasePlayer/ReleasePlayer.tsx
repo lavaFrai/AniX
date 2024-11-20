@@ -5,6 +5,12 @@ import { useUserStore } from "#/store/auth";
 import { Card, Dropdown, Button } from "flowbite-react";
 import { ENDPOINTS } from "#/api/config";
 import { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/mousewheel";
+import "swiper/css/scrollbar";
+import { Navigation, Mousewheel, Scrollbar } from "swiper/modules";
 
 const DropdownTheme = {
   floating: {
@@ -250,48 +256,63 @@ export const ReleasePlayer = (props: { id: number }) => {
             ></iframe>
           </div>
           <div>
-            <div className="flex gap-2 p-2 overflow-x-auto scrollbar-thin">
+            <Swiper
+              modules={[Navigation, Mousewheel, Scrollbar]}
+              spaceBetween={8}
+              slidesPerView={"auto"}
+              direction={"horizontal"}
+              mousewheel={{
+                enabled: true,
+                sensitivity: 2
+              }}
+              scrollbar={true}
+              allowTouchMove={true}
+              style={{
+                "--swiper-scrollbar-bottom": "0",
+              } as React.CSSProperties}
+            >
               {episodeInfo.map((episode: any) => (
-                <Button
-                  color={
-                    selectedEpisode.position === episode.position
-                      ? "blue"
-                      : "light"
-                  }
-                  theme={{ base: "min-w-fit disabled:opacity-100" }}
-                  key={`episode_${episode.position}`}
-                  onClick={() => {
-                    setSelectedEpisode(episode);
-                    episode.is_watched = true;
-                    _addToHistory(episode);
-                    saveAnonEpisodeWatched(
-                      props.id,
-                      selectedSource.id,
-                      selectedVoiceover.id,
-                      episode.position
-                    );
-                  }}
-                  disabled={selectedEpisode.position === episode.position}
-                >
-                  {episode.name
-                    ? episode.name
-                    : `${
-                        selectedSource.name != "Sibnet"
-                          ? episode.position
-                          : episode.position + 1
-                      } серия`}
-                  {(episode.is_watched ||
-                    getAnonCurrentEpisodeWatched(
-                      props.id,
-                      selectedSource.id,
-                      selectedVoiceover.id,
-                      episode.position
-                    )) && (
-                    <span className="w-5 h-5 ml-2 iconify material-symbols--check-circle"></span>
-                  )}
-                </Button>
+                <SwiperSlide key={`episode_${episode.position}`} style={{maxWidth: "fit-content"}}>
+                  <Button
+                    color={
+                      selectedEpisode.position === episode.position
+                        ? "blue"
+                        : "light"
+                    }
+                    theme={{ base: "w-fit disabled:opacity-100" }}
+                    onClick={() => {
+                      setSelectedEpisode(episode);
+                      episode.is_watched = true;
+                      _addToHistory(episode);
+                      saveAnonEpisodeWatched(
+                        props.id,
+                        selectedSource.id,
+                        selectedVoiceover.id,
+                        episode.position
+                      );
+                    }}
+                    disabled={selectedEpisode.position === episode.position}
+                  >
+                    {episode.name
+                      ? episode.name
+                      : `${
+                          selectedSource.name != "Sibnet"
+                            ? episode.position
+                            : episode.position + 1
+                        } серия`}
+                    {(episode.is_watched ||
+                      getAnonCurrentEpisodeWatched(
+                        props.id,
+                        selectedSource.id,
+                        selectedVoiceover.id,
+                        episode.position
+                      )) && (
+                      <span className="w-5 h-5 ml-2 iconify material-symbols--check-circle"></span>
+                    )}
+                  </Button>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         </>
       )}
