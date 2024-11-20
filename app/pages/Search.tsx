@@ -27,10 +27,8 @@ const fetcher = async (url: string) => {
 export function SearchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("q") || null);
-  const [searchVal, setSearchVal] = useState(
-    decodeURI(searchParams.get("q")) || ""
-  );
+  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const [searchVal, setSearchVal] = useState(searchParams.get("q") || "");
   const [where, setWhere] = useState(searchParams.get("where") || "releases");
   const [searchBy, setSearchBy] = useState(
     searchParams.get("searchBy") || null
@@ -197,20 +195,24 @@ export function SearchPage() {
           </div>
         )}
       </div>
-      {(data && data.length > 1) && (where == "releases"
+      {data &&
+      data.length > 1 &&
+      (where == "releases"
         ? data[data.length - 1].releases.length == 25
         : data[data.length - 1].content.length == 25) ? (
-            <Button
-              className="w-full"
-              color={"light"}
-              onClick={() => setSize(size + 1)}
-            >
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 iconify mdi--plus-circle "></span>
-                <span className="text-lg">Загрузить ещё</span>
-              </div>
-            </Button>
-          ) : ""}
+        <Button
+          className="w-full"
+          color={"light"}
+          onClick={() => setSize(size + 1)}
+        >
+          <div className="flex items-center gap-2">
+            <span className="w-6 h-6 iconify mdi--plus-circle "></span>
+            <span className="text-lg">Загрузить ещё</span>
+          </div>
+        </Button>
+      ) : (
+        ""
+      )}
     </>
   );
 }
