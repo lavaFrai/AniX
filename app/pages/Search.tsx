@@ -8,7 +8,7 @@ import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useUserStore } from "../store/auth";
-import { Button, Modal } from "flowbite-react";
+import { Button, Dropdown, Modal } from "flowbite-react";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -24,6 +24,29 @@ const fetcher = async (url: string) => {
   return res.json();
 };
 
+const ListsMapping = {
+  watching: {
+    name: "Смотрю",
+    id: 1
+  },
+  planned: {
+    name: "В планах",
+    id: 2
+  },
+  watched: {
+    name: "Просмотрено",
+    id: 3
+  },
+  delayed: {
+    name: "Отложено",
+    id: 4
+  },
+  abandoned: {
+    name: "Заброшено",
+    id: 5
+  },
+};
+
 export function SearchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -33,10 +56,10 @@ export function SearchPage() {
   const [searchBy, setSearchBy] = useState(
     searchParams.get("searchBy") || null
   );
-  const [list, setList] = useState(searchParams.get("list") || null);
+  const [list, setList] = useState(searchParams.get("list") || "watching");
   const [filtersModalOpen, setFiltersModalOpen] = useState(false);
 
-  const token = useUserStore((state) => state.token);
+  const userStore = useUserStore();
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (where == "list") {
@@ -48,8 +71,8 @@ export function SearchPage() {
     const url = new URL("/api/search", window.location.origin);
     url.searchParams.set("page", pageIndex.toString());
 
-    if (token) {
-      url.searchParams.set("token", token);
+    if (userStore.token) {
+      url.searchParams.set("token", userStore.token);
     }
 
     if (where) {
@@ -60,8 +83,8 @@ export function SearchPage() {
       url.searchParams.set("searchBy", searchBy);
     }
 
-    if (list) {
-      url.searchParams.set("list", list);
+    if (where == "list" && list && ListsMapping.hasOwnProperty(list)) {
+      url.searchParams.set("list", ListsMapping[list].id);
     }
 
     if (query) {
@@ -170,7 +193,13 @@ export function SearchPage() {
             </button>
           </div>
         </form>
-        <Button color="light" size="xl" onClick={() => setFiltersModalOpen(true)}>Фильтры</Button>
+        <Button
+          color="light"
+          size="xl"
+          onClick={() => setFiltersModalOpen(true)}
+        >
+          Фильтры
+        </Button>
       </div>
       <div className="mt-2">
         {data && data[0].related && <RelatedSection {...data[0].related} />}
@@ -215,20 +244,111 @@ export function SearchPage() {
       ) : (
         ""
       )}
-      <FiltersModal isOpen={filtersModalOpen} setIsOpen={setFiltersModalOpen}/>
+      <FiltersModal
+        isOpen={filtersModalOpen}
+        setIsOpen={setFiltersModalOpen}
+        where={where}
+        setWhere={setWhere}
+        list={list}
+        setList={setList}
+        isAuth={userStore.isAuth}
+      />
     </>
   );
 }
 
-const FiltersModal = (props: {isOpen: boolean; setIsOpen: any}) => {
+const FiltersModal = (props: {
+  isOpen: boolean;
+  setIsOpen: any;
+  where: string;
+  setWhere: any;
+  list: string;
+  setList: any;
+  isAuth: boolean;
+}) => {
+
+  const router = useRouter();
+  const [where, setWhere] = useState(props.where);
+  const [list, setList] = useState(props.list);
+
+  function _cancel() {
+    setWhere(props.where);
+    setList(props.list);
+    props.setIsOpen(false)
+  }
+
+  function _accept() {
+    const Params = new URLSearchParams(window.location.search);
+
+    if (props.where != where) {
+      Params.set("where", where);
+      props.setWhere(where);
+    }
+
+    if (where == "list") {
+      Params.set("list", list);
+      props.setList(list);
+    } else {
+      Params.delete("list");
+    }
+
+    const url = new URL(`/search?${Params.toString()}`, window.location.origin);
+    router.push(url.toString());
+  }
+
   return (
-    <Modal
-      dismissible
-      show={props.isOpen}
-      onClose={() => props.setIsOpen(false)}
-      size={"7xl"}
-    >
+    <Modal show={props.isOpen} onClose={() => _cancel()}>
       <Modal.Header>Фильтры</Modal.Header>
+      <Modal.Body>
+        <div className="my-4">
+          <div className="flex items-center justify-between">
+            <p className="font-bold dark:text-white">Искать в</p>
+            <Button.Group>
+              <Button
+                color={where == "releases" ? "blue" : "gray"}
+                onClick={() => setWhere("releases")}
+              >
+                Релизах
+              </Button>
+              <Button
+                color={where == "list" ? "blue" : "gray"}
+                disabled={!props.isAuth}
+                onClick={() => setWhere("list")}
+              >
+                Списках
+              </Button>
+              {/* <Button
+                  color={false ? "blue" : "gray"}
+                  // onClick={() => setMode("dark")}
+                >
+                  Пользователях
+                </Button> */}
+            </Button.Group>
+          </div>
+        </div>
+        {props.isAuth && where == "list" && ListsMapping.hasOwnProperty(list) ? (
+          <div className="my-4">
+            <div className="flex items-center justify-between">
+              <p className="font-bold dark:text-white">Список</p>
+              <Dropdown label={ListsMapping[list].name} color="blue">
+                <Dropdown.Item onClick={() => setList("watching")}>Смотрю</Dropdown.Item>
+                <Dropdown.Item onClick={() => setList("planned")}>В планах</Dropdown.Item>
+                <Dropdown.Item onClick={() => setList("watched")}>Просмотрено</Dropdown.Item>
+                <Dropdown.Item onClick={() => setList("delayed")}>Отложено</Dropdown.Item>
+                <Dropdown.Item onClick={() => setList("abandoned")}>Брошено</Dropdown.Item>
+              </Dropdown>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="flex justify-end w-full gap-2">
+          <Button color="red" onClick={() => _cancel()}>Отменить</Button>
+          <Button color="blue" onClick={() => _accept()}>Применить</Button>
+        </div>
+      </Modal.Footer>
     </Modal>
   );
 };
