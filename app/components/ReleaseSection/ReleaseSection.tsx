@@ -14,10 +14,10 @@ export const ReleaseSection = (props: {
         </div>
       )}
       <div className="m-4">
-        <div className="grid justify-center sm:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] grid-cols-[100%] gap-2 min-w-full">
+        <div className="lg:justify-center lg:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-4 lg:gap-2 min-w-full flex flex-col lg:grid">
           {props.content.map((release) => {
             return (
-              <div key={release.id} className="w-full h-full aspect-video">
+              <div key={release.id} className="w-full h-full lg:aspect-video">
                 <ReleaseLink {...release} />
               </div>
             );

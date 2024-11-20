@@ -52,7 +52,7 @@ export const ReleaseCourusel = (props: {
               return (
                 <SwiperSlide
                   key={release.id}
-                  className="xl:max-w-[600px] sm:max-w-[400px] aspect-video"
+                  className="xl:max-w-[600px] sm:max-w-[400px] lg:aspect-video"
                 >
                   <ReleaseLink {...release} />
                 </SwiperSlide>
@@ -71,11 +71,6 @@ export const ReleaseCourusel = (props: {
               }
           ></div>
         </Swiper>
-        {/* <div className={`swiper ${Styles["swiper"]}`}>
-          <div className="swiper-wrapper">
-          </div>
-          
-        </div> */}
       </div>
     </section>
   );

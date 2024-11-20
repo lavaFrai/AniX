@@ -61,7 +61,7 @@ export function IndexPage() {
       )}
       {ongoingReleasesData && (
         <ReleaseCourusel
-          sectionTitle="В эфире"
+          sectionTitle="Выходит"
           showAllLink="/home/ongoing"
           content={ongoingReleasesData.content}
         />

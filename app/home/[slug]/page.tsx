@@ -3,7 +3,7 @@ import { IndexCategoryPage } from "#/pages/IndexCategory";
 const SectionTitleMapping = {
   last: "Последние релизы",
   finished: "Завершенные релизы",
-  ongoing: "В эфире",
+  ongoing: "Выходит",
   announce: "Анонсированные релизы",
   films: "Фильмы",
 };
