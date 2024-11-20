@@ -8,7 +8,7 @@ import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useUserStore } from "../store/auth";
-import { Button } from "flowbite-react";
+import { Button, Modal } from "flowbite-react";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -34,6 +34,7 @@ export function SearchPage() {
     searchParams.get("searchBy") || null
   );
   const [list, setList] = useState(searchParams.get("list") || null);
+  const [filtersModalOpen, setFiltersModalOpen] = useState(false);
 
   const token = useUserStore((state) => state.token);
 
@@ -120,9 +121,9 @@ export function SearchPage() {
 
   return (
     <>
-      <div>
+      <div className="flex flex-wrap items-center gap-2">
         <form
-          className="max-w-full mx-auto"
+          className="flex-1 max-w-full mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
             _executeSearch(searchVal.trim());
@@ -169,6 +170,7 @@ export function SearchPage() {
             </button>
           </div>
         </form>
+        <Button color="light" size="xl" onClick={() => setFiltersModalOpen(true)}>Фильтры</Button>
       </div>
       <div className="mt-2">
         {data && data[0].related && <RelatedSection {...data[0].related} />}
@@ -213,6 +215,20 @@ export function SearchPage() {
       ) : (
         ""
       )}
+      <FiltersModal isOpen={filtersModalOpen} setIsOpen={setFiltersModalOpen}/>
     </>
   );
 }
+
+const FiltersModal = (props: {isOpen: boolean; setIsOpen: any}) => {
+  return (
+    <Modal
+      dismissible
+      show={props.isOpen}
+      onClose={() => props.setIsOpen(false)}
+      size={"7xl"}
+    >
+      <Modal.Header>Фильтры</Modal.Header>
+    </Modal>
+  );
+};
