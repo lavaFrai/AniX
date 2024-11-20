@@ -5,7 +5,7 @@ import { Spinner } from "#/components/Spinner/Spinner";
 import { useState, useEffect } from "react";
 import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useUserStore } from "../store/auth";
-import { Dropdown, Button } from "flowbite-react";
+import { Dropdown, Button, Tabs } from "flowbite-react";
 import { sort } from "./common";
 import { ENDPOINTS } from "#/api/config";
 import { BookmarksList } from "#/api/utils";
@@ -95,7 +95,7 @@ export function BookmarksCategoryPage(props: any) {
   return (
     <>
       <form
-        className="flex-1 max-w-full mx-4 mb-4"
+        className="flex-1 max-w-full mx-4"
         onSubmit={(e) => {
           e.preventDefault();
           router.push(`/search?q=${searchVal}&where=list&list=${props.slug}`);
@@ -142,6 +142,15 @@ export function BookmarksCategoryPage(props: any) {
           </button>
         </div>
       </form>
+      <div className="m-4 overflow-auto">
+        <Button.Group>
+          <Button className="whitespace-nowrap" disabled={props.slug == "watching"} color="light" onClick={() => router.push("/bookmarks/watching")}>{props.SectionTitleMapping["watching"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "planned"} color="light" onClick={() => router.push("/bookmarks/planned")}>{props.SectionTitleMapping["planned"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "watched"} color="light" onClick={() => router.push("/bookmarks/watched")}>{props.SectionTitleMapping["watched"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "delayed"} color="light" onClick={() => router.push("/bookmarks/delayed")}>{props.SectionTitleMapping["delayed"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "abandoned"} color="light" onClick={() => router.push("/bookmarks/abandoned")}>{props.SectionTitleMapping["abandoned"]}</Button>
+        </Button.Group>
+      </div>
       <div className="flex items-center justify-between px-4 py-2 border-b-2 border-black dark:border-white">
         <h1 className="font-bold text-md sm:text-xl md:text-lg xl:text-xl">
           {props.SectionTitleMapping[props.slug]}
@@ -151,6 +160,7 @@ export function BookmarksCategoryPage(props: any) {
           dismissOnClick={true}
           arrowIcon={false}
           color={"blue"}
+          size={"sm"}
           theme={DropdownTheme}
         >
           {sort.values.map((item, index) => (
