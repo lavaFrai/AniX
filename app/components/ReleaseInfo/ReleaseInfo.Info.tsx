@@ -88,7 +88,7 @@ export const ReleaseInfoInfo = (props: {
                       return (
                         <div key={index} className="inline">
                           {index > 0 && ", "}
-                          <ReleaseInfoSearchLink title={studio} searchBy={1} />
+                          <ReleaseInfoSearchLink title={studio} searchBy={"studio"} />
                         </div>
                       );
                     })}
@@ -98,14 +98,14 @@ export const ReleaseInfoInfo = (props: {
               {props.author && (
                 <>
                   {"Автор: "}
-                  <ReleaseInfoSearchLink title={props.author} searchBy={3} />
+                  <ReleaseInfoSearchLink title={props.author} searchBy={"author"} />
                   {props.director && ", "}
                 </>
               )}
               {props.director && (
                 <>
                   {"Режиссёр: "}
-                  <ReleaseInfoSearchLink title={props.director} searchBy={2} />
+                  <ReleaseInfoSearchLink title={props.director} searchBy={"director"} />
                 </>
               )}
             </Table.Cell>
@@ -120,7 +120,7 @@ export const ReleaseInfoInfo = (props: {
                   return (
                     <div key={index} className="inline">
                       {index > 0 && ", "}
-                      <ReleaseInfoSearchLink title={genre} searchBy={4} />
+                      <ReleaseInfoSearchLink title={genre} searchBy={"tag"} />
                     </div>
                   );
                 })}

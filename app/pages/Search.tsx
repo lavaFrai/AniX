@@ -27,23 +27,46 @@ const fetcher = async (url: string) => {
 const ListsMapping = {
   watching: {
     name: "Смотрю",
-    id: 1
+    id: 1,
   },
   planned: {
     name: "В планах",
-    id: 2
+    id: 2,
   },
   watched: {
     name: "Просмотрено",
-    id: 3
+    id: 3,
   },
   delayed: {
     name: "Отложено",
-    id: 4
+    id: 4,
   },
   abandoned: {
     name: "Заброшено",
-    id: 5
+    id: 5,
+  },
+};
+
+const TagMapping = {
+  name: {
+    name: "Названию",
+    id: 0,
+  },
+  studio: {
+    name: "Студии",
+    id: 1,
+  },
+  director: {
+    name: "Режиссёру",
+    id: 2,
+  },
+  author: {
+    name: "Автору",
+    id: 3,
+  },
+  tag: {
+    name: "Тегу",
+    id: 4,
   },
 };
 
@@ -54,7 +77,7 @@ export function SearchPage() {
   const [searchVal, setSearchVal] = useState(searchParams.get("q") || "");
   const [where, setWhere] = useState(searchParams.get("where") || "releases");
   const [searchBy, setSearchBy] = useState(
-    searchParams.get("searchBy") || null
+    searchParams.get("searchBy") || "name"
   );
   const [list, setList] = useState(searchParams.get("list") || "watching");
   const [filtersModalOpen, setFiltersModalOpen] = useState(false);
@@ -79,13 +102,11 @@ export function SearchPage() {
       url.searchParams.set("where", where);
     }
 
-    if (searchBy) {
-      url.searchParams.set("searchBy", searchBy);
-    }
-
     if (where == "list" && list && ListsMapping.hasOwnProperty(list)) {
       url.searchParams.set("list", ListsMapping[list].id);
     }
+
+    url.searchParams.set("searchBy", TagMapping[searchBy].id);
 
     if (query) {
       url.searchParams.set("q", query);
@@ -252,6 +273,8 @@ export function SearchPage() {
         list={list}
         setList={setList}
         isAuth={userStore.isAuth}
+        searchBy={searchBy}
+        setSearchBy={setSearchBy}
       />
     </>
   );
@@ -265,16 +288,19 @@ const FiltersModal = (props: {
   list: string;
   setList: any;
   isAuth: boolean;
+  searchBy: string;
+  setSearchBy: any;
 }) => {
-
   const router = useRouter();
   const [where, setWhere] = useState(props.where);
   const [list, setList] = useState(props.list);
+  const [searchBy, setSearchBy] = useState(props.searchBy);
 
   function _cancel() {
     setWhere(props.where);
     setList(props.list);
-    props.setIsOpen(false)
+    setSearchBy(props.searchBy);
+    props.setIsOpen(false);
   }
 
   function _accept() {
@@ -291,6 +317,9 @@ const FiltersModal = (props: {
     } else {
       Params.delete("list");
     }
+
+    Params.set("searchBy", searchBy);
+    props.setSearchBy(searchBy);
 
     const url = new URL(`/search?${Params.toString()}`, window.location.origin);
     router.push(url.toString());
@@ -326,27 +355,55 @@ const FiltersModal = (props: {
             </Button.Group>
           </div>
         </div>
-        {props.isAuth && where == "list" && ListsMapping.hasOwnProperty(list) ? (
+        {props.isAuth &&
+        where == "list" &&
+        ListsMapping.hasOwnProperty(list) ? (
           <div className="my-4">
             <div className="flex items-center justify-between">
               <p className="font-bold dark:text-white">Список</p>
               <Dropdown label={ListsMapping[list].name} color="blue">
-                <Dropdown.Item onClick={() => setList("watching")}>Смотрю</Dropdown.Item>
-                <Dropdown.Item onClick={() => setList("planned")}>В планах</Dropdown.Item>
-                <Dropdown.Item onClick={() => setList("watched")}>Просмотрено</Dropdown.Item>
-                <Dropdown.Item onClick={() => setList("delayed")}>Отложено</Dropdown.Item>
-                <Dropdown.Item onClick={() => setList("abandoned")}>Брошено</Dropdown.Item>
+                {Object.keys(ListsMapping).map((item) => {
+                  return (
+                    <Dropdown.Item
+                      onClick={() => setList(item)}
+                      key={`list--${item}`}
+                    >
+                      {ListsMapping[item].name}
+                    </Dropdown.Item>
+                  );
+                })}
               </Dropdown>
             </div>
           </div>
         ) : (
           ""
         )}
+        <div className="my-4">
+          <div className="flex items-center justify-between">
+            <p className="font-bold dark:text-white">Искать по</p>
+            <Dropdown label={TagMapping[searchBy].name} color="blue">
+              {Object.keys(TagMapping).map((item) => {
+                return (
+                  <Dropdown.Item
+                    onClick={() => setSearchBy(item)}
+                    key={`tag--${item}`}
+                  >
+                    {TagMapping[item].name}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
+          </div>
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <div className="flex justify-end w-full gap-2">
-          <Button color="red" onClick={() => _cancel()}>Отменить</Button>
-          <Button color="blue" onClick={() => _accept()}>Применить</Button>
+          <Button color="red" onClick={() => _cancel()}>
+            Отменить
+          </Button>
+          <Button color="blue" onClick={() => _accept()}>
+            Применить
+          </Button>
         </div>
       </Modal.Footer>
     </Modal>
