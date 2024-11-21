@@ -263,23 +263,28 @@ export const ReleasePlayer = (props: { id: number }) => {
               direction={"horizontal"}
               mousewheel={{
                 enabled: true,
-                sensitivity: 2
+                sensitivity: 2,
               }}
               scrollbar={true}
               allowTouchMove={true}
-              style={{
-                "--swiper-scrollbar-bottom": "0",
-              } as React.CSSProperties}
+              style={
+                {
+                  "--swiper-scrollbar-bottom": "0",
+                } as React.CSSProperties
+              }
             >
               {episodeInfo.map((episode: any) => (
-                <SwiperSlide key={`episode_${episode.position}`} style={{maxWidth: "fit-content"}}>
+                <SwiperSlide
+                  key={`episode_${episode.position}`}
+                  style={{ maxWidth: "fit-content" }}
+                >
                   <Button
                     color={
                       selectedEpisode.position === episode.position
                         ? "blue"
                         : "light"
                     }
-                    theme={{ base: "w-fit disabled:opacity-100" }}
+                    theme={{ base: "w-full disabled:opacity-100" }}
                     onClick={() => {
                       setSelectedEpisode(episode);
                       episode.is_watched = true;
@@ -300,14 +305,16 @@ export const ReleasePlayer = (props: { id: number }) => {
                             ? episode.position
                             : episode.position + 1
                         } серия`}
-                    {(episode.is_watched ||
-                      getAnonCurrentEpisodeWatched(
-                        props.id,
-                        selectedSource.id,
-                        selectedVoiceover.id,
-                        episode.position
-                      )) && (
+                    {episode.is_watched ||
+                    getAnonCurrentEpisodeWatched(
+                      props.id,
+                      selectedSource.id,
+                      selectedVoiceover.id,
+                      episode.position
+                    ) ? (
                       <span className="w-5 h-5 ml-2 iconify material-symbols--check-circle"></span>
+                    ) : (
+                      <span className="w-5 h-5 ml-2 opacity-10 iconify material-symbols--check-circle"></span>
                     )}
                   </Button>
                 </SwiperSlide>
