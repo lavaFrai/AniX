@@ -19,6 +19,7 @@ export const Navbar = () => {
       iconActive: "material-symbols--home",
       title: "Домашняя",
       href: "/",
+      categoryHref: "/home",
       withAuthOnly: false,
       mobileMenu: false,
     },
@@ -89,12 +90,20 @@ export const Navbar = () => {
                 >
                   <span
                     className={`iconify ${
-                      pathname == link.href ? link.iconActive : link.icon
+                      [link.href, link.categoryHref].includes(
+                        "/" + pathname.split("/")[1]
+                      )
+                        ? link.iconActive
+                        : link.icon
                     } w-6 h-6`}
                   ></span>
                   <span
                     className={`${
-                      pathname == link.href ? "font-bold" : ""
+                      [link.href, link.categoryHref].includes(
+                        "/" + pathname.split("/")[1]
+                      )
+                        ? "font-bold"
+                        : ""
                     } text-sm sm:text-base`}
                   >
                     {link.title}
@@ -154,14 +163,20 @@ export const Navbar = () => {
                         >
                           <span
                             className={`iconify ${
-                              pathname == link.href
+                              [link.href, link.categoryHref].includes(
+                                "/" + pathname.split("/")[1]
+                              )
                                 ? link.iconActive
                                 : link.icon
                             } w-6 h-6`}
                           ></span>
                           <span
                             className={`${
-                              pathname == link.href ? "font-bold" : ""
+                              [link.href, link.categoryHref].includes(
+                                "/" + pathname.split("/")[1]
+                              )
+                                ? "font-bold"
+                                : ""
                             }`}
                           >
                             {link.title}
