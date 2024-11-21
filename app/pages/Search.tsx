@@ -147,6 +147,7 @@ export function SearchPage() {
       }
       setContent(allReleases);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const scrollPosition = useScrollPosition();
@@ -170,6 +171,7 @@ export function SearchPage() {
     if (searchVal && searchVal.length % 4 == 1) {
       _executeSearch(searchVal.trim());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchVal]);
 
   if (error) return <div>failed to load: {error.message}</div>;

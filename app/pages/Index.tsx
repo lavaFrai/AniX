@@ -23,6 +23,7 @@ export function IndexPage() {
     if (preferenceStore.params.skipToCategory.enabled) {
       router.push(`/home/${preferenceStore.params.skipToCategory.homeCategory}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export function IndexPage() {
     if (!preferenceStore.params.skipToCategory.enabled) {
       _loadReleases();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (

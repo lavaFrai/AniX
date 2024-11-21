@@ -29,26 +29,29 @@ export function BookmarksPage(props: { profile_id?: number }) {
         );
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function useFetchReleases(listName: string) {
     let url: string;
-    if (!preferenceStore.params.skipToCategory.enabled) {
-      if (props.profile_id) {
-        url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${BookmarksList[listName]}/0?sort=1`;
-        if (token) {
-          url += `&token=${token}`;
-        }
-      } else {
-        if (token) {
-          url = `${ENDPOINTS.user.bookmark}/all/${BookmarksList[listName]}/0?sort=1&token=${token}`;
-        }
-      }
-
-      const { data } = useSWR(url, fetcher);
-      return [data];
+    if (preferenceStore.params.skipToCategory.enabled) {
+      return [null];
     }
-    return [null];
+
+    if (props.profile_id) {
+      url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${BookmarksList[listName]}/0?sort=1`;
+      if (token) {
+        url += `&token=${token}`;
+      }
+    } else {
+      if (token) {
+        url = `${ENDPOINTS.user.bookmark}/all/${BookmarksList[listName]}/0?sort=1&token=${token}`;
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { data } = useSWR(url, fetcher);
+    return [data];
   }
 
   useEffect(() => {
