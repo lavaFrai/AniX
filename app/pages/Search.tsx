@@ -70,6 +70,15 @@ const TagMapping = {
   },
 };
 
+const WhereMapping = {
+  releases: "Релизах",
+  list: "Списках",
+  history: "Истории",
+  favorites: "Избранном",
+  collections: "Коллекциях",
+  profiles: "Профилях",
+};
+
 export function SearchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -318,8 +327,13 @@ const FiltersModal = (props: {
       Params.delete("list");
     }
 
-    Params.set("searchBy", searchBy);
-    props.setSearchBy(searchBy);
+    if (!["profiles", "collections"].includes(where)) {
+      Params.set("searchBy", searchBy);
+      props.setSearchBy(searchBy);
+    } else {
+      Params.delete("searchBy");
+      props.setSearchBy("name");
+    }
 
     const url = new URL(`/search?${Params.toString()}`, window.location.origin);
     router.push(url.toString());
@@ -332,27 +346,27 @@ const FiltersModal = (props: {
         <div className="my-4">
           <div className="flex items-center justify-between">
             <p className="font-bold dark:text-white">Искать в</p>
-            <Button.Group>
-              <Button
-                color={where == "releases" ? "blue" : "gray"}
-                onClick={() => setWhere("releases")}
-              >
-                Релизах
-              </Button>
-              <Button
-                color={where == "list" ? "blue" : "gray"}
-                disabled={!props.isAuth}
-                onClick={() => setWhere("list")}
-              >
-                Списках
-              </Button>
-              {/* <Button
-                  color={false ? "blue" : "gray"}
-                  // onClick={() => setMode("dark")}
-                >
-                  Пользователях
-                </Button> */}
-            </Button.Group>
+            <Dropdown label={WhereMapping[where]} color="blue">
+              {Object.keys(WhereMapping).map((item) => {
+                if (
+                  ["list", "history", "collections", "favorites"].includes(
+                    item
+                  ) &&
+                  !props.isAuth
+                ) {
+                  return <></>;
+                } else {
+                  return (
+                    <Dropdown.Item
+                      onClick={() => setWhere(item)}
+                      key={`where--${item}`}
+                    >
+                      {WhereMapping[item]}
+                    </Dropdown.Item>
+                  );
+                }
+              })}
+            </Dropdown>
           </div>
         </div>
         {props.isAuth &&
@@ -378,23 +392,27 @@ const FiltersModal = (props: {
         ) : (
           ""
         )}
-        <div className="my-4">
-          <div className="flex items-center justify-between">
-            <p className="font-bold dark:text-white">Искать по</p>
-            <Dropdown label={TagMapping[searchBy].name} color="blue">
-              {Object.keys(TagMapping).map((item) => {
-                return (
-                  <Dropdown.Item
-                    onClick={() => setSearchBy(item)}
-                    key={`tag--${item}`}
-                  >
-                    {TagMapping[item].name}
-                  </Dropdown.Item>
-                );
-              })}
-            </Dropdown>
+        {!["profiles", "collections"].includes(where) ? (
+          <div className="my-4">
+            <div className="flex items-center justify-between">
+              <p className="font-bold dark:text-white">Искать по</p>
+              <Dropdown label={TagMapping[searchBy].name} color="blue">
+                {Object.keys(TagMapping).map((item) => {
+                  return (
+                    <Dropdown.Item
+                      onClick={() => setSearchBy(item)}
+                      key={`tag--${item}`}
+                    >
+                      {TagMapping[item].name}
+                    </Dropdown.Item>
+                  );
+                })}
+              </Dropdown>
+            </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
       </Modal.Body>
       <Modal.Footer>
         <div className="flex justify-end w-full gap-2">
