@@ -144,11 +144,11 @@ export function BookmarksCategoryPage(props: any) {
       </form>
       <div className="m-4 overflow-auto">
         <Button.Group>
-          <Button className="whitespace-nowrap" disabled={props.slug == "watching"} color="light" onClick={() => router.push("/bookmarks/watching")}>{props.SectionTitleMapping["watching"]}</Button>
-          <Button className="whitespace-nowrap" disabled={props.slug == "planned"} color="light" onClick={() => router.push("/bookmarks/planned")}>{props.SectionTitleMapping["planned"]}</Button>
-          <Button className="whitespace-nowrap" disabled={props.slug == "watched"} color="light" onClick={() => router.push("/bookmarks/watched")}>{props.SectionTitleMapping["watched"]}</Button>
-          <Button className="whitespace-nowrap" disabled={props.slug == "delayed"} color="light" onClick={() => router.push("/bookmarks/delayed")}>{props.SectionTitleMapping["delayed"]}</Button>
-          <Button className="whitespace-nowrap" disabled={props.slug == "abandoned"} color="light" onClick={() => router.push("/bookmarks/abandoned")}>{props.SectionTitleMapping["abandoned"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "watching"} color="light" onClick={() => router.push(props.profile_id ? `/profile/${props.profile_id}/bookmarks/watching` : "/bookmarks/watching")}>{props.SectionTitleMapping["watching"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "planned"} color="light" onClick={() => router.push(props.profile_id ? `/profile/${props.profile_id}/bookmarks/planned` : "/bookmarks/planned")}>{props.SectionTitleMapping["planned"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "watched"} color="light" onClick={() => router.push(props.profile_id ? `/profile/${props.profile_id}/bookmarks/watched` : "/bookmarks/watched")}>{props.SectionTitleMapping["watched"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "delayed"} color="light" onClick={() => router.push(props.profile_id ? `/profile/${props.profile_id}/bookmarks/delayed` : "/bookmarks/delayed")}>{props.SectionTitleMapping["delayed"]}</Button>
+          <Button className="whitespace-nowrap" disabled={props.slug == "abandoned"} color="light" onClick={() => router.push(props.profile_id ? `/profile/${props.profile_id}/bookmarks/abandoned` : "/bookmarks/abandoned")}>{props.SectionTitleMapping["abandoned"]}</Button>
         </Button.Group>
       </div>
       <div className="flex items-center justify-between px-4 py-2 border-b-2 border-black dark:border-white">

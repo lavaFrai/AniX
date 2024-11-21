@@ -5,14 +5,25 @@ import { useUserStore } from "#/store/auth";
 import { useState, useEffect } from "react";
 import { _FetchHomePageReleases } from "#/api/utils";
 
+import { usePreferencesStore } from "#/store/preferences";
+import { useRouter } from "next/navigation";
+
 export function IndexPage() {
   const token = useUserStore((state) => state.token);
+  const preferenceStore = usePreferencesStore();
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(true);
   const [lastReleasesData, setLastReleasesData] = useState(null);
   const [ongoingReleasesData, setOngoingReleasesData] = useState(null);
   const [finishedReleasesData, setFinishedReleasesData] = useState(null);
   const [announceReleasesData, setAnnounceReleasesData] = useState(null);
   const [filmsReleasesData, setFilmsReleasesData] = useState(null);
+
+  useEffect(() => {
+    if (preferenceStore.params.skipToCategory.enabled) {
+      router.push(`/home/${preferenceStore.params.skipToCategory.homeCategory}`);
+    }
+  }, []);
 
   useEffect(() => {
     async function _loadReleases() {
@@ -36,7 +47,9 @@ export function IndexPage() {
       setFilmsReleasesData(filmsReleases);
       setIsLoading(false);
     }
-    _loadReleases();
+    if (!preferenceStore.params.skipToCategory.enabled) {
+      _loadReleases();
+    }
   }, [token]);
 
   return (

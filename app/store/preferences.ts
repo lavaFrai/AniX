@@ -14,6 +14,11 @@ interface preferencesState {
   params: {
     isFirstLaunch?: boolean;
     version?: string;
+    skipToCategory?: {
+      enabled: boolean;
+      homeCategory: string;
+      bookmarksCategory: string;
+    }
     // color: {
     //   primary: string;
     //   secondary: string;
@@ -38,6 +43,11 @@ export const usePreferencesStore = create<preferencesState>()(
       params: {
         isFirstLaunch: true,
         version: "3.0.0",
+        skipToCategory: {
+          enabled: false,
+          homeCategory: "last",
+          bookmarksCategory: "watching",
+        }
       },
       setHasHydrated: (state) => {
         set({

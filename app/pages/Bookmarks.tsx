@@ -5,6 +5,7 @@ import { Spinner } from "#/components/Spinner/Spinner";
 const fetcher = (...args: any) =>
   fetch([...args] as any).then((res) => res.json());
 import { useUserStore } from "#/store/auth";
+import { usePreferencesStore } from "#/store/preferences";
 import { BookmarksList } from "#/api/utils";
 import { ENDPOINTS } from "#/api/config";
 import { useRouter } from "next/navigation";
@@ -14,30 +15,41 @@ export function BookmarksPage(props: { profile_id?: number }) {
   const token = useUserStore((state) => state.token);
   const authState = useUserStore((state) => state.state);
   const router = useRouter();
+  const preferenceStore = usePreferencesStore();
+
+  useEffect(() => {
+    if (preferenceStore.params.skipToCategory.enabled) {
+      if (props.profile_id) {
+        router.push(
+          `/profile/${props.profile_id}/bookmarks/${preferenceStore.params.skipToCategory.bookmarksCategory}`
+        );
+      } else {
+        router.push(
+          `/bookmarks/${preferenceStore.params.skipToCategory.bookmarksCategory}`
+        );
+      }
+    }
+  }, []);
 
   function useFetchReleases(listName: string) {
     let url: string;
+    if (!preferenceStore.params.skipToCategory.enabled) {
+      if (props.profile_id) {
+        url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${BookmarksList[listName]}/0?sort=1`;
+        if (token) {
+          url += `&token=${token}`;
+        }
+      } else {
+        if (token) {
+          url = `${ENDPOINTS.user.bookmark}/all/${BookmarksList[listName]}/0?sort=1&token=${token}`;
+        }
+      }
 
-    if (props.profile_id) {
-      url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${BookmarksList[listName]}/0?sort=1`;
-      if (token) {
-        url += `&token=${token}`;
-      }
-    } else {
-      if (token) {
-        url = `${ENDPOINTS.user.bookmark}/all/${BookmarksList[listName]}/0?sort=1&token=${token}`;
-      }
+      const { data } = useSWR(url, fetcher);
+      return [data];
     }
-
-    const { data } = useSWR(url, fetcher);
-    return [data];
+    return [null];
   }
-
-  const [watchingData] = useFetchReleases("watching");
-  const [plannedData] = useFetchReleases("planned");
-  const [watchedData] = useFetchReleases("watched");
-  const [delayedData] = useFetchReleases("delayed");
-  const [abandonedData] = useFetchReleases("abandoned");
 
   useEffect(() => {
     if (authState === "finished" && !token && !props.profile_id) {
@@ -45,6 +57,12 @@ export function BookmarksPage(props: { profile_id?: number }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState, token]);
+
+  const [watchingData] = useFetchReleases("watching");
+  const [plannedData] = useFetchReleases("planned");
+  const [watchedData] = useFetchReleases("watched");
+  const [delayedData] = useFetchReleases("delayed");
+  const [abandonedData] = useFetchReleases("abandoned");
 
   return (
     <>
