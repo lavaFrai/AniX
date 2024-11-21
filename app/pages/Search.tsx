@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { useUserStore } from "../store/auth";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { CollectionsSection } from "#/components/CollectionsSection/CollectionsSection";
+import { UserSection } from "#/components/UserSection/UserSection";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -243,7 +244,10 @@ export function SearchPage() {
                   content={content}
                 />
               ) : where == "profiles" ? (
-                <>Not Implemented Yet</>
+                <UserSection
+                  sectionTitle="Найденные Пользователи"
+                  content={content}
+                />
               ) : (
                 <ReleaseSection
                   sectionTitle="Найденные релизы"
