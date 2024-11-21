@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useUserStore } from "../store/auth";
 import { Button, Dropdown, Modal } from "flowbite-react";
+import { CollectionsSection } from "#/components/CollectionsSection/CollectionsSection";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -94,10 +95,10 @@ export function SearchPage() {
   const userStore = useUserStore();
 
   const getKey = (pageIndex: number, previousPageData: any) => {
-    if (where == "list") {
-      if (previousPageData && !previousPageData.content.length) return null;
-    } else {
+    if (where == "releases") {
       if (previousPageData && !previousPageData.releases.length) return null;
+    } else {
+      if (previousPageData && !previousPageData.content.length) return null;
     }
 
     const url = new URL("/api/search", window.location.origin);
@@ -134,13 +135,13 @@ export function SearchPage() {
   useEffect(() => {
     if (data) {
       let allReleases = [];
-      if (where == "list") {
+      if (where == "releases") {
         for (let i = 0; i < data.length; i++) {
-          allReleases.push(...data[i].content);
+          allReleases.push(...data[i].releases);
         }
       } else {
         for (let i = 0; i < data.length; i++) {
-          allReleases.push(...data[i].releases);
+          allReleases.push(...data[i].content);
         }
       }
       setContent(allReleases);
@@ -235,7 +236,21 @@ export function SearchPage() {
         {data && data[0].related && <RelatedSection {...data[0].related} />}
         {content ? (
           content.length > 0 ? (
-            <ReleaseSection sectionTitle="Найденные релизы" content={content} />
+            <>
+              {where == "collections" ? (
+                <CollectionsSection
+                  sectionTitle="Найденные Коллекции"
+                  content={content}
+                />
+              ) : where == "profiles" ? (
+                <>Not Implemented Yet</>
+              ) : (
+                <ReleaseSection
+                  sectionTitle="Найденные релизы"
+                  content={content}
+                />
+              )}
+            </>
           ) : (
             <div className="flex flex-col items-center justify-center min-w-full gap-4 mt-12 text-xl">
               <span className="w-24 h-24 iconify-color twemoji--crying-cat"></span>
@@ -284,6 +299,7 @@ export function SearchPage() {
         isAuth={userStore.isAuth}
         searchBy={searchBy}
         setSearchBy={setSearchBy}
+        setContent={setContent}
       />
     </>
   );
@@ -299,6 +315,7 @@ const FiltersModal = (props: {
   isAuth: boolean;
   searchBy: string;
   setSearchBy: any;
+  setContent: any;
 }) => {
   const router = useRouter();
   const [where, setWhere] = useState(props.where);
@@ -334,6 +351,8 @@ const FiltersModal = (props: {
       Params.delete("searchBy");
       props.setSearchBy("name");
     }
+
+    props.setContent(null);
 
     const url = new URL(`/search?${Params.toString()}`, window.location.origin);
     router.push(url.toString());

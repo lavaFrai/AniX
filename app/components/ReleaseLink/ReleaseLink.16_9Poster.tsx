@@ -13,7 +13,7 @@ const profile_lists = {
 };
 
 export const ReleaseLink169Poster = (props: any) => {
-  const grade = props.grade.toFixed(1);
+  const grade = props.grade ? props.grade.toFixed(1) : null;
   const profile_list_status = props.profile_list_status;
   let user_list = null;
   if (profile_list_status != null || profile_list_status != 0) {
@@ -56,7 +56,7 @@ export const ReleaseLink169Poster = (props: any) => {
               </p>
             </div>
             <div className="flex flex-wrap gap-1 mt-1">
-              <Chip
+              {grade ? <Chip
                 bg_color={
                   grade == 0
                     ? "hidden"
@@ -69,7 +69,7 @@ export const ReleaseLink169Poster = (props: any) => {
                     : "bg-green-500"
                 }
                 name={grade}
-              />
+              /> : ""}
               {user_list && (
                 <Chip bg_color={user_list.bg_color} name={user_list.name} />
               )}

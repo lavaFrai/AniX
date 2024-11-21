@@ -13,7 +13,7 @@ const profile_lists = {
 };
 
 export const ReleaseLink169 = (props: any) => {
-  const grade = props.grade.toFixed(1);
+  const grade = props.grade ? props.grade.toFixed(1) : null;
   const profile_list_status = props.profile_list_status;
   let user_list = null;
   if (profile_list_status != null || profile_list_status != 0) {
@@ -45,20 +45,24 @@ export const ReleaseLink169 = (props: any) => {
                   "
           />
           <div className="absolute flex flex-wrap items-start justify-start gap-0.5 sm:gap-1 left-0 top-0 p-1 sm:p-2">
-            <Chip
-              bg_color={
-                grade == 0
-                  ? "hidden"
-                  : grade < 2
-                  ? "bg-red-500"
-                  : grade < 3
-                  ? "bg-orange-500"
-                  : grade < 4
-                  ? "bg-yellow-500"
-                  : "bg-green-500"
-              }
-              name={grade}
-            />
+            {grade ? (
+              <Chip
+                bg_color={
+                  grade == 0
+                    ? "hidden"
+                    : grade < 2
+                    ? "bg-red-500"
+                    : grade < 3
+                    ? "bg-orange-500"
+                    : grade < 4
+                    ? "bg-yellow-500"
+                    : "bg-green-500"
+                }
+                name={grade}
+              />
+            ) : (
+              ""
+            )}
             {user_list && (
               <Chip bg_color={user_list.bg_color} name={user_list.name} />
             )}
