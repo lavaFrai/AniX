@@ -8,10 +8,14 @@ export const config = {
 
 export default async function middleware(request: Request, context: NextFetchEvent) {
   if (request.method == "GET") {
-    const url = request.url
-    const path = url.match(/\/api\/proxy\/(.*)/)?.[1]
+    const url = new URL(request.url);
+    const isApiV2 = url.searchParams.get("API-Version") == "v2" || false;
+    if (isApiV2) {
+      url.searchParams.delete("API-Version");
+    }
+    const path = url.pathname.match(/\/api\/proxy\/(.*)/)?.[1] + url.search
 
-    const data = await fetchDataViaGet(`${API_URL}/${path}`);
+    const data = await fetchDataViaGet(`${API_URL}/${path}`, isApiV2);
 
     if (!data) {
       return new Response(JSON.stringify({ message: "Error Fetching Data" }), {

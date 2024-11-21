@@ -11,8 +11,9 @@ const profile_lists = {
   4: { name: "Отложено", bg_color: "bg-yellow-500" },
   5: { name: "Брошено", bg_color: "bg-red-500" },
 };
+const YearSeason = ["_", "Зима", "Весна", "Лето", "Осень"];
 
-export const ReleaseLink169Poster = (props: any) => {
+export const ReleaseLink169Related = (props: any) => {
   const grade = props.grade.toFixed(1);
   const profile_list_status = props.profile_list_status;
   let user_list = null;
@@ -22,11 +23,20 @@ export const ReleaseLink169Poster = (props: any) => {
   return (
     <Link
       href={`/release/${props.id}`}
-      className={props.isLinkDisabled ? "pointer-events-none" : ""}
+      className={`${
+        props.isLinkDisabled ? "pointer-events-none" : ""
+      } flex gap-4 items-center justify-between mx-auto w-full max-w-[1024px]`}
       aria-disabled={props.isLinkDisabled}
       tabIndex={props.isLinkDisabled ? -1 : undefined}
     >
-      <div className="w-full h-auto p-2 bg-gray-100 rounded-lg dark:bg-slate-800">
+      <div className="items-center justify-center flex-1 hidden lg:flex">
+        <h1 className="inline-block text-6xl font-bold text-center text-transparent bg-gradient-to-r from-blue-600 via-purple-500 to-indigo-500 dark:from-blue-500 dark:via-purple-400 dark:to-indigo-300 bg-clip-text ">
+          {props.season ? YearSeason[props.season] : ""}
+          <br/>
+          {props.year ? props.year : ""}
+        </h1>
+      </div>
+      <div className="w-full max-w-[768px] h-auto p-2 bg-gray-100 rounded-lg dark:bg-slate-800">
         <div className="flex w-full h-full gap-2 overflow-hidden">
           <div className="flex-shrink-0">
             <Image
@@ -34,7 +44,7 @@ export const ReleaseLink169Poster = (props: any) => {
               height={250}
               width={250}
               alt={props.title}
-              className="object-cover aspect-[9/16] h-auto w-24 md:w-32 lg:w-48 rounded-md"
+              className="object-cover aspect-[9/16] lg:aspect-[12/16] h-auto w-24 md:w-32 lg:w-48 rounded-md"
             />
           </div>
           <div className="flex flex-col flex-1 w-full h-full">
@@ -44,15 +54,21 @@ export const ReleaseLink169Poster = (props: any) => {
                   {props.genres}
                 </p>
               )}
-              <p className="text-sm font-bold text-black dark:text-white md:text-base lg:text-lg xl:text-xl">
+              <p className="block text-sm font-bold text-black dark:text-white md:text-base lg:text-lg xl:text-xl md:hidden">
                 {`${props.title_ru.slice(0, 47)}${
                   props.title_ru.length > 47 ? "..." : ""
                 }`}
               </p>
-              <p className="text-xs font-light text-black dark:text-white md:text-sm lg:text-base xl:text-lg">
+              <p className="block text-xs font-light text-black dark:text-white md:text-sm lg:text-base xl:text-lg md:hidden">
                 {`${props.description.slice(0, 97)}${
                   props.description.length > 97 ? "..." : ""
                 }`}
+              </p>
+              <p className="hidden text-sm font-bold text-black dark:text-white md:text-base lg:text-lg xl:text-xl md:block max-w-[512px]">
+                {props.title_ru}
+              </p>
+              <p className="hidden text-xs font-light text-black dark:text-white md:text-sm:text-base xl:text-lg md:block max-w-[512px]">
+                {props.description}
               </p>
             </div>
             <div className="flex flex-wrap gap-1 mt-1">
@@ -95,21 +111,17 @@ export const ReleaseLink169Poster = (props: any) => {
                 }
                 devider="/"
               />
-              {props.last_view_episode && (
-                <Chip
-                  name={
-                    props.last_view_episode.name
-                      ? props.last_view_episode.name
-                      : `${props.last_view_episode.position + 1} серия`
-                  }
-                  name_2={
-                    "last_view_timestamp" in props &&
-                    sinceUnixDate(props.last_view_timestamp)
-                  }
-                  devider=", "
-                />
-              )}
               {props.category && <Chip name={props.category.name} />}
+              {props.season || props.year ? (
+                <Chip
+                  bg_color="lg:hidden bg-gray-500"
+                  name={props.season ? YearSeason[props.season] : ""}
+                  name_2={props.year ? `${props.year} год` : ""}
+                  devider=" "
+                />
+              ) : (
+                ""
+              )}
               {props.is_favorite && (
                 <div className="flex items-center justify-center bg-pink-500 rounded-sm">
                   <span className="w-3 px-4 py-2.5 text-white sm:px-4 sm:py-3 xl:px-6 xl:py-4 iconify mdi--heart"></span>

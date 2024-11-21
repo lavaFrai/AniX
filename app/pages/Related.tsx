@@ -1,11 +1,11 @@
 "use client";
 import useSWRInfinite from "swr/infinite";
-import { ReleaseSection } from "#/components/ReleaseSection/ReleaseSection";
 import { Spinner } from "#/components/Spinner/Spinner";
 import { useState, useEffect } from "react";
 import { useScrollPosition } from "#/hooks/useScrollPosition";
 import { useUserStore } from "../store/auth";
 import { ENDPOINTS } from "#/api/config";
+import { ReleaseLink169Related } from "#/components/ReleaseLink/ReleaseLink.16_9Related";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -26,9 +26,9 @@ export function RelatedPage(props: {id: number|string, title: string}) {
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.content.length) return null;
     if (token) {
-      return `${ENDPOINTS.release.related}/${props.id}/${pageIndex}?token=${token}`;
+      return `${ENDPOINTS.release.related}/${props.id}/${pageIndex}?token=${token}&API-Version=v2`;
     }
-    return `${ENDPOINTS.release.related}/${props.id}/${pageIndex}`;
+    return `${ENDPOINTS.release.related}/${props.id}/${pageIndex}?API-Version=v2`;
   };
 
   const { data, error, isLoading, size, setSize } = useSWRInfinite(
@@ -65,7 +65,11 @@ export function RelatedPage(props: {id: number|string, title: string}) {
         </h1>
       </div>
       {content && content.length > 0 ? (
-        <ReleaseSection content={content} />
+        <div className="flex flex-col gap-4 my-4">
+          {content.map((release, index) => {
+            return <ReleaseLink169Related {...release} key={release.id} _position={index + 1} />
+          })}
+        </div>
       ) : !isLoadingEnd || isLoading ? (
         <div className="flex flex-col items-center justify-center min-w-full min-h-screen">
           <Spinner />
