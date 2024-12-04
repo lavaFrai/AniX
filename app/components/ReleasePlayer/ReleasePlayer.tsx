@@ -2,6 +2,7 @@
 
 import { Spinner } from "#/components/Spinner/Spinner";
 import { useUserStore } from "#/store/auth";
+import { useVoiceoverStore } from "#/store/voiceover";
 import { Card, Dropdown, Button } from "flowbite-react";
 import { ENDPOINTS } from "#/api/config";
 import { useState, useEffect } from "react";
@@ -139,20 +140,30 @@ const saveAnonEpisodeWatched = (
 
 export const ReleasePlayer = (props: { id: number }) => {
   const userStore = useUserStore();
+  const preferredVoiceoverStore = useVoiceoverStore();
+  const storedPreferredVoiceover = preferredVoiceoverStore.getPreferredVoiceover(props.id);
   const [voiceoverInfo, setVoiceoverInfo] = useState(null);
   const [selectedVoiceover, setSelectedVoiceover] = useState(null);
   const [sourcesInfo, setSourcesInfo] = useState(null);
   const [selectedSource, setSelectedSource] = useState(null);
   const [episodeInfo, setEpisodeInfo] = useState(null);
   const [selectedEpisode, setSelectedEpisode] = useState(null);
+  const setSelectedVoiceoverAndSaveAsPreferred = (voiceover: any) => {
+    setSelectedVoiceover(voiceover);
+    preferredVoiceoverStore.setPreferredVoiceover(props.id, voiceover.name);
+  }
 
   useEffect(() => {
     async function _fetchInfo() {
       const voiceover = await _fetch(
         `${ENDPOINTS.release.episode}/${props.id}`
       );
+      const preferredVoiceover = voiceover.types.find(
+        (voiceover: any) => voiceover.name === storedPreferredVoiceover
+      ) || voiceover.types[0];
+
       setVoiceoverInfo(voiceover.types);
-      setSelectedVoiceover(voiceover.types[0]);
+      setSelectedVoiceover(preferredVoiceover);
     }
     _fetchInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -227,7 +238,7 @@ export const ReleasePlayer = (props: { id: number }) => {
               {voiceoverInfo.map((voiceover: any) => (
                 <Dropdown.Item
                   key={`voiceover_${voiceover.id}`}
-                  onClick={() => setSelectedVoiceover(voiceover)}
+                  onClick={() => setSelectedVoiceoverAndSaveAsPreferred(voiceover)}
                 >
                   {voiceover.name}
                 </Dropdown.Item>
